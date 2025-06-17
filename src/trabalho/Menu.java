@@ -3,783 +3,781 @@ package trabalho;
 import java.util.Scanner;
 
 public class Menu {
-	private Scanner sc = new Scanner(System.in);
-	
-	Loja loja = new Loja();
-	
-	static Fornecedor fornecedor;
-	static Cliente cliente;
-	
-	String senhaAdmin = "123abc";
-	
-	public static void main(String[] args) {
-		Menu menu = new Menu();
-		menu.executar();
-    }
-	
-	public void executar() {
+    private Scanner sc = new Scanner(System.in);
+    private Loja loja = new Loja();
+
+    public void iniciar() {
         loja.iniciarValores();
-        menuInicial();
-	}
-    
-    public void menuInicial() {
-        int opcao;
-        do {
-            System.out.println("\n=== MENU INICIAL ===");
-            System.out.print("Escolha como deseja acessar: \n");
-            System.out.println("1 - Fornecedor");
-            System.out.println("2 - Cliente");
-            System.out.println("3 - Admin");
-            System.out.println("0 - Sair");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                    menuLogin('f');
-                    break;
-                case 2:
-                	menuLogin('c');
-                    break;
-                case 3:
-                	System.out.println("Insira a senha de Admin: ");
-                	String senha = sc.nextLine();
-                	if(senhaAdmin.equals(senha)) {
-                		System.out.println("Autenticado com sucesso.\n");
-                		menuAdmin();
-                	}else {
-                		System.out.println("Senha errada informada.");
-                	}
-                	break;
-                case 0:
-                    System.out.println("Encerrando o sistema...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
+        menuPrincipal();
     }
-    
-    public void menuLogin(char tipo) {
-        int opcao;
-        do {
-            System.out.println("\n=== LOGIN / CADASTRO ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Cadastrar Conta");
-            System.out.println("2 - Login");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
 
-            switch (opcao) {
-                case 1:
-                	loja.cadastrarUsuario(tipo);
-                    break;
-                case 2:
-                	boolean autenticar = false;
-                	if(tipo == 'f') {
-                		autenticar = loja.fazerLogin(tipo);
-                		if(autenticar == true) {
-                			System.out.println("Login realizado com sucesso!\n");
-                			menuFornecedor();
-                		}
-                    }else if(tipo == 'c') {
-                    	autenticar = loja.fazerLogin(tipo);
-                		if(autenticar == true) {
-                			System.out.println("Login realizado com sucesso!\n");
-                			menuCliente();
-                		}
-                    }
-                	if(autenticar == false) {
-                		if(loja.exc == false) {
-                			System.out.println("Login ou senha incorretos.");
-                		}
-                	}
-                	break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuFornecedor() {
-        int opcao;
+    public void menuPrincipal() {
+        int opcao = 0;
         do {
-            System.out.println("\n=== MENU FORNECEDOR ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Gerenciar Conta");
-            System.out.println("2 - Gerenciar Produtos");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	menuGerenciarConta('f');
-                    break;
-                case 2:
-                    menuProdutos();
-                    break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuProdutos(){
-    	int opcao;
-        do {
-            System.out.println("\n=== MENU PRODUTOS ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Visualizar Meus Produtos");
-            System.out.println("2 - Consultar Produtos");
-            System.out.println("3 - Consultar Produto por Código");
+            System.out.println("===== LOJA ONLINE =====");
+            System.out.println("1 - Fazer Login");
+            System.out.println("2 - Cadastrar-se");
+            System.out.println("3 - Consultar Produtos");
             System.out.println("4 - Consultar Fornecedor");
-            System.out.println("5 - Cadastrar Novo Produto");
-            System.out.println("6 - Alterar Produto");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = lerInt();
 
             switch (opcao) {
                 case 1:
-                	loja.visualizarMeusProdutos(fornecedor);
+                    fazerLogin();
                     break;
                 case 2:
-                	loja.consultarProdutos(false);
-                	break;
+                    cadastrarUsuario();
+                    break;
                 case 3:
-                	System.out.println("Informe o Código do Produto: ");
-                	int c = loja.lerInt();
-                	loja.visualizarProduto(c, false);
+                    consultarProdutos();
                     break;
                 case 4:
-                	loja.consultarFornecedor(false);
-                	break;
-                case 5:
-                	loja.cadastrarProduto(fornecedor);
-                    break;
-                case 6:
-                	loja.autenticarProduto(fornecedor);
-                	if(Loja.achou == true) {
-                		menuAlterarProduto();
-                	}
+                    consultarFornecedor();
                     break;
                 case 0:
-                    System.out.println("Voltando...");
+                    System.out.println("Saindo...");
                     break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida!");
+                    break;
             }
         } while (opcao != 0);
     }
-    
-    public void menuGerenciarConta(char tipo) {
-    	int opcao;
+
+    private void fazerLogin() {
+        System.out.println("===== LOGIN =====");
+        System.out.println("Tipo de usuário:");
+        System.out.println("1 - Cliente");
+        System.out.println("2 - Fornecedor");
+        System.out.println("3 - Administrador");
+        System.out.print("Escolha: ");
+
+        int tipo = lerInt();
+
+        System.out.print("Login: ");
+        String login = sc.nextLine();
+        System.out.print("Senha: ");
+        String senha = sc.nextLine();
+
+        switch (tipo) {
+            case 1:
+                Cliente cliente = (Cliente) loja.fazerLogin('c', login, senha);
+                if (cliente != null) {
+                    System.out.println("Login realizado com sucesso!");
+                    menuCliente(cliente);
+                } else {
+                    System.out.println("Login ou senha incorretos, ou usuário inativo.");
+                }
+                break;
+            case 2:
+                Fornecedor fornecedor = (Fornecedor) loja.fazerLogin('f', login, senha);
+                if (fornecedor != null) {
+                    System.out.println("Login realizado com sucesso!");
+                    menuFornecedor(fornecedor);
+                } else {
+                    System.out.println("Login ou senha incorretos, ou usuário inativo.");
+                }
+                break;
+            case 3:
+                if (login.equals("admin") && senha.equals("admin")) {
+                    System.out.println("Login de administrador realizado com sucesso!");
+                    menuAdmin();
+                } else {
+                    System.out.println("Credenciais de administrador incorretas.");
+                }
+                break;
+            default:
+                System.out.println("Tipo de usuário inválido!");
+                break;
+        }
+    }
+
+    private void cadastrarUsuario() {
+        System.out.println("===== CADASTRO =====");
+        System.out.println("Tipo de usuário:");
+        System.out.println("1 - Cliente");
+        System.out.println("2 - Fornecedor");
+        System.out.print("Escolha: ");
+
+        int tipo = lerInt();
+        char tipoChar = (tipo == 1) ? 'c' : 'f';
+
+        System.out.print("Digite o login: ");
+        String login = sc.nextLine();
+
+        System.out.print("Digite a senha: ");
+        String senha = sc.nextLine();
+
+        System.out.print("Digite seu nome: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Digite seu telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.print("Digite seu email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Digite seu CPF: ");
+        String cpf = sc.nextLine();
+
+        Endereco endereco = coletarEndereco();
+
+        String cartaoOuDescricao;
+        if (tipo == 1) {
+            System.out.print("Digite seu Cartão de Crédito: ");
+            cartaoOuDescricao = sc.nextLine();
+        } else {
+            System.out.print("Digite sua Descrição: ");
+            cartaoOuDescricao = sc.nextLine();
+        }
+
+        String resultado = loja.cadastrarUsuario(tipoChar, login, senha, nome, telefone, email, cpf, endereco,
+                cartaoOuDescricao);
+        System.out.println(resultado);
+    }
+
+    private Endereco coletarEndereco() {
+        System.out.println("Deseja informar seu Endereço?");
+        System.out.println("1 - Sim");
+        System.out.println("2 - Não");
+        System.out.print("Escolha: ");
+
+        int opcao = lerInt();
+
+        if (opcao == 1) {
+            System.out.print("Digite sua rua: ");
+            String rua = sc.nextLine();
+            System.out.print("Digite o número: ");
+            String numero = sc.nextLine();
+            System.out.print("Digite um complemento: ");
+            String complemento = sc.nextLine();
+            System.out.print("Digite seu bairro: ");
+            String bairro = sc.nextLine();
+            System.out.print("Digite o CEP: ");
+            String cep = sc.nextLine();
+            System.out.print("Digite sua cidade: ");
+            String cidade = sc.nextLine();
+            System.out.print("Digite seu estado: ");
+            String estado = sc.nextLine();
+
+            return new Endereco(rua, numero, complemento, bairro, cep, cidade, estado);
+        } else {
+            return new Endereco("", "", "", "", "", "", "");
+        }
+    }
+
+    private void consultarProdutos() {
+        System.out.println("===== CONSULTAR PRODUTOS =====");
+        System.out.print("Digite o termo de busca (ou pressione Enter para ver todos): ");
+        String termo = sc.nextLine();
+
+        String resultado = loja.consultarProdutos(termo, false);
+        System.out.println(resultado);
+    }
+
+    private void consultarFornecedor() {
+        System.out.println("===== CONSULTAR FORNECEDOR =====");
+        System.out.print("Digite o login do fornecedor: ");
+        String login = sc.nextLine();
+
+        String resultado = loja.consultarFornecedor(login, false);
+        if (resultado != null) {
+            System.out.println(resultado);
+        } else {
+            System.out.println("Fornecedor não encontrado.");
+        }
+    }
+
+    private void menuCliente(Cliente cliente) {
+        int opcao = 0;
         do {
-            System.out.println("\n=== GERENCIAR CONTA ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Visualizar Informações");
+            System.out.println("\n===== MENU CLIENTE =====");
+            System.out.println("1 - Visualizar Conta");
             System.out.println("2 - Alterar Conta");
             System.out.println("3 - Excluir Conta");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
+            System.out.println("4 - Consultar Produtos");
+            System.out.println("5 - Visualizar Produto");
+            System.out.println("6 - Consultar Fornecedor");
+            System.out.println("7 - Adicionar Item ao Carrinho");
+            System.out.println("8 - Remover Item do Carrinho");
+            System.out.println("9 - Alterar Item do Carrinho");
+            System.out.println("10 - Consultar Carrinho");
+            System.out.println("11 - Finalizar Pedido");
+            System.out.println("12 - Consultar Meus Pedidos");
+            System.out.println("13 - Consultar Pedido");
+            System.out.println("14 - Cancelar Pedido");
+            System.out.println("0 - Logout");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = lerInt();
 
             switch (opcao) {
                 case 1:
-                	loja.visualizarConta(tipo, cliente, fornecedor);
+                    visualizarConta('c', cliente, null);
                     break;
                 case 2:
-                	menuAlterarConta(tipo);
+                    alterarConta('c', cliente, null);
                     break;
                 case 3:
-                	loja.excluirConta(tipo, cliente, fornecedor);
-                	menuInicial();
-                    break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuAlterarConta(char tipo) {
-    	int opcao;
-        do {
-            System.out.println("\n=== ALTERAR CONTA ===");
-            System.out.print("Escolha a opção: \n");
-            loja.alterarContaInformacoes(tipo, cliente, fornecedor);
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.alterarConta(tipo, cliente, fornecedor,1);
-                    break;
-                case 2:
-                	loja.alterarConta(tipo, cliente, fornecedor,2);
-                    break;
-                case 3:
-                	loja.alterarConta(tipo, cliente, fornecedor,3);
+                    if (excluirConta('c', cliente, null)) {
+                        opcao = 0; // Logout após exclusão
+                    }
                     break;
                 case 4:
-                	loja.alterarConta(tipo, cliente, fornecedor,4);
+                    consultarProdutos();
                     break;
                 case 5:
-                	loja.alterarConta(tipo, cliente, fornecedor,5);
+                    visualizarProduto();
                     break;
                 case 6:
-                	loja.alterarConta(tipo, cliente, fornecedor,6);
+                    consultarFornecedor();
                     break;
                 case 7:
-                	loja.alterarConta(tipo, cliente, fornecedor,7);
-                    break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuAlterarProduto() {
-    	int opcao;
-    	System.out.print("Escolha a opção: \n");
-        do {
-            System.out.println("\n=== ALTERAR PRODUTO ===");
-            System.out.print("Escolha a opção: \n");
-            loja.alterarProdutoInformacoes();
-            System.out.println("6 - Remover Produto");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.alterarProduto(1);
-                    break;
-                case 2:
-                	loja.alterarProduto(2);
-                	break;
-                case 3:
-                	loja.alterarProduto(3);
-                    break;
-                case 4:
-                	loja.alterarProduto(4);
-                	break;
-                case 5:
-                	loja.alterarProduto(5);
-                    break;
-                case 6:
-                	loja.removerProduto();
-                    break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0 && opcao != 6);
-    }
-    
-    
-    
-    public void menuCliente() {
-        int opcao;
-        do {
-            System.out.println("\n=== MENU CLIENTE ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Gerenciar Conta");
-            System.out.println("2 - Fazer Pedido");
-            System.out.println("3 - Gerenciar Meus Pedidos");
-            System.out.println("0 - Sair");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                    menuGerenciarConta('c');
-                    break;
-                case 2:
-                	boolean max = loja.autenticaNumPedidos(cliente);
-                	if(max == true) {
-                		menuFazerPedido(false);
-                	}else {
-                		System.out.println("Número máximo de Pedidos atingido.");
-                	}
-                    break;
-                case 3:
-                    menuPedidos();
-                    break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuFazerPedido(boolean admin) {
-    	int opcao;
-        do {
-            System.out.println("\n=== FAZER PEDIDO ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Consultar Produtos");
-            System.out.println("2 - Consultar Produto por Código");
-            System.out.println("3 - Consultar Fornecedor");
-            System.out.println("4 - Adicionar Item ao Carrinho");
-            System.out.println("5 - Alterar Quandidade do Item no Carrinho");
-            System.out.println("6 - Remover Item do Carrinho");
-            System.out.println("7 - Consultar Carrinho");
-            System.out.println("8 - Finalizar Pedido");
-            System.out.println("0 - Voltar (Cancelar Pedido)");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.consultarProdutos(false);
-                    break;
-                case 2:
-                	System.out.println("Informe o Código do Pedido: ");
-                	int c = loja.lerInt();
-                	loja.visualizarProduto(c, false);
-                    break;
-                case 3:
-                	loja.consultarFornecedor(admin);
-                    break;
-                case 4:
-                	loja.adicionarItemAoCarrinho();
-                    break;
-                case 5:
-                	loja.alterarItemDoCarrinho();
-                    break;
-                case 6:
-                	loja.removerItemDoCarrinho();
-                    break;
-                case 7:
-                	loja.consultarCarrinho();
+                    adicionarItemAoCarrinho(cliente);
                     break;
                 case 8:
-                	loja.finalizarPedido(cliente);
+                    removerItemDoCarrinho();
+                    break;
+                case 9:
+                    alterarItemDoCarrinho();
+                    break;
+                case 10:
+                    consultarCarrinho();
+                    break;
+                case 11:
+                    finalizarPedido(cliente);
+                    break;
+                case 12:
+                    consultarMeusPedidos(cliente);
+                    break;
+                case 13:
+                    consultarPedido(cliente);
+                    break;
+                case 14:
+                    cancelarPedido(cliente);
                     break;
                 case 0:
-                    System.out.println("Voltando...");
+                    System.out.println("Logout realizado.");
                     break;
                 default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0 && opcao != 8);
-    }
-    
-    public void menuPedidos() {
-    	int opcao;
-        do {
-            System.out.println("\n=== MEUS PEDIDOS ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Consultar Meus Pedidos");
-            System.out.println("2 - Consultar Pedido Por Número");
-            System.out.println("3 - Cancelar Pedido");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.consultarMeusPedidos(cliente);
+                    System.out.println("Opção inválida!");
                     break;
-                case 2:
-                	loja.consultarPedido(cliente);
-                    break;
-                case 3:
-                	loja.cancelarPedido(cliente);
-                    break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuAdmin() {
-        int opcao;
-        do {
-            System.out.println("\n=== MENU ADMIN ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Mudar senha Admin");
-            System.out.println("2 - Contas");
-            System.out.println("3 - Produtos");
-            System.out.println("4 - Pedidos");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                    System.out.println("Informe a nova senha: ");
-                    String senha = sc.nextLine();
-                    senhaAdmin = senha;
-                    System.out.println("Senha alterada com sucesso. Voltando...");
-                    break;
-                case 2:
-                    menuAdminContas();
-                    break;
-                case 3:
-                	menuAdminProdutos();
-                    break;
-                case 4:
-                	menuAdminPedidos();
-                	break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0 && opcao!=1);
-    }
-    
-    public void menuAdminContas() {
-    	int opcao;
-        do {
-            System.out.println("\n=== MENU ADMIN CONTAS ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Visualizar Contas");
-            System.out.println("2 - Consultar Conta por Código");
-            System.out.println("3 - Consultar Conta por Login");
-            System.out.println("4 - Alterar Conta");
-            System.out.println("5 - Excluir Conta");
-            System.out.println("6 - Criar Conta");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.consultarContasAdm();
-                    break;
-                case 2:
-                	int o2;
-                	do {
-                		System.out.print("Escolha a opção: \n");
-                		System.out.println("1 - Cliente");
-                		System.out.println("2 - Fornecedor");
-                		System.out.println("0 - Voltar");
-                		o2 = loja.lerInt();
-
-                		switch (o2) {
-                        	case 1:
-                        		Cliente c2 = loja.getC(false);
-                            	if(c2!=null) {
-                            		loja.visualizarConta('c', c2, fornecedor);
-                            	}
-                        		break;
-                        	case 2:
-                        		Fornecedor f2 = loja.getF(false);
-                            	if(f2!=null) {
-                            		loja.visualizarConta('f', cliente, f2);
-                            	}
-                        		break;
-                        	case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        	default:
-                            System.out.println("Opção inválida.");
-                    	}
-                    } while (o2<0 || o2>2);
-                    break;
-                case 3:
-                	int o3;
-                	do {
-                		System.out.print("Escolha a opção: \n");
-                		System.out.println("1 - Cliente");
-                		System.out.println("2 - Fornecedor");
-                		System.out.println("0 - Voltar");
-                		o3 = loja.lerInt();
-
-                		switch (o3) {
-                        	case 1:
-                        		Cliente c3 = loja.getC(true);
-                            	if(c3!=null) {
-                            		loja.visualizarConta('c', c3, fornecedor);
-                            	}
-                        		break;
-                        	case 2:
-                        		Fornecedor f3 = loja.getF(true);
-                            	if(f3!=null) {
-                            		loja.visualizarConta('f', cliente, f3);
-                            	}
-                        		break;
-                        	case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        	default:
-                            System.out.println("Opção inválida.");
-                    	}
-                    } while (o3<0 || o3>2);
-                	break;
-                case 4:
-                	int o4;
-                	do {
-                		System.out.print("Escolha a opção: \n");
-                		System.out.println("1 - Cliente");
-                		System.out.println("2 - Fornecedor");
-                		System.out.println("0 - Voltar");
-                		o4 = loja.lerInt();
-
-                		switch (o4) {
-                        	case 1:
-                        		menuAlterarContaAdm('c');
-                        		break;
-                        	case 2:
-                        		menuAlterarContaAdm('f');
-                        		break;
-                        	case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        	default:
-                            System.out.println("Opção inválida.");
-                    	}
-                    } while (o4<0 || o4>2);
-                    break;
-                case 5:
-                	int o5;
-                	do {
-                		System.out.print("Escolha a opção: \n");
-                		System.out.println("1 - Cliente");
-                		System.out.println("2 - Fornecedor");
-                		System.out.println("0 - Voltar");
-                		o5 = loja.lerInt();
-
-                		switch (o5) {
-                		case 1:
-                    		Cliente c5 = loja.getC(false);
-                        	if(c5!=null) {
-                        		if(c5.usuario.isActive()==true) {
-                        			loja.excluirConta('c', c5, fornecedor);
-                        		}else {
-                        			System.out.println("Conta já desativada.");
-                        		}
-                        	}
-                    		break;
-                    	case 2:
-                    		Fornecedor f5 = loja.getF(false);
-                        	if(f5!=null) {
-                        		if(f5.usuario.isActive()==true) {
-                        			loja.excluirConta('f', cliente, f5);
-                        		}else {
-                        			System.out.println("Conta já desativada.");
-                        		}
-                        	}
-                    		break;
-                        	case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        	default:
-                            System.out.println("Opção inválida.");
-                    	}
-                    } while (o5<0 || o5>2);
-                	break;
-                case 6:
-                	int o6;
-                	do {
-                		System.out.print("Escolha a opção: \n");
-                		System.out.println("1 - Cliente");
-                		System.out.println("2 - Fornecedor");
-                		System.out.println("0 - Voltar");
-                		o6 = loja.lerInt();
-
-                		switch (o6) {
-                        	case 1:
-                        		loja.cadastrarUsuario('c');
-                        		break;
-                        	case 2:
-                        		loja.cadastrarUsuario('f');
-                        		break;
-                        	case 0:
-                            System.out.println("Voltando...");
-                            break;
-                        	default:
-                            System.out.println("Opção inválida.");
-                    	}
-                    } while (o6<0 || o6>2);
-                	break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuAdminProdutos() {
-    	int opcao;
-        do {
-            System.out.println("\n=== MENU ADMIN PRODUTOS ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Visualizar Produtos"); //deve aparecer todos produtos, até mesmo excluídos
-            System.out.println("2 - Consultar Produto por Código");
-            System.out.println("3 - Consultar Fornecedor");
-            System.out.println("4 - Alterar Produto");
-            System.out.println("5 - Criar Produto");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.consultarProdutos(true);
-
-
-                    break;
-                case 2:
-         
-                	System.out.println("Informe o Código do Produto: ");
-                	int c = loja.lerInt();
-                	loja.visualizarProduto(c, true);
-                    break;
-                case 3:
-                	loja.consultarFornecedor(true);
-                	break;
-                case 4:
-                	Fornecedor f4 = loja.getF(false);
-                	if(f4!=null) {
-                		if(f4.usuario.isActive()==true) {
-                			loja.autenticarProduto(f4);
-                			if(Loja.achou == true) {
-                				menuAlterarProduto();
-                			}
-                		}else {
-                			System.out.println("Conta desativada.");
-                		}
-                	}
-                    break;
-                case 5:
-                	Fornecedor f5 = loja.getF(false);
-                	if(f5!=null) {
-                		if(f5.usuario.isActive()==true) {
-                			loja.cadastrarProduto(f5);
-                		}else {
-                			System.out.println("Conta desativada.");
-                		}
-                	}
-                	break;
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
     }
 
-    public void menuAdminPedidos() {
-    	int opcao;
+    private void menuFornecedor(Fornecedor fornecedor) {
+        int opcao = 0;
         do {
-            System.out.println("\n=== MENU ADMIN PEDIDOS ===");
-            System.out.print("Escolha a opção: \n");
-            System.out.println("1 - Visualizar Pedidos");
-            System.out.println("2 - Consultar Pedido por Número");
-            System.out.println("3 - Cancelar Pedido");
-            System.out.println("4 - Criar Pedido");
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
+            System.out.println("\n===== MENU FORNECEDOR =====");
+            System.out.println("1 - Visualizar Conta");
+            System.out.println("2 - Alterar Conta");
+            System.out.println("3 - Excluir Conta");
+            System.out.println("4 - Visualizar Meus Produtos");
+            System.out.println("5 - Consultar Produtos");
+            System.out.println("6 - Visualizar Produto");
+            System.out.println("7 - Consultar Fornecedor");
+            System.out.println("8 - Cadastrar Produto");
+            System.out.println("9 - Alterar Produto");
+            System.out.println("10 - Remover Produto");
+            System.out.println("0 - Logout");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = lerInt();
 
             switch (opcao) {
                 case 1:
-                         loja.consultarPedidosAdm();
+                    visualizarConta('f', null, fornecedor);
                     break;
                 case 2:
-   
-                   Cliente c2 = loja.getC(false);
-                   if(c2!=null) {
-                	   loja.consultarPedido(c2);
-                   }
-                		   break;
+                    alterarConta('f', null, fornecedor);
+                    break;
                 case 3:
-                	Cliente c3 = loja.getC(false);
-                    if(c3!=null) {
-                    	loja.cancelarPedido(c3);
+                    if (excluirConta('f', null, fornecedor)) {
+                        opcao = 0; // Logout após exclusão
                     }
-                	
                     break;
                 case 4:
-                	Cliente c4 = loja.getC(false);
-                	if(c4!=null) {
-                		if(c4.usuario.isActive()==true) {
-                			boolean max = loja.autenticaNumPedidos(c4);
-                			if(max == true) {
-                				menuFazerPedido(true);
-                			}else {
-                				System.out.println("Número máximo de Pedidos atingido.");
-                			} 
-                		}else {
-                			System.out.println("Conta desativada.");
-                		}
-                	}
-                	break;
-                
-                case 0:
-                    System.out.println("Voltando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
-    }
-    
-    public void menuAlterarContaAdm(char tipo) {
-    	loja.pedirContaAdm(tipo);
-    	if(cliente!=null && tipo == 'c') {
-    		if(cliente.usuario.isActive()==false) {
-    			System.out.println("Conta desativada.");
-    			return;
-    		}
-    	}else if(fornecedor!=null && tipo == 'f') {
-    		if(fornecedor.usuario.isActive()==false) {
-    			System.out.println("Conta desativada.");
-    			return;
-    		}
-    	}
-    	int opcao;
-        do {
-            System.out.println("\n=== ALTERAR CONTA ===");
-            System.out.print("Escolha a opção: \n");
-            loja.alterarContaInformacoes(tipo, cliente, fornecedor);
-            System.out.println("0 - Voltar");
-            opcao = loja.lerInt();
-
-            switch (opcao) {
-                case 1:
-                	loja.alterarConta(tipo, cliente, fornecedor,1);
-                    break;
-                case 2:
-                	loja.alterarConta(tipo, cliente, fornecedor,2);
-                    break;
-                case 3:
-                	loja.alterarConta(tipo, cliente, fornecedor,3);
-                    break;
-                case 4:
-                	loja.alterarConta(tipo, cliente, fornecedor,4);
+                    visualizarMeusProdutos(fornecedor);
                     break;
                 case 5:
-                	loja.alterarConta(tipo, cliente, fornecedor,5);
+                    consultarProdutos();
                     break;
                 case 6:
-                	loja.alterarConta(tipo, cliente, fornecedor,6);
+                    visualizarProduto();
                     break;
                 case 7:
-                	loja.alterarConta(tipo, cliente, fornecedor,7);
+                    consultarFornecedor();
+                    break;
+                case 8:
+                    cadastrarProduto(fornecedor);
+                    break;
+                case 9:
+                    alterarProduto(fornecedor);
+                    break;
+                case 10:
+                    removerProduto(fornecedor);
                     break;
                 case 0:
-                    System.out.println("Voltando...");
+                    System.out.println("Logout realizado.");
                     break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida!");
+                    break;
             }
         } while (opcao != 0);
     }
-    
+
+    private void menuAdmin() {
+        int opcao = 0;
+        do {
+            System.out.println("\n===== MENU ADMINISTRADOR =====");
+            System.out.println("1 - Consultar Pedidos");
+            System.out.println("2 - Consultar Contas");
+            System.out.println("3 - Visualizar Conta");
+            System.out.println("4 - Alterar Conta");
+            System.out.println("5 - Excluir Conta");
+            System.out.println("6 - Consultar Produtos");
+            System.out.println("7 - Visualizar Produto");
+            System.out.println("8 - Consultar Fornecedor");
+            System.out.println("9 - Transferir Produto entre Fornecedores"); // Nova opção
+            System.out.println("10 - Listar Produtos por Fornecedor"); // Nova opção
+            System.out.println("0 - Logout");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = lerInt();
+
+            switch (opcao) {
+                case 1:
+                    consultarPedidosAdmin();
+                    break;
+                case 2:
+                    consultarContasAdmin();
+                    break;
+                case 3:
+                    visualizarContaAdmin();
+                    break;
+                case 4:
+                    alterarContaAdmin();
+                    break;
+                case 5:
+                    excluirContaAdmin();
+                    break;
+                case 6:
+                    System.out.print("Digite o termo de busca (ou pressione Enter para ver todos): ");
+                    String termo = sc.nextLine();
+                    String resultado = loja.consultarProdutos(termo, true);
+                    System.out.println(resultado);
+                    break;
+                case 7:
+                    System.out.print("Digite o código do produto: ");
+                    int codigo = lerInt();
+                    String infoProduto = loja.visualizarProduto(codigo, true);
+                    if (infoProduto != null) {
+                        System.out.println(infoProduto);
+                    } else {
+                        System.out.println("Produto não encontrado.");
+                    }
+                    break;
+                case 8:
+                    consultarFornecedor();
+                    break;
+                case 9:
+                    transferirProdutoAdmin();
+                    break;
+                case 10:
+                    listarProdutosPorFornecedorAdmin();
+                    break;
+                case 0:
+                    System.out.println("Logout realizado.");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        } while (opcao != 0);
+    }
+
+    // Métodos auxiliares para Cliente
+    private void visualizarConta(char tipo, Cliente cliente, Fornecedor fornecedor) {
+        String info = loja.visualizarConta(tipo, cliente, fornecedor);
+        System.out.println("===== INFORMAÇÕES DA CONTA =====");
+        System.out.println(info);
+    }
+
+    private void alterarConta(char tipo, Cliente cliente, Fornecedor fornecedor) {
+        System.out.println("===== ALTERAR CONTA =====");
+        String opcoes = loja.getAlteracaoInfo(tipo, cliente, fornecedor);
+        System.out.println(opcoes);
+        System.out.print("Escolha o que deseja alterar: ");
+
+        int opcao = lerInt();
+        String novoValor = "";
+        Endereco novoEndereco = null;
+
+        if (opcao >= 1 && opcao <= 6) {
+            System.out.print("Digite o novo valor: ");
+            novoValor = sc.nextLine();
+        } else if (opcao == 7) {
+            System.out.println("Digite o novo endereço:");
+            novoEndereco = coletarEndereco();
+        }
+
+        String resultado = loja.alterarConta(tipo, cliente, fornecedor, opcao, novoValor, novoEndereco);
+        System.out.println(resultado);
+    }
+
+    private boolean excluirConta(char tipo, Cliente cliente, Fornecedor fornecedor) {
+        System.out.println("===== EXCLUIR CONTA =====");
+        System.out.print("Tem certeza que deseja excluir sua conta? (s/n): ");
+        String confirmacao = sc.nextLine();
+
+        if (confirmacao.equalsIgnoreCase("s")) {
+            String resultado = loja.excluirConta(tipo, cliente, fornecedor);
+            System.out.println(resultado);
+            return true;
+        } else {
+            System.out.println("Operação cancelada.");
+            return false;
+        }
+    }
+
+    private void visualizarProduto() {
+        System.out.print("Digite o código do produto: ");
+        int codigo = lerInt();
+
+        String info = loja.visualizarProduto(codigo, false);
+        if (info != null) {
+            System.out.println("===== INFORMAÇÕES DO PRODUTO =====");
+            System.out.println(info);
+        } else {
+            System.out.println("Produto não encontrado ou não disponível.");
+        }
+    }
+
+    private void adicionarItemAoCarrinho(Cliente cliente) {
+        if (!loja.autenticaNumPedidos(cliente)) {
+            System.out.println("Limite de pedidos atingido.");
+            return;
+        }
+
+        System.out.print("Digite o código do produto: ");
+        int codigo = lerInt();
+        System.out.print("Digite a quantidade: ");
+        int quantidade = lerInt();
+
+        String resultado = loja.adicionarItemAoCarrinho(codigo, quantidade);
+        System.out.println(resultado);
+    }
+
+    private void removerItemDoCarrinho() {
+        System.out.print("Digite o código do produto a remover: ");
+        int codigo = lerInt();
+
+        String resultado = loja.removerItemDoCarrinho(codigo);
+        System.out.println(resultado);
+    }
+
+    private void alterarItemDoCarrinho() {
+        System.out.print("Digite o código do produto: ");
+        int codigo = lerInt();
+        System.out.print("Digite a nova quantidade: ");
+        int quantidade = lerInt();
+
+        String resultado = loja.alterarItemDoCarrinho(codigo, quantidade);
+        System.out.println(resultado);
+    }
+
+    private void consultarCarrinho() {
+        String carrinho = loja.consultarCarrinho();
+        System.out.println("===== CARRINHO =====");
+        System.out.println(carrinho);
+    }
+
+    private void finalizarPedido(Cliente cliente) {
+        System.out.println("===== FINALIZAR PEDIDO =====");
+        consultarCarrinho();
+
+        System.out.print("Digite seu cartão de crédito para confirmar: ");
+        String cartao = sc.nextLine();
+
+        String resultado = loja.finalizarPedido(cliente, cartao);
+        System.out.println(resultado);
+    }
+
+    private void consultarMeusPedidos(Cliente cliente) {
+        String pedidos = loja.consultarMeusPedidos(cliente);
+        System.out.println("===== MEUS PEDIDOS =====");
+        System.out.println(pedidos);
+    }
+
+    private void consultarPedido(Cliente cliente) {
+        System.out.print("Digite o número do pedido: ");
+        int numero = lerInt();
+
+        String pedido = loja.consultarPedido(cliente, numero);
+        if (pedido != null) {
+            System.out.println("===== DETALHES DO PEDIDO =====");
+            System.out.println(pedido);
+        } else {
+            System.out.println("Pedido não encontrado.");
+        }
+    }
+
+    private void cancelarPedido(Cliente cliente) {
+        System.out.print("Digite o número do pedido a cancelar: ");
+        int numero = lerInt();
+
+        String resultado = loja.cancelarPedido(cliente, numero);
+        System.out.println(resultado);
+    }
+
+    // Métodos auxiliares para Fornecedor
+    private void visualizarMeusProdutos(Fornecedor fornecedor) {
+        String produtos = loja.visualizarMeusProdutos(fornecedor);
+        System.out.println("===== MEUS PRODUTOS =====");
+        System.out.println(produtos);
+    }
+
+    private void cadastrarProduto(Fornecedor fornecedor) {
+        System.out.println("===== CADASTRAR PRODUTO =====");
+        System.out.print("Digite o nome do produto: ");
+        String nome = sc.nextLine();
+        System.out.print("Digite a descrição: ");
+        String descricao = sc.nextLine();
+        System.out.print("Digite a quantidade em estoque: ");
+        int quantidade = lerInt();
+        System.out.print("Digite o preço: ");
+        double preco = lerDouble();
+
+        String resultado = loja.cadastrarProduto(fornecedor, nome, descricao, quantidade, preco);
+        System.out.println(resultado);
+    }
+
+    private void alterarProduto(Fornecedor fornecedor) {
+        System.out.println("===== ALTERAR PRODUTO =====");
+        System.out.print("Digite o código do produto: ");
+        int codigo = lerInt();
+
+        Produto produto = loja.buscarProdutoFornecedor(codigo, fornecedor);
+        if (produto == null) {
+            System.out.println("Produto não encontrado ou não pertence a você.");
+            return;
+        }
+
+        String opcoes = loja.getAlteracaoProdutoInfo();
+        System.out.println(opcoes);
+        System.out.print("Escolha o que deseja alterar: ");
+
+        int opcao = lerInt();
+        String resultado = "";
+
+        switch (opcao) {
+            case 1:
+                System.out.print("Digite o novo preço: ");
+                double preco = lerDouble();
+                resultado = loja.alterarProduto(opcao, "", preco, 0);
+                break;
+            case 2:
+                System.out.print("Digite a nova quantidade: ");
+                int quantidade = lerInt();
+                resultado = loja.alterarProduto(opcao, "", 0, quantidade);
+                break;
+            case 3:
+                System.out.print("Digite o novo nome: ");
+                String nome = sc.nextLine();
+                resultado = loja.alterarProduto(opcao, nome, 0, 0);
+                break;
+            case 4:
+                resultado = loja.alterarProduto(opcao, "", 0, 0);
+                break;
+            case 5:
+                System.out.print("Digite a nova descrição: ");
+                String descricao = sc.nextLine();
+                resultado = loja.alterarProduto(opcao, descricao, 0, 0);
+                break;
+            default:
+                resultado = "Opção inválida.";
+                break;
+        }
+
+        System.out.println(resultado);
+    }
+
+    private void removerProduto(Fornecedor fornecedor) {
+        System.out.println("===== REMOVER PRODUTO =====");
+        System.out.print("Digite o código do produto: ");
+        int codigo = lerInt();
+
+        Produto produto = loja.buscarProdutoFornecedor(codigo, fornecedor);
+        if (produto == null) {
+            System.out.println("Produto não encontrado ou não pertence a você.");
+            return;
+        }
+
+        System.out.print("Tem certeza que deseja remover o produto? (s/n): ");
+        String confirmacao = sc.nextLine();
+
+        if (confirmacao.equalsIgnoreCase("s")) {
+            String resultado = loja.removerProduto();
+            System.out.println(resultado);
+        } else {
+            System.out.println("Operação cancelada.");
+        }
+    }
+
+    // Métodos auxiliares para Admin
+    private void consultarPedidosAdmin() {
+        String pedidos = loja.consultarPedidosAdm();
+        System.out.println("===== TODOS OS PEDIDOS =====");
+        System.out.println(pedidos);
+    }
+
+    private void consultarContasAdmin() {
+        String contas = loja.consultarContasAdm();
+        System.out.println("===== TODAS AS CONTAS =====");
+        System.out.println(contas);
+    }
+
+    private void visualizarContaAdmin() {
+        System.out.println("===== VISUALIZAR CONTA =====");
+        System.out.println("Tipo de conta:");
+        System.out.println("1 - Cliente");
+        System.out.println("2 - Fornecedor");
+        System.out.print("Escolha: ");
+
+        int tipo = lerInt();
+        char tipoChar = (tipo == 1) ? 'c' : 'f';
+
+        System.out.print("Digite o código da conta: ");
+        int codigo = lerInt();
+
+        Object conta = loja.buscarContaAdm(tipoChar, codigo);
+        if (conta != null) {
+            if (tipoChar == 'c') {
+                visualizarConta('c', (Cliente) conta, null);
+            } else {
+                visualizarConta('f', null, (Fornecedor) conta);
+            }
+        } else {
+            System.out.println("Conta não encontrada.");
+        }
+    }
+
+    private void alterarContaAdmin() {
+        System.out.println("===== ALTERAR CONTA =====");
+        System.out.println("Tipo de conta:");
+        System.out.println("1 - Cliente");
+        System.out.println("2 - Fornecedor");
+        System.out.print("Escolha: ");
+
+        int tipo = lerInt();
+        char tipoChar = (tipo == 1) ? 'c' : 'f';
+
+        System.out.print("Digite o código da conta: ");
+        int codigo = lerInt();
+
+        Object conta = loja.buscarContaAdm(tipoChar, codigo);
+        if (conta != null) {
+            if (tipoChar == 'c') {
+                alterarConta('c', (Cliente) conta, null);
+            } else {
+                alterarConta('f', null, (Fornecedor) conta);
+            }
+        } else {
+            System.out.println("Conta não encontrada.");
+        }
+    }
+
+    private void excluirContaAdmin() {
+        System.out.println("===== EXCLUIR CONTA =====");
+        System.out.println("Tipo de conta:");
+        System.out.println("1 - Cliente");
+        System.out.println("2 - Fornecedor");
+        System.out.print("Escolha: ");
+
+        int tipo = lerInt();
+        char tipoChar = (tipo == 1) ? 'c' : 'f';
+
+        System.out.print("Digite o código da conta: ");
+        int codigo = lerInt();
+
+        Object conta = loja.buscarContaAdm(tipoChar, codigo);
+        if (conta != null) {
+            if (tipoChar == 'c') {
+                excluirConta('c', (Cliente) conta, null);
+            } else {
+                excluirConta('f', null, (Fornecedor) conta);
+            }
+        } else {
+            System.out.println("Conta não encontrada.");
+        }
+    }
+
+    private void transferirProdutoAdmin() {
+        System.out.println("===== TRANSFERIR PRODUTO =====");
+
+        System.out.println("Produtos disponíveis:");
+        String todosProdutos = loja.consultarProdutos("", true);
+        System.out.println(todosProdutos);
+
+        System.out.print("Digite o código do produto a ser transferido: ");
+        int codigoProduto = lerInt();
+
+        System.out.println("\n" + loja.listarFornecedoresAtivos());
+
+        System.out.print("Digite o login do fornecedor de destino: ");
+        String loginDestino = sc.nextLine();
+
+        System.out.print("Confirma a transferência? (s/n): ");
+        String confirmacao = sc.nextLine();
+
+        if (confirmacao.equalsIgnoreCase("s")) {
+            String resultado = loja.transferirProduto(codigoProduto, loginDestino);
+            System.out.println(resultado);
+        } else {
+            System.out.println("Transferência cancelada.");
+        }
+    }
+
+    private void listarProdutosPorFornecedorAdmin() {
+        System.out.println("===== LISTAR PRODUTOS POR FORNECEDOR =====");
+
+        System.out.println(loja.listarFornecedoresAtivos());
+
+        System.out.print("Digite o login do fornecedor: ");
+        String login = sc.nextLine();
+
+        String produtos = loja.listarProdutosFornecedor(login);
+        System.out.println("\n" + produtos);
+    }
+
+    // Métodos utilitários
+    private int lerInt() {
+        try {
+            int valor = Integer.parseInt(sc.nextLine());
+            return valor;
+        } catch (NumberFormatException e) {
+            System.out.println("Valor inválido. Digite um número inteiro.");
+            return lerInt();
+        }
+    }
+
+    private double lerDouble() {
+        try {
+            double valor = Double.parseDouble(sc.nextLine());
+            return valor;
+        } catch (NumberFormatException e) {
+            System.out.println("Valor inválido. Digite um número decimal.");
+            return lerDouble();
+        }
+    }
+
+    public static void main(String[] args) {
+        Menu menu = new Menu();
+        menu.iniciar();
+    }
 }
