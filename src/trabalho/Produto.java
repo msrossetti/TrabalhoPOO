@@ -1,4 +1,4 @@
-package trabalho;
+
 
 public class Produto {
 	private int cod;

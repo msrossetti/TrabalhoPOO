@@ -1,5 +1,3 @@
-package trabalho;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -10,7 +8,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * Classe utilitária para gerenciar a persistência de dados usando Jackson
  */
 public class PersistenciaLoja {
-    private static final String ARQUIVO_DADOS = "dados_loja.json";
+    private static final String ARQUIVO_DADOS = "dados_unificados.json";
     private ObjectMapper objectMapper;
 
     public PersistenciaLoja() {
@@ -54,8 +52,22 @@ public class PersistenciaLoja {
             File arquivo = new File(ARQUIVO_DADOS);
 
             if (!arquivo.exists()) {
-                System.out.println("Arquivo de dados não encontrado. Criando dados iniciais...");
-                return criarDadosIniciais(loja);
+                System.out.println("Arquivo " + ARQUIVO_DADOS + " não encontrado.");
+                
+                // Verifica se existe algum dos arquivos antigos para migrar
+                File arquivoAntigo1 = new File("dados_loja.json");
+                File arquivoAntigo2 = new File("dados_iniciais.json");
+                
+                if (arquivoAntigo1.exists()) {
+                    System.out.println("Migrando dados de dados_loja.json...");
+                    return migrarDados(loja, arquivoAntigo1);
+                } else if (arquivoAntigo2.exists()) {
+                    System.out.println("Migrando dados de dados_iniciais.json...");
+                    return migrarDados(loja, arquivoAntigo2);
+                } else {
+                    System.out.println("Criando dados iniciais...");
+                    return criarDadosIniciais(loja);
+                }
             }
 
             DadosLoja dados = objectMapper.readValue(arquivo, DadosLoja.class);
@@ -195,5 +207,37 @@ public class PersistenciaLoja {
      */
     public boolean existeArquivoDados() {
         return new File(ARQUIVO_DADOS).exists();
+    }
+
+    /**
+     * Migra dados de um arquivo antigo para o novo formato
+     */
+    private boolean migrarDados(Loja loja, File arquivoAntigo) {
+        try {
+            DadosLoja dados = objectMapper.readValue(arquivoAntigo, DadosLoja.class);
+
+            // Transferir dados carregados para a loja
+            loja.setFornecedores(dados.getFornecedores());
+            loja.setClientes(dados.getClientes());
+            loja.setProdutos(dados.getProdutos());
+            loja.setPedidos(dados.getPedidos());
+            loja.setCodUser(dados.getCodUser());
+            loja.setCodProd(dados.getCodProd());
+            loja.setNumPed(dados.getNumPed());
+
+            // Reconectar relacionamentos
+            reconectarRelacionamentos(loja);
+
+            // Salvar no novo arquivo
+            salvarDados(loja);
+
+            System.out.println("Dados migrados com sucesso de " + arquivoAntigo.getName() + " para " + ARQUIVO_DADOS);
+            return true;
+
+        } catch (IOException e) {
+            System.err.println("Erro ao migrar dados de " + arquivoAntigo.getName() + ": " + e.getMessage());
+            System.out.println("Criando dados iniciais...");
+            return criarDadosIniciais(loja);
+        }
     }
 }

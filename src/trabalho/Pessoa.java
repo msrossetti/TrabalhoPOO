@@ -1,4 +1,4 @@
-package trabalho;
+
 
 public class Pessoa {
 	protected String nome, telefone, email;

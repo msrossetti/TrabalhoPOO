@@ -1,4 +1,4 @@
-package trabalho;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,6 +89,7 @@ public class Loja {
 		int pos = -1;
 
 		if (tipo == 'c') {
+			// Verifica se login já existe
 			for (int i = 0; i < clientes.size(); i++) {
 				if (clientes.get(i) != null) {
 					if (clientes.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
@@ -99,7 +100,12 @@ public class Loja {
 						pos = i;
 				}
 			}
+			// Se não encontrou posição vazia, adiciona no final
+			if (pos == -1) {
+				pos = clientes.size();
+			}
 		} else {
+			// Verifica se login já existe para fornecedores
 			for (int i = 0; i < fornecedores.size(); i++) {
 				if (fornecedores.get(i) != null) {
 					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
@@ -110,10 +116,10 @@ public class Loja {
 						pos = i;
 				}
 			}
-		}
-
-		if (pos == -1) {
-			return "Limite de usuários atingido.";
+			// Se não encontrou posição vazia, adiciona no final
+			if (pos == -1) {
+				pos = fornecedores.size();
+			}
 		}
 
 		if (tipo == 'c') {
@@ -127,6 +133,10 @@ public class Loja {
 		} else {
 			checarCod();
 			Usuario usuariof = new Usuario(login, senha, codUser, true);
+			// Ensure the ArrayList is large enough
+			while (fornecedores.size() <= pos) {
+				fornecedores.add(null);
+			}
 			fornecedores.set(pos, new Fornecedor(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuariof));
 		}
 		codUser++;
@@ -640,6 +650,10 @@ public class Loja {
 
 	// Método refatorado - remove item do carrinho
 	public String removerItemDoCarrinho(int codigo) {
+		if (carrinho == null) {
+			return "Carrinho vazio. Adicione itens antes de tentar remover.";
+		}
+		
 		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				if (carrinho.itens[i].produto.getCod() == codigo) {
@@ -654,6 +668,10 @@ public class Loja {
 
 	// Método refatorado - altera quantidade do item
 	public String alterarItemDoCarrinho(int codigo, int novaQuantidade) {
+		if (carrinho == null) {
+			return "Carrinho vazio. Adicione itens antes de tentar alterar.";
+		}
+		
 		if (novaQuantidade <= 0) {
 			return "Quantidade deve ser maior que zero.";
 		}
@@ -674,6 +692,10 @@ public class Loja {
 
 	// Método refatorado - retorna informações do carrinho
 	public String consultarCarrinho() {
+		if (carrinho == null) {
+			return "Carrinho vazio. Adicione itens antes de consultar.";
+		}
+		
 		StringBuilder info = new StringBuilder();
 		info.append(" - Itens no Carrinho: \n");
 
@@ -694,6 +716,10 @@ public class Loja {
 
 	// Método refatorado - finaliza pedido
 	public String finalizarPedido(Cliente cliente, String cartaoCredito) {
+		if (carrinho == null) {
+			return "Carrinho vazio. Adicione itens antes de finalizar o pedido.";
+		}
+		
 		boolean zerado = true;
 		for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 			if (carrinho.itens[j] != null) {

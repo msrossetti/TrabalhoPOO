@@ -1,8 +1,8 @@
 {
   "fornecedores" : [ {
-    "nome" : "JoÃ£o",
+    "nome" : "João",
     "telefone" : "54123456789",
-    "email" : "joÃ£o@gmail.com",
+    "email" : "joão@gmail.com",
     "cpf" : "012-345-678.99",
     "endereco" : {
       "rua" : "Rua 1",
@@ -83,9 +83,9 @@
       "cod" : 3,
       "active" : true
     },
-    "cartaoCredito" : "CartÃ£o1"
+    "cartaoCredito" : "Cartão1"
   }, {
-    "nome" : "RogÃ©rio",
+    "nome" : "Rogério",
     "telefone" : "54123456789",
     "email" : "rogerio@gmail.com",
     "cpf" : "012-345-678.99",
@@ -104,7 +104,7 @@
       "cod" : 4,
       "active" : true
     },
-    "cartaoCredito" : "CartÃ£o2"
+    "cartaoCredito" : "Cartão2"
   }, {
     "nome" : "Marcos",
     "telefone" : "54123456789",
@@ -125,7 +125,20 @@
       "cod" : 5,
       "active" : true
     },
-    "cartaoCredito" : "CartÃ£o1"
+    "cartaoCredito" : "Cartão1"
+  }, {
+    "nome" : "2",
+    "telefone" : "2",
+    "email" : "2",
+    "cpf" : "2",
+    "endereco" : null,
+    "usuario" : {
+      "login" : "mauricio",
+      "senha" : "mauricio",
+      "cod" : 6,
+      "active" : true
+    },
+    "cartaoCredito" : "2"
   } ],
   "produtos" : [ {
     "cod" : 0,
@@ -133,9 +146,9 @@
     "descricao" : "Queijo Prato",
     "foto" : null,
     "fornecedor" : {
-      "nome" : "JoÃ£o",
+      "nome" : "João",
       "telefone" : "54123456789",
-      "email" : "joÃ£o@gmail.com",
+      "email" : "joão@gmail.com",
       "cpf" : "012-345-678.99",
       "endereco" : {
         "rua" : "Rua 1",
@@ -165,9 +178,9 @@
     "descricao" : "Queijo Minas",
     "foto" : null,
     "fornecedor" : {
-      "nome" : "JoÃ£o",
+      "nome" : "João",
       "telefone" : "54123456789",
-      "email" : "joÃ£o@gmail.com",
+      "email" : "joão@gmail.com",
       "cpf" : "012-345-678.99",
       "endereco" : {
         "rua" : "Rua 1",
@@ -321,7 +334,7 @@
     }
   } ],
   "pedidos" : [ ],
-  "codUser" : 6,
+  "codUser" : 7,
   "codProd" : 6,
   "numPed" : 0
 }

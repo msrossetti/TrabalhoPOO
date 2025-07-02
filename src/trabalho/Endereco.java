@@ -1,4 +1,4 @@
-package trabalho;
+
 
 public class Endereco {
 	private String rua, numero, complemento, bairro, cep, cidade, estado;

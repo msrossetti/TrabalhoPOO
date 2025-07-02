@@ -1,4 +1,4 @@
-package trabalho;
+
 
 import java.util.Scanner;
 
@@ -175,7 +175,7 @@ public class Menu {
 
             return new Endereco(rua, numero, complemento, bairro, cep, cidade, estado);
         } else {
-            return new Endereco("", "", "", "", "", "", "");
+            return null;
         }
     }
 

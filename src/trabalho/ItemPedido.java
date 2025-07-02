@@ -1,4 +1,4 @@
-package trabalho;
+
 
 public class ItemPedido {
 	protected Produto produto;

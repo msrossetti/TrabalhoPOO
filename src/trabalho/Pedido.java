@@ -1,4 +1,4 @@
-package trabalho;
+
 
 import java.util.Date;
 
@@ -10,11 +10,10 @@ public class Pedido {
 	protected Cliente cliente;
 	protected ItemPedido[] itens;
 	private int totalItens;
-	private static final int maxIPP = 10;
 
 	// Construtor padrão para Jackson
 	public Pedido() {
-		this.itens = new ItemPedido[maxIPP];
+		this.itens = new ItemPedido[10];
 	}
 
 	public Pedido(int numero, Cliente cliente) {
@@ -22,14 +21,14 @@ public class Pedido {
 		this.numero = numero;
 		this.cliente = cliente;
 		this.dataPedido = new Date();
-		this.itens = new ItemPedido[maxIPP];
+		this.itens = new ItemPedido[10];
 		this.totalItens = 0;
 		this.situacao = "Pendente";
 	}
 
 	public double calcularTotalPedido() {
 		double total = 0;
-		for (int i = 0; i < maxIPP; i++) {
+		for (int i = 0; i < itens.length; i++) {
 			if (itens[i] != null) {
 				total += itens[i].getTotalItem();
 			}
@@ -94,7 +93,7 @@ public class Pedido {
 	}
 
 	public int getMaxIPP() {
-		return maxIPP;
+		return itens.length;
 	}
 
 }
