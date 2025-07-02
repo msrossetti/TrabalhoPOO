@@ -6,15 +6,12 @@ public class Pedido {
 	private int numero;
 	private Date dataPedido;
 	private Date dataEntrega;
-    private String situacao;
-    protected Cliente cliente;
-    protected ItemPedido[] itens;
-    private int totalItens;
-    
-    private static final int maxIPP = 10;
-    
-    
-    
+	private String situacao;
+	protected Cliente cliente;
+	protected ItemPedido[] itens;
+	private int totalItens;
+	private static final int maxIPP = 10;
+
 	public Pedido(int numero, Cliente cliente) {
 		super();
 		this.numero = numero;
@@ -25,15 +22,15 @@ public class Pedido {
 		this.situacao = "Pendente";
 	}
 
-    public double calcularTotalPedido() {
-        double total = 0;
-        for (int i = 0; i < maxIPP; i++) {
-        	if(itens[i]!=null) {
-        		total += itens[i].getTotalItem();
-        	}
-        }
-        return total;
-    }
+	public double calcularTotalPedido() {
+		double total = 0;
+		for (int i = 0; i < maxIPP; i++) {
+			if (itens[i] != null) {
+				total += itens[i].getTotalItem();
+			}
+		}
+		return total;
+	}
 
 	public int getNumero() {
 		return numero;
@@ -90,4 +87,9 @@ public class Pedido {
 	public void setTotalItens(int totalItens) {
 		this.totalItens = totalItens;
 	}
+
+	public int getMaxIPP() {
+		return maxIPP;
+	}
+
 }

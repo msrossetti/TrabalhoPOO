@@ -1,21 +1,17 @@
 package trabalho;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Loja {
-	private static final int maxFornecedores = 20;
-	private Fornecedor[] fornecedores = new Fornecedor[maxFornecedores];
 
+	private ArrayList<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
 	private static final int maxProdutos = 50;
-	private Produto[] produtos = new Produto[maxProdutos];
-
-	private static final int maxPedidos = 50;
-	private Pedido[] pedidos = new Pedido[maxPedidos];
-	private static final int maxIPP = 10;
-
-	private static final int maxClientes = 100;
-	private Cliente[] clientes = new Cliente[maxClientes];
+	private ArrayList<Produto> produtos = new ArrayList<Produto>();
+	private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 
 	private int codUser = 0;
 	private int codProd = 0;
@@ -47,9 +43,11 @@ public class Loja {
 				"Vendedor de Queijo", usuario2);
 		Fornecedor fornecedor3 = new Fornecedor("Roberto", "54123456789", "roberto@gmail.com", "012-345-678.99",
 				endereco3, "Vendedor de Salame", usuario3);
-		fornecedores[0] = fornecedor1;
-		fornecedores[1] = fornecedor2;
-		fornecedores[2] = fornecedor3;
+		fornecedores.add(0, fornecedor1);
+		fornecedores.add(1, fornecedor2);
+		fornecedores.add(2, fornecedor3);
+		// fornecedores[1] = fornecedor2;
+		// fornecedores[2] = fornecedor3;
 
 		Endereco endereco4 = new Endereco("Rua 4", "444", "Complemento", "Bairro 4", "44444-444", "Caxias do Sul",
 				"Rio Grande do Sul");
@@ -66,9 +64,12 @@ public class Loja {
 				"Cartão2", usuario5);
 		Cliente cliente3 = new Cliente("Marcos", "54123456789", "marcos@gmail.com", "012-345-678.99", endereco6,
 				"Cartão1", usuario6);
-		clientes[0] = cliente1;
-		clientes[1] = cliente2;
-		clientes[2] = cliente3;
+		// clientes[0] = cliente1;
+		// clientes[1] = cliente2;
+		// clientes[2] = cliente3;
+		clientes.add(0, cliente1);
+		clientes.add(1, cliente2);
+		clientes.add(2, cliente3);
 
 		byte[] foto = null;
 		Estoque estoque1 = new Estoque(10, 20);
@@ -77,27 +78,41 @@ public class Loja {
 		Estoque estoque4 = new Estoque(25, 35);
 		Estoque estoque5 = new Estoque(10, 10);
 		Estoque estoque6 = new Estoque(5, 50);
-		Produto produto1 = new Produto(0, "Queijo", "Queijo Prato", foto, fornecedores[0], estoque1, true);
-		Produto produto2 = new Produto(1, "Queijo", "Queijo Minas", foto, fornecedores[0], estoque2, true);
-		Produto produto3 = new Produto(2, "Queijo Gorgonzola", "Queijo Gorgonzola", foto, fornecedores[1], estoque3,
+		Produto produto1 = new Produto(0, "Queijo", "Queijo Prato", foto, fornecedores.get(0), estoque1, true);
+		Produto produto2 = new Produto(1, "Queijo", "Queijo Minas", foto, fornecedores.get(0), estoque2, true);
+		Produto produto3 = new Produto(2, "Queijo Gorgonzola", "Queijo Gorgonzola", foto, fornecedores.get(1), estoque3,
 				true);
-		Produto produto4 = new Produto(3, "Queijo", "Queijo da Montanha", foto, fornecedores[1], estoque4, true);
-		Produto produto5 = new Produto(4, "Salame", "Salame Apimentado", foto, fornecedores[2], estoque5, true);
-		Produto produto6 = new Produto(5, "Salame e Queijo", "Salame com Queijo Prato", foto, fornecedores[2], estoque6,
+		Produto produto4 = new Produto(3, "Queijo", "Queijo da Montanha", foto, fornecedores.get(1), estoque4, true);
+		Produto produto5 = new Produto(4, "Salame", "Salame Apimentado", foto, fornecedores.get(2), estoque5, true);
+		Produto produto6 = new Produto(5, "Salame e Queijo", "Salame com Queijo Prato", foto, fornecedores.get(2),
+				estoque6,
 				true);
-		produtos[0] = produto1;
-		produtos[1] = produto2;
-		produtos[2] = produto3;
-		produtos[3] = produto4;
-		produtos[4] = produto5;
-		produtos[5] = produto6;
+		// produtos[0] = produto1;
+		// produtos[1] = produto2;
+		// produtos[2] = produto3;
+		// produtos[3] = produto4;
+		// produtos[4] = produto5;
+		// produtos[5] = produto6;
+		produtos.add(0, produto1);
+		produtos.add(1, produto2);
+		produtos.add(2, produto3);
+		produtos.add(3, produto4);
+		produtos.add(4, produto5);
+		produtos.add(5, produto6);
 
-		Pedido pedido1 = new Pedido(0, clientes[0]);
-		Pedido pedido2 = new Pedido(1, clientes[0]);
-		Pedido pedido3 = new Pedido(2, clientes[1]);
-		Pedido pedido4 = new Pedido(3, clientes[1]);
-		Pedido pedido5 = new Pedido(4, clientes[2]);
-		Pedido pedido6 = new Pedido(5, clientes[2]);
+		// Pedido pedido1 = new Pedido(0, clientes[0]);
+		// Pedido pedido2 = new Pedido(1, clientes[0]);
+		// Pedido pedido3 = new Pedido(2, clientes[1]);
+		// Pedido pedido4 = new Pedido(3, clientes[1]);
+		// Pedido pedido5 = new Pedido(4, clientes[2]);
+		// Pedido pedido6 = new Pedido(5, clientes[2]);
+		Pedido pedido1 = new Pedido(0, clientes.get(0));
+		Pedido pedido2 = new Pedido(1, clientes.get(0));
+		Pedido pedido3 = new Pedido(2, clientes.get(1));
+		Pedido pedido4 = new Pedido(3, clientes.get(1));
+		Pedido pedido5 = new Pedido(4, clientes.get(2));
+		Pedido pedido6 = new Pedido(5, clientes.get(2));
+
 		Date atual = new Date();
 		Calendar calendario = Calendar.getInstance();
 		calendario.setTime(atual);
@@ -127,13 +142,20 @@ public class Loja {
 		pedido6.setDataEntrega(entrega);
 		pedido6.setTotalItens(2);
 		pedido6.setSituacao("PENDENTE");
-		ItemPedido[] itens1 = new ItemPedido[maxIPP];
-		ItemPedido[] itens2 = new ItemPedido[maxIPP];
-		ItemPedido[] itens3 = new ItemPedido[maxIPP];
-		ItemPedido[] itens4 = new ItemPedido[maxIPP];
-		ItemPedido[] itens5 = new ItemPedido[maxIPP];
-		ItemPedido[] itens6 = new ItemPedido[maxIPP];
-		itens1[0] = new ItemPedido(produtos[0], 2);
+		// ItemPedido[] itens1 = new ItemPedido[maxIPP];
+		// ItemPedido[] itens2 = new ItemPedido[maxIPP];
+		// ItemPedido[] itens3 = new ItemPedido[maxIPP];
+		// ItemPedido[] itens4 = new ItemPedido[maxIPP];
+		// ItemPedido[] itens5 = new ItemPedido[maxIPP];
+		// ItemPedido[] itens6 = new ItemPedido[maxIPP];
+		ItemPedido[] itens1 = new ItemPedido[pedido1.getMaxIPP()];
+		ItemPedido[] itens2 = new ItemPedido[pedido2.getMaxIPP()];
+		ItemPedido[] itens3 = new ItemPedido[pedido3.getMaxIPP()];
+		ItemPedido[] itens4 = new ItemPedido[pedido4.getMaxIPP()];
+		ItemPedido[] itens5 = new ItemPedido[pedido5.getMaxIPP()];
+		ItemPedido[] itens6 = new ItemPedido[pedido6.getMaxIPP()];
+
+		itens1[0] = new ItemPedido(produtos.get(0), 2);
 		itens1[1] = new ItemPedido(produtos[1], 4);
 		itens2[0] = new ItemPedido(produtos[1], 6);
 		itens2[1] = new ItemPedido(produtos[2], 8);
@@ -167,9 +189,9 @@ public class Loja {
 		int pos = -1;
 
 		if (tipo == 'c') {
-			for (int i = 0; i < maxClientes; i++) {
-				if (clientes[i] != null) {
-					if (clientes[i].usuario.getLogin().equalsIgnoreCase(login)) {
+			for (int i = 0; i < clientes.size(); i++) {
+				if (clientes.get(i) != null) {
+					if (clientes.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
 						return "Login já existe. Tente outro.";
 					}
 				} else {
@@ -178,9 +200,9 @@ public class Loja {
 				}
 			}
 		} else {
-			for (int i = 0; i < maxFornecedores; i++) {
-				if (fornecedores[i] != null) {
-					if (fornecedores[i].usuario.getLogin().equalsIgnoreCase(login)) {
+			for (int i = 0; i < fornecedores.size(); i++) {
+				if (fornecedores.get(i) != null) {
+					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
 						return "Login já existe. Tente outro.";
 					}
 				} else {
@@ -201,7 +223,7 @@ public class Loja {
 		} else {
 			checarCod();
 			Usuario usuariof = new Usuario(login, senha, codUser, true);
-			fornecedores[pos] = new Fornecedor(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuariof);
+			fornecedores.set(pos, new Fornecedor(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuariof));
 		}
 		codUser++;
 		return "Usuário cadastrado com sucesso.";
@@ -225,12 +247,12 @@ public class Loja {
 				}
 			}
 		} else {
-			for (int i = 0; i < maxFornecedores; i++) {
-				if (fornecedores[i] != null) {
-					if (fornecedores[i].usuario.getLogin().equalsIgnoreCase(login) &&
-							fornecedores[i].usuario.getSenha().equals(senha) &&
-							fornecedores[i].usuario.isActive()) {
-						return fornecedores[i];
+			for (int i = 0; i < fornecedores.size(); i++) {
+				if (fornecedores.get(i) != null) {
+					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login) &&
+							fornecedores.get(i).usuario.getSenha().equals(senha) &&
+							fornecedores.get(i).usuario.isActive()) {
+						return fornecedores.get(i);
 					}
 				}
 			}
@@ -249,8 +271,8 @@ public class Loja {
 			}
 		} else {
 			for (int i = 0; i < maxFornecedores; i++) {
-				if (fornecedores[i] != null) {
-					if (fornecedores[i].usuario.getLogin().equalsIgnoreCase(login)) {
+				if (fornecedores.get(i) != null) {
+					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
 						return true;
 					}
 				}
@@ -539,14 +561,14 @@ public class Loja {
 	// Método refatorado - recebe login e retorna informações do fornecedor
 	public String consultarFornecedor(String loginFornecedor, boolean admin) {
 		for (int i = 0; i < maxFornecedores; i++) {
-			if (fornecedores[i] != null) {
-				if (fornecedores[i].usuario.getLogin().equalsIgnoreCase(loginFornecedor)) {
+			if (fornecedores.get(i) != null) {
+				if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(loginFornecedor)) {
 					StringBuilder info = new StringBuilder();
-					info.append("Nome: ").append(fornecedores[i].getNome()).append("\n");
-					info.append("Login: ").append(fornecedores[i].usuario.getLogin()).append("\n");
-					info.append("Email: ").append(fornecedores[i].getEmail()).append("\n");
-					info.append("Telefone: ").append(fornecedores[i].getTelefone()).append("\n");
-					info.append("Descrição: ").append(fornecedores[i].getDescricao()).append("\n");
+					info.append("Nome: ").append(fornecedores.get(i).getNome()).append("\n");
+					info.append("Login: ").append(fornecedores.get(i).usuario.getLogin()).append("\n");
+					info.append("Email: ").append(fornecedores.get(i).getEmail()).append("\n");
+					info.append("Telefone: ").append(fornecedores.get(i).getTelefone()).append("\n");
+					info.append("Descrição: ").append(fornecedores.get(i).getDescricao()).append("\n");
 					return info.toString();
 				}
 			}
@@ -895,14 +917,14 @@ public class Loja {
 
 	public Fornecedor getF(boolean isLogin, int codigo, String login) {
 		for (int i = 0; i < maxFornecedores; i++) {
-			if (fornecedores[i] != null) {
+			if (fornecedores.get(i) != null) {
 				if (isLogin == false) {
-					if (fornecedores[i].usuario.getCod() == codigo) {
-						return fornecedores[i];
+					if (fornecedores.get(i).usuario.getCod() == codigo) {
+						return fornecedores.get(i);
 					}
 				} else {
-					if (fornecedores[i].usuario.getLogin().equalsIgnoreCase(login)) {
-						return fornecedores[i];
+					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
+						return fornecedores.get(i);
 					}
 				}
 			}
@@ -957,8 +979,8 @@ public class Loja {
 			}
 		} else {
 			for (int i = 0; i < maxFornecedores; i++) {
-				if (fornecedores[i] != null && fornecedores[i].usuario.getCod() == codigo) {
-					return fornecedores[i];
+				if (fornecedores.get(i) != null && fornecedores.get(i).usuario.getCod() == codigo) {
+					return fornecedores.get(i);
 				}
 			}
 		}
@@ -980,11 +1002,11 @@ public class Loja {
 
 		info.append("===Contas tipo Fornecedor: ===\n");
 		for (int i = 0; i < maxFornecedores; i++) {
-			if (fornecedores[i] != null) {
-				info.append(" - Código: ").append(fornecedores[i].usuario.getCod()).append("\n");
-				info.append(" - Nome: ").append(fornecedores[i].getNome()).append("\n");
-				info.append(" - Login: ").append(fornecedores[i].usuario.getLogin()).append("\n");
-				info.append(" - Ativo: ").append(fornecedores[i].usuario.isActive() ? "Sim" : "Não").append("\n\n");
+			if (fornecedores.get(i) != null) {
+				info.append(" - Código: ").append(fornecedores.get(i).usuario.getCod()).append("\n");
+				info.append(" - Nome: ").append(fornecedores.get(i).getNome()).append("\n");
+				info.append(" - Login: ").append(fornecedores.get(i).usuario.getLogin()).append("\n");
+				info.append(" - Ativo: ").append(fornecedores.get(i).usuario.isActive() ? "Sim" : "Não").append("\n\n");
 			}
 		}
 
@@ -1006,10 +1028,10 @@ public class Loja {
 	// Método para buscar fornecedor por login
 	public Fornecedor buscarFornecedorPorLogin(String login) {
 		for (int i = 0; i < maxFornecedores; i++) {
-			if (fornecedores[i] != null &&
-					fornecedores[i].usuario.getLogin().equalsIgnoreCase(login) &&
-					fornecedores[i].usuario.isActive()) {
-				return fornecedores[i];
+			if (fornecedores.get(i) != null &&
+					fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login) &&
+					fornecedores.get(i).usuario.isActive()) {
+				return fornecedores.get(i);
 			}
 		}
 		return null;
@@ -1085,10 +1107,10 @@ public class Loja {
 
 		boolean encontrou = false;
 		for (int i = 0; i < maxFornecedores; i++) {
-			if (this.fornecedores[i] != null && this.fornecedores[i].usuario.isActive()) {
-				fornecedores.append("Login: ").append(this.fornecedores[i].usuario.getLogin()).append("\n");
-				fornecedores.append("Nome: ").append(this.fornecedores[i].getNome()).append("\n");
-				fornecedores.append("Email: ").append(this.fornecedores[i].getEmail()).append("\n\n");
+			if (this.fornecedores.get(i) != null && this.fornecedores.get(i).usuario.isActive()) {
+				fornecedores.append("Login: ").append(this.fornecedores.get(i).usuario.getLogin()).append("\n");
+				fornecedores.append("Nome: ").append(this.fornecedores.get(i).getNome()).append("\n");
+				fornecedores.append("Email: ").append(this.fornecedores.get(i).getEmail()).append("\n\n");
 				encontrou = true;
 			}
 		}
@@ -1102,8 +1124,8 @@ public class Loja {
 
 	private void checarCod() {
 		for (int i = 0; i < maxFornecedores; i++) {
-			if (fornecedores[i] != null) {
-				if (fornecedores[i].usuario.getCod() == codUser) {
+			if (fornecedores.get(i) != null) {
+				if (fornecedores.get(i).usuario.getCod() == codUser) {
 					codUser++;
 					i = -1; // reinicia o loop
 				}
