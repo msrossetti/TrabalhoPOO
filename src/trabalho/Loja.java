@@ -1,6 +1,6 @@
 package trabalho;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,7 +8,6 @@ import java.util.Date;
 public class Loja {
 
 	private ArrayList<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
-	private static final int maxProdutos = 50;
 	private ArrayList<Produto> produtos = new ArrayList<Produto>();
 	private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
@@ -156,29 +155,29 @@ public class Loja {
 		ItemPedido[] itens6 = new ItemPedido[pedido6.getMaxIPP()];
 
 		itens1[0] = new ItemPedido(produtos.get(0), 2);
-		itens1[1] = new ItemPedido(produtos[1], 4);
-		itens2[0] = new ItemPedido(produtos[1], 6);
-		itens2[1] = new ItemPedido(produtos[2], 8);
-		itens3[0] = new ItemPedido(produtos[2], 10);
-		itens3[1] = new ItemPedido(produtos[3], 8);
-		itens4[0] = new ItemPedido(produtos[3], 6);
-		itens4[1] = new ItemPedido(produtos[4], 4);
-		itens5[0] = new ItemPedido(produtos[4], 2);
-		itens5[1] = new ItemPedido(produtos[5], 4);
-		itens6[0] = new ItemPedido(produtos[5], 6);
-		itens6[1] = new ItemPedido(produtos[0], 8);
+		itens1[1] = new ItemPedido(produtos.get(1), 4);
+		itens2[0] = new ItemPedido(produtos.get(1), 6);
+		itens2[1] = new ItemPedido(produtos.get(2), 8);
+		itens3[0] = new ItemPedido(produtos.get(2), 10);
+		itens3[1] = new ItemPedido(produtos.get(3), 8);
+		itens4[0] = new ItemPedido(produtos.get(3), 6);
+		itens4[1] = new ItemPedido(produtos.get(4), 4);
+		itens5[0] = new ItemPedido(produtos.get(4), 2);
+		itens5[1] = new ItemPedido(produtos.get(5), 4);
+		itens6[0] = new ItemPedido(produtos.get(5), 6);
+		itens6[1] = new ItemPedido(produtos.get(0), 8);
 		pedido1.setItens(itens1);
 		pedido2.setItens(itens2);
 		pedido3.setItens(itens3);
 		pedido4.setItens(itens4);
 		pedido5.setItens(itens5);
 		pedido6.setItens(itens6);
-		pedidos[0] = pedido1;
-		pedidos[1] = pedido2;
-		pedidos[2] = pedido3;
-		pedidos[3] = pedido4;
-		pedidos[4] = pedido5;
-		pedidos[5] = pedido6;
+		pedidos.add(0, pedido1);
+		pedidos.add(1, pedido2);
+		pedidos.add(2, pedido3);
+		pedidos.add(3, pedido4);
+		pedidos.add(4, pedido5);
+		pedidos.add(5, pedido6);
 
 	}
 
@@ -219,7 +218,11 @@ public class Loja {
 		if (tipo == 'c') {
 			checarCod();
 			Usuario usuarioc = new Usuario(login, senha, codUser, true);
-			clientes[pos] = new Cliente(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuarioc);
+			// Ensure the ArrayList is large enough
+			while (clientes.size() <= pos) {
+				clientes.add(null);
+			}
+			clientes.set(pos, new Cliente(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuarioc));
 		} else {
 			checarCod();
 			Usuario usuariof = new Usuario(login, senha, codUser, true);
@@ -237,12 +240,12 @@ public class Loja {
 
 	private Object autenticarUsuario(String login, String senha, char tipo) {
 		if (tipo == 'c') {
-			for (int i = 0; i < maxClientes; i++) {
-				if (clientes[i] != null) {
-					if (clientes[i].usuario.getLogin().equalsIgnoreCase(login) &&
-							clientes[i].usuario.getSenha().equals(senha) &&
-							clientes[i].usuario.isActive()) {
-						return clientes[i];
+			for (int i = 0; i < clientes.size(); i++) {
+				if (clientes.get(i) != null) {
+					if (clientes.get(i).usuario.getLogin().equalsIgnoreCase(login) &&
+							clientes.get(i).usuario.getSenha().equals(senha) &&
+							clientes.get(i).usuario.isActive()) {
+						return clientes.get(i);
 					}
 				}
 			}
@@ -262,15 +265,15 @@ public class Loja {
 
 	public boolean autenticaExistente(String login, char tipo) {
 		if (tipo == 'c') {
-			for (int i = 0; i < maxClientes; i++) {
-				if (clientes[i] != null) {
-					if (clientes[i].usuario.getLogin().equalsIgnoreCase(login)) {
+			for (int i = 0; i < clientes.size(); i++) {
+				if (clientes.get(i) != null) {
+					if (clientes.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
 						return true;
 					}
 				}
 			}
 		} else {
-			for (int i = 0; i < maxFornecedores; i++) {
+			for (int i = 0; i < fornecedores.size(); i++) {
 				if (fornecedores.get(i) != null) {
 					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
 						return true;
@@ -398,11 +401,11 @@ public class Loja {
 		if (tipo == 'c') {
 			double reembolso = 0;
 			cliente.usuario.setActive(false);
-			for (int i = 0; i < maxPedidos; i++) {
-				if (pedidos[i] != null) {
-					if (pedidos[i].getCliente() == cliente && pedidos[i].getSituacao().equals("PENDENTE")) {
-						pedidos[i].setSituacao("CANCELADO");
-						reembolso += pedidos[i].calcularTotalPedido();
+			for (int i = 0; i < pedidos.size(); i++) {
+				if (pedidos.get(i) != null) {
+					if (pedidos.get(i).getCliente() == cliente && pedidos.get(i).getSituacao().equals("PENDENTE")) {
+						pedidos.get(i).setSituacao("CANCELADO");
+						reembolso += pedidos.get(i).calcularTotalPedido();
 					}
 				}
 			}
@@ -410,10 +413,10 @@ public class Loja {
 			resultado.append("Pedidos pendentes Cancelados. Valor a ser reembolsado: ").append(reembolso);
 		} else {
 			fornecedor.usuario.setActive(false);
-			for (int i = 0; i < maxProdutos; i++) {
-				if (produtos[i] != null) {
-					if (produtos[i].getFornecedor() == fornecedor) {
-						produtos[i].setDisponivel(false);
+			for (int i = 0; i < produtos.size(); i++) {
+				if (produtos.get(i) != null) {
+					if (produtos.get(i).getFornecedor() == fornecedor) {
+						produtos.get(i).setDisponivel(false);
 					}
 				}
 			}
@@ -484,16 +487,16 @@ public class Loja {
 		StringBuilder produtos = new StringBuilder();
 		boolean encontrou = false;
 
-		for (int i = 0; i < maxProdutos; i++) {
-			if (this.produtos[i] != null) {
-				Fornecedor f = this.produtos[i].getFornecedor();
+		for (int i = 0; i < this.produtos.size(); i++) {
+			if (this.produtos.get(i) != null) {
+				Fornecedor f = this.produtos.get(i).getFornecedor();
 				if (f == fornecedor) {
-					produtos.append("Código: ").append(this.produtos[i].getCod()).append("\n");
-					produtos.append("Nome: ").append(this.produtos[i].getNome()).append("\n");
-					produtos.append("Descrição: ").append(this.produtos[i].getDescricao()).append("\n");
-					produtos.append("Preço: ").append(this.produtos[i].estoque.getPreco()).append("\n");
-					produtos.append("Quantidade: ").append(this.produtos[i].estoque.getQuantidade()).append("\n");
-					produtos.append("Disponível: ").append(this.produtos[i].isDisponivel() ? "Sim" : "Não")
+					produtos.append("Código: ").append(this.produtos.get(i).getCod()).append("\n");
+					produtos.append("Nome: ").append(this.produtos.get(i).getNome()).append("\n");
+					produtos.append("Descrição: ").append(this.produtos.get(i).getDescricao()).append("\n");
+					produtos.append("Preço: ").append(this.produtos.get(i).estoque.getPreco()).append("\n");
+					produtos.append("Quantidade: ").append(this.produtos.get(i).estoque.getQuantidade()).append("\n");
+					produtos.append("Disponível: ").append(this.produtos.get(i).isDisponivel() ? "Sim" : "Não")
 							.append("\n\n");
 					encontrou = true;
 				}
@@ -513,18 +516,19 @@ public class Loja {
 		boolean achou = false;
 		String procura = termoBusca.toLowerCase();
 
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] != null) {
-				if (produtos[i].isDisponivel() == true || admin == true) {
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) != null) {
+				if (produtos.get(i).isDisponivel() == true || admin == true) {
 					if (procura.isEmpty() ||
-							produtos[i].getNome().toLowerCase().contains(procura) ||
-							produtos[i].getDescricao().toLowerCase().contains(procura)) {
-						resultado.append("Código: ").append(produtos[i].getCod()).append("\n");
-						resultado.append("Nome: ").append(produtos[i].getNome()).append("\n");
-						resultado.append("Descrição: ").append(produtos[i].getDescricao()).append("\n");
-						resultado.append("Preço: ").append(produtos[i].estoque.getPreco()).append("\n");
-						resultado.append("Quantidade: ").append(produtos[i].estoque.getQuantidade()).append("\n");
-						resultado.append("Fornecedor: ").append(produtos[i].getFornecedor().getNome()).append("\n\n");
+							produtos.get(i).getNome().toLowerCase().contains(procura) ||
+							produtos.get(i).getDescricao().toLowerCase().contains(procura)) {
+						resultado.append("Código: ").append(produtos.get(i).getCod()).append("\n");
+						resultado.append("Nome: ").append(produtos.get(i).getNome()).append("\n");
+						resultado.append("Descrição: ").append(produtos.get(i).getDescricao()).append("\n");
+						resultado.append("Preço: ").append(produtos.get(i).estoque.getPreco()).append("\n");
+						resultado.append("Quantidade: ").append(produtos.get(i).estoque.getQuantidade()).append("\n");
+						resultado.append("Fornecedor: ").append(produtos.get(i).getFornecedor().getNome())
+								.append("\n\n");
 						achou = true;
 					}
 				}
@@ -540,17 +544,17 @@ public class Loja {
 
 	// Método refatorado - retorna informações do produto ou null
 	public String visualizarProduto(int codigo, boolean admin) {
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] != null) {
-				if (produtos[i].getCod() == codigo && (produtos[i].isDisponivel() == true || admin == true)) {
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) != null) {
+				if (produtos.get(i).getCod() == codigo && (produtos.get(i).isDisponivel() == true || admin == true)) {
 					StringBuilder info = new StringBuilder();
-					info.append("Código: ").append(produtos[i].getCod()).append("\n");
-					info.append("Nome: ").append(produtos[i].getNome()).append("\n");
-					info.append("Descrição: ").append(produtos[i].getDescricao()).append("\n");
-					info.append("Preço: ").append(produtos[i].estoque.getPreco()).append("\n");
-					info.append("Quantidade: ").append(produtos[i].estoque.getQuantidade()).append("\n");
-					info.append("Fornecedor: ").append(produtos[i].getFornecedor().getNome()).append("\n");
-					info.append("Disponível: ").append(produtos[i].isDisponivel() ? "Sim" : "Não").append("\n");
+					info.append("Código: ").append(produtos.get(i).getCod()).append("\n");
+					info.append("Nome: ").append(produtos.get(i).getNome()).append("\n");
+					info.append("Descrição: ").append(produtos.get(i).getDescricao()).append("\n");
+					info.append("Preço: ").append(produtos.get(i).estoque.getPreco()).append("\n");
+					info.append("Quantidade: ").append(produtos.get(i).estoque.getQuantidade()).append("\n");
+					info.append("Fornecedor: ").append(produtos.get(i).getFornecedor().getNome()).append("\n");
+					info.append("Disponível: ").append(produtos.get(i).isDisponivel() ? "Sim" : "Não").append("\n");
 					return info.toString();
 				}
 			}
@@ -560,7 +564,7 @@ public class Loja {
 
 	// Método refatorado - recebe login e retorna informações do fornecedor
 	public String consultarFornecedor(String loginFornecedor, boolean admin) {
-		for (int i = 0; i < maxFornecedores; i++) {
+		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null) {
 				if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(loginFornecedor)) {
 					StringBuilder info = new StringBuilder();
@@ -584,29 +588,33 @@ public class Loja {
 		}
 
 		int pos = -1;
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] == null && pos == -1) {
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) == null && pos == -1) {
 				pos = i;
 			}
 		}
 
 		if (pos == -1) {
-			return "Limite de Produtos atingido.";
+			pos = produtos.size();
 		}
 
 		byte[] foto = null;
 		Estoque estoque = new Estoque(quantidade, preco);
 
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] != null) {
-				if (produtos[i].getCod() == codProd) {
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) != null) {
+				if (produtos.get(i).getCod() == codProd) {
 					codProd++;
 					i = -1; // reinicia o loop
 				}
 			}
 		}
 
-		produtos[pos] = new Produto(codProd, nome, descricao, foto, fornecedor, estoque, true);
+		// Ensure the ArrayList is large enough
+		while (produtos.size() <= pos) {
+			produtos.add(null);
+		}
+		produtos.set(pos, new Produto(codProd, nome, descricao, foto, fornecedor, estoque, true));
 		codProd++;
 
 		return "Produto cadastrado com sucesso!";
@@ -614,11 +622,11 @@ public class Loja {
 
 	// Método refatorado - busca produto por código
 	public Produto buscarProdutoFornecedor(int codigo, Fornecedor fornecedor) {
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] != null) {
-				if (produtos[i].getCod() == codigo && produtos[i].getFornecedor() == fornecedor) {
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) != null) {
+				if (produtos.get(i).getCod() == codigo && produtos.get(i).getFornecedor() == fornecedor) {
 					s = i;
-					return produtos[i];
+					return produtos.get(i);
 				}
 			}
 		}
@@ -632,27 +640,27 @@ public class Loja {
 				if (novoPreco <= 0) {
 					return "Não é possível colocar este preço.";
 				}
-				produtos[s].estoque.setPreco(novoPreco);
+				produtos.get(s).estoque.setPreco(novoPreco);
 				return "Preço alterado com sucesso.";
 			case 2:
-				produtos[s].estoque.setQuantidade(novaQuantidade);
+				produtos.get(s).estoque.setQuantidade(novaQuantidade);
 				return "Estoque alterado com sucesso.";
 			case 3:
-				produtos[s].setNome(novoValor);
+				produtos.get(s).setNome(novoValor);
 				return "Nome alterado com sucesso.";
 			case 4:
 				// Implementar alteração de foto se necessário
 				return "Foto alterada com sucesso.";
 			case 5:
-				produtos[s].setDescricao(novoValor);
+				produtos.get(s).setDescricao(novoValor);
 				return "Descrição alterada com sucesso.";
 		}
 		return "Erro na alteração.";
 	}
 
 	public String removerProduto() {
-		produtos[s].setDisponivel(false);
-		produtos[s].estoque.setQuantidade(0);
+		produtos.get(s).setDisponivel(false);
+		produtos.get(s).estoque.setQuantidade(0);
 		return "Produto removido com sucesso, referência mantida para pedidos antigos.";
 	}
 
@@ -660,31 +668,31 @@ public class Loja {
 	public String getAlteracaoProdutoInfo() {
 		StringBuilder info = new StringBuilder();
 		info.append("1 - Alterar Preço\n");
-		info.append("Preço atual: ").append(produtos[s].estoque.getPreco()).append("\n\n");
+		info.append("Preço atual: ").append(produtos.get(s).estoque.getPreco()).append("\n\n");
 		info.append("2 - Alterar Quantidade de Estoque\n");
-		info.append("Quantidade Atual: ").append(produtos[s].estoque.getQuantidade()).append("\n\n");
+		info.append("Quantidade Atual: ").append(produtos.get(s).estoque.getQuantidade()).append("\n\n");
 		info.append("3 - Alterar Nome\n");
-		info.append("Nome atual: ").append(produtos[s].getNome()).append("\n\n");
+		info.append("Nome atual: ").append(produtos.get(s).getNome()).append("\n\n");
 		info.append("4 - Alterar Foto\n");
-		info.append("Foto atual: ").append(produtos[s].getFoto()).append("\n\n");
+		info.append("Foto atual: ").append(produtos.get(s).getFoto()).append("\n\n");
 		info.append("5 - Alterar Descricao\n");
-		info.append("Descrição atual: ").append(produtos[s].getDescricao()).append("\n\n");
+		info.append("Descrição atual: ").append(produtos.get(s).getDescricao()).append("\n\n");
 		return info.toString();
 	}
 
 	// ------------------ Cliente ------------------
 
 	public boolean autenticaNumPedidos(Cliente cliente) {
-		for (int i = 0; i < maxPedidos; i++) {
-			if (pedidos[i] != null) {
-				if (pedidos[i].getNumero() == numPed) {
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i) != null) {
+				if (pedidos.get(i).getNumero() == numPed) {
 					numPed++;
 					i = -1; // reinicia o loop
 				}
 			}
 		}
-		for (int i = 0; i < maxPedidos; i++) {
-			if (pedidos[i] == null) {
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (i >= pedidos.size() || pedidos.get(i) == null) {
 				itCarr = 0;
 				spPed = i;
 				carrinho = new Pedido(numPed, cliente);
@@ -696,18 +704,18 @@ public class Loja {
 
 	// Método refatorado - adiciona item ao carrinho
 	public String adicionarItemAoCarrinho(int codigo, int quantidade) {
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] != null) {
-				if (produtos[i].getCod() == codigo) {
-					if (!produtos[i].isDisponivel()) {
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) != null) {
+				if (produtos.get(i).getCod() == codigo) {
+					if (!produtos.get(i).isDisponivel()) {
 						return "Produto não está disponível.";
 					}
-					if (produtos[i].estoque.getQuantidade() < quantidade) {
+					if (produtos.get(i).estoque.getQuantidade() < quantidade) {
 						return "Quantidade insuficiente em estoque.";
 					}
 
 					// Verifica se já existe no carrinho
-					for (int j = 0; j < maxIPP; j++) {
+					for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 						if (carrinho.itens[j] != null && carrinho.itens[j].produto.getCod() == codigo) {
 							carrinho.itens[j].setQuantidade(carrinho.itens[j].getQuantidade() + quantidade);
 							return "Quantidade do item atualizada no carrinho.";
@@ -715,9 +723,9 @@ public class Loja {
 					}
 
 					// Adiciona novo item
-					for (int j = 0; j < maxIPP; j++) {
+					for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 						if (carrinho.itens[j] == null) {
-							carrinho.itens[j] = new ItemPedido(produtos[i], quantidade);
+							carrinho.itens[j] = new ItemPedido(produtos.get(i), quantidade);
 							itCarr++;
 							return "Item adicionado ao carrinho com sucesso.";
 						}
@@ -731,7 +739,7 @@ public class Loja {
 
 	// Método refatorado - remove item do carrinho
 	public String removerItemDoCarrinho(int codigo) {
-		for (int i = 0; i < maxIPP; i++) {
+		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				if (carrinho.itens[i].produto.getCod() == codigo) {
 					carrinho.itens[i] = null;
@@ -749,7 +757,7 @@ public class Loja {
 			return "Quantidade deve ser maior que zero.";
 		}
 
-		for (int i = 0; i < maxIPP; i++) {
+		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				if (carrinho.itens[i].produto.getCod() == codigo) {
 					if (carrinho.itens[i].produto.estoque.getQuantidade() < novaQuantidade) {
@@ -768,7 +776,7 @@ public class Loja {
 		StringBuilder info = new StringBuilder();
 		info.append(" - Itens no Carrinho: \n");
 
-		for (int i = 0; i < maxIPP; i++) {
+		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				info.append(" - Nome: ").append(carrinho.itens[i].produto.getNome()).append("\n");
 				info.append("	- Código: ").append(carrinho.itens[i].produto.getCod()).append("\n");
@@ -786,7 +794,7 @@ public class Loja {
 	// Método refatorado - finaliza pedido
 	public String finalizarPedido(Cliente cliente, String cartaoCredito) {
 		boolean zerado = true;
-		for (int j = 0; j < maxIPP; j++) {
+		for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 			if (carrinho.itens[j] != null) {
 				zerado = false;
 			}
@@ -801,7 +809,7 @@ public class Loja {
 		}
 
 		// Verifica estoque
-		for (int i = 0; i < maxIPP; i++) {
+		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				if (carrinho.itens[i].produto.estoque.getQuantidade() < carrinho.itens[i].getQuantidade()) {
 					return "Estoque insuficiente para o produto: " + carrinho.itens[i].produto.getNome();
@@ -810,23 +818,27 @@ public class Loja {
 		}
 
 		// Atualiza estoque
-		for (int i = 0; i < maxIPP; i++) {
+		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				carrinho.itens[i].produto.estoque.setQuantidade(
 						carrinho.itens[i].produto.estoque.getQuantidade() - carrinho.itens[i].getQuantidade());
 			}
 		}
 
-		pedidos[spPed] = carrinho;
-		pedidos[spPed].setSituacao("PENDENTE");
+		// Ensure the ArrayList is large enough
+		while (pedidos.size() <= spPed) {
+			pedidos.add(null);
+		}
+		pedidos.set(spPed, carrinho);
+		pedidos.get(spPed).setSituacao("PENDENTE");
 		Date atual = new Date();
 		Calendar calendario = Calendar.getInstance();
 		calendario.setTime(atual);
 		calendario.add(Calendar.DAY_OF_MONTH, 20);
 		Date entrega = calendario.getTime();
-		pedidos[spPed].setDataPedido(atual);
-		pedidos[spPed].setDataEntrega(entrega);
-		pedidos[spPed].setTotalItens(itCarr);
+		pedidos.get(spPed).setDataPedido(atual);
+		pedidos.get(spPed).setDataEntrega(entrega);
+		pedidos.get(spPed).setTotalItens(itCarr);
 		numPed++;
 
 		return "Pedido finalizado com sucesso.";
@@ -837,15 +849,15 @@ public class Loja {
 		StringBuilder pedidosInfo = new StringBuilder();
 		boolean encontrou = false;
 
-		for (int i = 0; i < maxPedidos; i++) {
-			if (pedidos[i] != null) {
-				Cliente c = pedidos[i].getCliente();
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i) != null) {
+				Cliente c = pedidos.get(i).getCliente();
 				if (c == cliente) {
-					pedidosInfo.append("Número: ").append(pedidos[i].getNumero()).append("\n");
-					pedidosInfo.append("Data do Pedido: ").append(pedidos[i].getDataPedido()).append("\n");
-					pedidosInfo.append("Data de Entrega: ").append(pedidos[i].getDataEntrega()).append("\n");
-					pedidosInfo.append("Situação: ").append(pedidos[i].getSituacao()).append("\n");
-					pedidosInfo.append("Total: ").append(pedidos[i].calcularTotalPedido()).append("\n\n");
+					pedidosInfo.append("Número: ").append(pedidos.get(i).getNumero()).append("\n");
+					pedidosInfo.append("Data do Pedido: ").append(pedidos.get(i).getDataPedido()).append("\n");
+					pedidosInfo.append("Data de Entrega: ").append(pedidos.get(i).getDataEntrega()).append("\n");
+					pedidosInfo.append("Situação: ").append(pedidos.get(i).getSituacao()).append("\n");
+					pedidosInfo.append("Total: ").append(pedidos.get(i).calcularTotalPedido()).append("\n\n");
 					encontrou = true;
 				}
 			}
@@ -860,26 +872,26 @@ public class Loja {
 
 	// Método refatorado - consulta pedido específico
 	public String consultarPedido(Cliente cliente, int numeroPedido) {
-		for (int i = 0; i < maxPedidos; i++) {
-			if (pedidos[i] != null) {
-				if (pedidos[i].getNumero() == numeroPedido && pedidos[i].getCliente() == cliente) {
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i) != null) {
+				if (pedidos.get(i).getNumero() == numeroPedido && pedidos.get(i).getCliente() == cliente) {
 					StringBuilder info = new StringBuilder();
-					info.append("Número: ").append(pedidos[i].getNumero()).append("\n");
-					info.append("Data do Pedido: ").append(pedidos[i].getDataPedido()).append("\n");
-					info.append("Data de Entrega: ").append(pedidos[i].getDataEntrega()).append("\n");
-					info.append("Situação: ").append(pedidos[i].getSituacao()).append("\n");
-					info.append("Total de Itens: ").append(pedidos[i].getTotalItens()).append("\n");
+					info.append("Número: ").append(pedidos.get(i).getNumero()).append("\n");
+					info.append("Data do Pedido: ").append(pedidos.get(i).getDataPedido()).append("\n");
+					info.append("Data de Entrega: ").append(pedidos.get(i).getDataEntrega()).append("\n");
+					info.append("Situação: ").append(pedidos.get(i).getSituacao()).append("\n");
+					info.append("Total de Itens: ").append(pedidos.get(i).getTotalItens()).append("\n");
 					info.append("Itens:\n");
 
-					for (int j = 0; j < maxIPP; j++) {
-						if (pedidos[i].itens[j] != null) {
-							info.append(" - ").append(pedidos[i].itens[j].produto.getNome())
-									.append(" (Qtd: ").append(pedidos[i].itens[j].getQuantidade())
-									.append(", Preço: ").append(pedidos[i].itens[j].getTotalItem()).append(")\n");
+					for (int j = 0; j < pedidos.get(i).getMaxIPP(); j++) {
+						if (pedidos.get(i).itens[j] != null) {
+							info.append(" - ").append(pedidos.get(i).itens[j].produto.getNome())
+									.append(" (Qtd: ").append(pedidos.get(i).itens[j].getQuantidade())
+									.append(", Preço: ").append(pedidos.get(i).itens[j].getTotalItem()).append(")\n");
 						}
 					}
 
-					info.append("Total do Pedido: ").append(pedidos[i].calcularTotalPedido()).append("\n");
+					info.append("Total do Pedido: ").append(pedidos.get(i).calcularTotalPedido()).append("\n");
 					return info.toString();
 				}
 			}
@@ -889,23 +901,23 @@ public class Loja {
 
 	// Método refatorado - cancela pedido
 	public String cancelarPedido(Cliente cliente, int numeroPedido) {
-		for (int i = 0; i < maxPedidos; i++) {
-			if (pedidos[i] != null) {
-				if (pedidos[i].getNumero() == numeroPedido && pedidos[i].getCliente() == cliente) {
-					if (!pedidos[i].getSituacao().equals("PENDENTE")) {
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i) != null) {
+				if (pedidos.get(i).getNumero() == numeroPedido && pedidos.get(i).getCliente() == cliente) {
+					if (!pedidos.get(i).getSituacao().equals("PENDENTE")) {
 						return "Pedido não pode ser cancelado pois não está pendente.";
 					}
 
 					// Restaura estoque
-					for (int j = 0; j < maxIPP; j++) {
-						if (pedidos[i].itens[j] != null) {
-							pedidos[i].itens[j].produto.estoque.setQuantidade(
-									pedidos[i].itens[j].produto.estoque.getQuantidade()
-											+ pedidos[i].itens[j].getQuantidade());
+					for (int j = 0; j < pedidos.get(i).getMaxIPP(); j++) {
+						if (pedidos.get(i).itens[j] != null) {
+							pedidos.get(i).itens[j].produto.estoque.setQuantidade(
+									pedidos.get(i).itens[j].produto.estoque.getQuantidade()
+											+ pedidos.get(i).itens[j].getQuantidade());
 						}
 					}
 
-					pedidos[i].setSituacao("CANCELADO");
+					pedidos.get(i).setSituacao("CANCELADO");
 					return "Pedido cancelado com sucesso. Estoque restaurado.";
 				}
 			}
@@ -916,7 +928,7 @@ public class Loja {
 	// ------------------ Admin ------------------
 
 	public Fornecedor getF(boolean isLogin, int codigo, String login) {
-		for (int i = 0; i < maxFornecedores; i++) {
+		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null) {
 				if (isLogin == false) {
 					if (fornecedores.get(i).usuario.getCod() == codigo) {
@@ -933,15 +945,15 @@ public class Loja {
 	}
 
 	public Cliente getC(boolean isLogin, int codigo, String login) {
-		for (int i = 0; i < maxClientes; i++) {
-			if (clientes[i] != null) {
+		for (int i = 0; i < clientes.size(); i++) {
+			if (clientes.get(i) != null) {
 				if (isLogin == false) {
-					if (clientes[i].usuario.getCod() == codigo) {
-						return clientes[i];
+					if (clientes.get(i).usuario.getCod() == codigo) {
+						return clientes.get(i);
 					}
 				} else {
-					if (clientes[i].usuario.getLogin().equalsIgnoreCase(login)) {
-						return clientes[i];
+					if (clientes.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
+						return clientes.get(i);
 					}
 				}
 			}
@@ -953,12 +965,12 @@ public class Loja {
 		StringBuilder pedidosInfo = new StringBuilder();
 		boolean encontrou = false;
 
-		for (int i = 0; i < maxPedidos; i++) {
-			if (pedidos[i] != null) {
-				pedidosInfo.append(" - Pedido Número: ").append(pedidos[i].getNumero()).append("\n");
-				pedidosInfo.append(" - Cliente: ").append(pedidos[i].cliente.getNome()).append("\n");
-				pedidosInfo.append(" - Situação: ").append(pedidos[i].getSituacao()).append("\n");
-				pedidosInfo.append(" - Total: ").append(pedidos[i].calcularTotalPedido()).append("\n\n");
+		for (int i = 0; i < pedidos.size(); i++) {
+			if (pedidos.get(i) != null) {
+				pedidosInfo.append(" - Pedido Número: ").append(pedidos.get(i).getNumero()).append("\n");
+				pedidosInfo.append(" - Cliente: ").append(pedidos.get(i).cliente.getNome()).append("\n");
+				pedidosInfo.append(" - Situação: ").append(pedidos.get(i).getSituacao()).append("\n");
+				pedidosInfo.append(" - Total: ").append(pedidos.get(i).calcularTotalPedido()).append("\n\n");
 				encontrou = true;
 			}
 		}
@@ -972,13 +984,13 @@ public class Loja {
 
 	public Object buscarContaAdm(char tipo, int codigo) {
 		if (tipo == 'c') {
-			for (int i = 0; i < maxClientes; i++) {
-				if (clientes[i] != null && clientes[i].usuario.getCod() == codigo) {
-					return clientes[i];
+			for (int i = 0; i < clientes.size(); i++) {
+				if (clientes.get(i) != null && clientes.get(i).usuario.getCod() == codigo) {
+					return clientes.get(i);
 				}
 			}
 		} else {
-			for (int i = 0; i < maxFornecedores; i++) {
+			for (int i = 0; i < fornecedores.size(); i++) {
 				if (fornecedores.get(i) != null && fornecedores.get(i).usuario.getCod() == codigo) {
 					return fornecedores.get(i);
 				}
@@ -991,17 +1003,17 @@ public class Loja {
 		StringBuilder info = new StringBuilder();
 		info.append("===Contas tipo Cliente: ===\n");
 
-		for (int i = 0; i < maxClientes; i++) {
-			if (clientes[i] != null) {
-				info.append(" - Código: ").append(clientes[i].usuario.getCod()).append("\n");
-				info.append(" - Nome: ").append(clientes[i].getNome()).append("\n");
-				info.append(" - Login: ").append(clientes[i].usuario.getLogin()).append("\n");
-				info.append(" - Ativo: ").append(clientes[i].usuario.isActive() ? "Sim" : "Não").append("\n\n");
+		for (int i = 0; i < clientes.size(); i++) {
+			if (clientes.get(i) != null) {
+				info.append(" - Código: ").append(clientes.get(i).usuario.getCod()).append("\n");
+				info.append(" - Nome: ").append(clientes.get(i).getNome()).append("\n");
+				info.append(" - Login: ").append(clientes.get(i).usuario.getLogin()).append("\n");
+				info.append(" - Ativo: ").append(clientes.get(i).usuario.isActive() ? "Sim" : "Não").append("\n\n");
 			}
 		}
 
 		info.append("===Contas tipo Fornecedor: ===\n");
-		for (int i = 0; i < maxFornecedores; i++) {
+		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null) {
 				info.append(" - Código: ").append(fornecedores.get(i).usuario.getCod()).append("\n");
 				info.append(" - Nome: ").append(fornecedores.get(i).getNome()).append("\n");
@@ -1017,9 +1029,9 @@ public class Loja {
 
 	// Método para buscar produto por código (para admin)
 	public Produto buscarProdutoPorCodigo(int codigo) {
-		for (int i = 0; i < maxProdutos; i++) {
-			if (produtos[i] != null && produtos[i].getCod() == codigo) {
-				return produtos[i];
+		for (int i = 0; i < produtos.size(); i++) {
+			if (produtos.get(i) != null && produtos.get(i).getCod() == codigo) {
+				return produtos.get(i);
 			}
 		}
 		return null;
@@ -1027,7 +1039,7 @@ public class Loja {
 
 	// Método para buscar fornecedor por login
 	public Fornecedor buscarFornecedorPorLogin(String login) {
-		for (int i = 0; i < maxFornecedores; i++) {
+		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null &&
 					fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login) &&
 					fornecedores.get(i).usuario.isActive()) {
@@ -1080,14 +1092,15 @@ public class Loja {
 		produtos.append("Produtos do fornecedor: ").append(fornecedor.getNome()).append("\n\n");
 
 		boolean encontrou = false;
-		for (int i = 0; i < maxProdutos; i++) {
-			if (this.produtos[i] != null && this.produtos[i].getFornecedor() == fornecedor) {
-				produtos.append("Código: ").append(this.produtos[i].getCod()).append("\n");
-				produtos.append("Nome: ").append(this.produtos[i].getNome()).append("\n");
-				produtos.append("Descrição: ").append(this.produtos[i].getDescricao()).append("\n");
-				produtos.append("Preço: ").append(this.produtos[i].estoque.getPreco()).append("\n");
-				produtos.append("Quantidade: ").append(this.produtos[i].estoque.getQuantidade()).append("\n");
-				produtos.append("Disponível: ").append(this.produtos[i].isDisponivel() ? "Sim" : "Não").append("\n\n");
+		for (int i = 0; i < this.produtos.size(); i++) {
+			if (this.produtos.get(i) != null && this.produtos.get(i).getFornecedor() == fornecedor) {
+				produtos.append("Código: ").append(this.produtos.get(i).getCod()).append("\n");
+				produtos.append("Nome: ").append(this.produtos.get(i).getNome()).append("\n");
+				produtos.append("Descrição: ").append(this.produtos.get(i).getDescricao()).append("\n");
+				produtos.append("Preço: ").append(this.produtos.get(i).estoque.getPreco()).append("\n");
+				produtos.append("Quantidade: ").append(this.produtos.get(i).estoque.getQuantidade()).append("\n");
+				produtos.append("Disponível: ").append(this.produtos.get(i).isDisponivel() ? "Sim" : "Não")
+						.append("\n\n");
 				encontrou = true;
 			}
 		}
@@ -1106,7 +1119,7 @@ public class Loja {
 		fornecedores.append("Fornecedores ativos:\n\n");
 
 		boolean encontrou = false;
-		for (int i = 0; i < maxFornecedores; i++) {
+		for (int i = 0; i < this.fornecedores.size(); i++) {
 			if (this.fornecedores.get(i) != null && this.fornecedores.get(i).usuario.isActive()) {
 				fornecedores.append("Login: ").append(this.fornecedores.get(i).usuario.getLogin()).append("\n");
 				fornecedores.append("Nome: ").append(this.fornecedores.get(i).getNome()).append("\n");
@@ -1123,7 +1136,7 @@ public class Loja {
 	}
 
 	private void checarCod() {
-		for (int i = 0; i < maxFornecedores; i++) {
+		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null) {
 				if (fornecedores.get(i).usuario.getCod() == codUser) {
 					codUser++;
@@ -1132,9 +1145,9 @@ public class Loja {
 			}
 		}
 
-		for (int i = 0; i < maxClientes; i++) {
-			if (clientes[i] != null) {
-				if (clientes[i].usuario.getCod() == codUser) {
+		for (int i = 0; i < clientes.size(); i++) {
+			if (clientes.get(i) != null) {
+				if (clientes.get(i).usuario.getCod() == codUser) {
 					codUser++;
 					i = -1; // reinicia o loop
 				}
