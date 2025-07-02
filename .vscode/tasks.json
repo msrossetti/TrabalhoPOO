@@ -1,0 +1,24 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Compilar e Executar MVC",
+			"type": "shell",
+			"command": "javac",
+			"args": [
+				"-d",
+				"bin",
+				"-sourcepath",
+				"src",
+				"src\\trabalho\\model\\*.java",
+				"src\\trabalho\\controller\\*.java",
+				"src\\trabalho\\view\\*.java"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$javac"
+			],
+			"isBackground": false
+		}
+	]
+}
