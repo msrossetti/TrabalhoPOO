@@ -7,8 +7,13 @@ public class Produto {
 	protected Fornecedor fornecedor;
 	private boolean disponivel;
 	protected Estoque estoque;
-	
-	public Produto(int cod, String nome, String descricao, byte[] foto, Fornecedor fornecedor, Estoque estoque, Boolean disponivel) {
+
+	// Construtor padrão para Jackson
+	public Produto() {
+	}
+
+	public Produto(int cod, String nome, String descricao, byte[] foto, Fornecedor fornecedor, Estoque estoque,
+			Boolean disponivel) {
 		super();
 		this.cod = cod;
 		this.nome = nome;
@@ -18,7 +23,7 @@ public class Produto {
 		this.estoque = estoque;
 		this.disponivel = disponivel;
 	}
-	
+
 	public boolean isDisponivel() {
 		return disponivel;
 	}

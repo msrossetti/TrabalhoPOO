@@ -3,14 +3,18 @@ package trabalho;
 public class ItemPedido {
 	protected Produto produto;
 	private int quantidade;
-	
+
+	// Construtor padrão para Jackson
+	public ItemPedido() {
+	}
+
 	public ItemPedido(Produto produto, int quantidade) {
 		super();
 		this.produto = produto;
 		this.quantidade = quantidade;
 	}
-	
-	public double getTotalItem( ) {
+
+	public double getTotalItem() {
 		return quantidade * produto.estoque.getPreco();
 	}
 

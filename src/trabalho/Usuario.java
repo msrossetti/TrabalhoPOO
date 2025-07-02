@@ -4,7 +4,11 @@ public class Usuario {
 	private String login, senha;
 	private boolean isActive;
 	private int cod;
-	
+
+	// Construtor padrão para Jackson
+	public Usuario() {
+	}
+
 	public Usuario(String login, String senha, int cod, boolean isActive) {
 		super();
 		this.login = login;
@@ -12,7 +16,7 @@ public class Usuario {
 		this.cod = cod;
 		this.isActive = isActive;
 	}
-	
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -44,5 +48,5 @@ public class Usuario {
 	public void setCod(int cod) {
 		this.cod = cod;
 	}
-	
+
 }

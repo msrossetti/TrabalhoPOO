@@ -7,7 +7,12 @@ public class Menu {
     private Loja loja = new Loja();
 
     public void iniciar() {
-        loja.iniciarValores();
+        // Sempre tenta carregar dados do JSON primeiro
+        System.out.println("Carregando dados da loja...");
+        if (!loja.carregarDadosSalvos()) {
+            System.out.println("Erro ao carregar dados. Verifique os arquivos JSON.");
+            return;
+        }
         menuPrincipal();
     }
 
@@ -19,6 +24,7 @@ public class Menu {
             System.out.println("2 - Cadastrar-se");
             System.out.println("3 - Consultar Produtos");
             System.out.println("4 - Consultar Fornecedor");
+            System.out.println("5 - Salvar Dados");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -37,7 +43,11 @@ public class Menu {
                 case 4:
                     consultarFornecedor();
                     break;
+                case 5:
+                    salvarDados();
+                    break;
                 case 0:
+                    salvarAntesDeFechar();
                     System.out.println("Saindo...");
                     break;
                 default:
@@ -753,6 +763,28 @@ public class Menu {
 
         String produtos = loja.listarProdutosFornecedor(login);
         System.out.println("\n" + produtos);
+    }
+
+    // Métodos para persistência
+    private void salvarDados() {
+        System.out.println("===== SALVAR DADOS =====");
+        if (loja.salvarDados()) {
+            System.out.println("Dados salvos com sucesso!");
+        } else {
+            System.out.println("Erro ao salvar dados.");
+        }
+    }
+
+    private void salvarAntesDeFechar() {
+        System.out.print("Deseja salvar os dados antes de sair? (s/n): ");
+        String resposta = sc.nextLine();
+        if (resposta.equalsIgnoreCase("s") || resposta.equalsIgnoreCase("sim")) {
+            if (loja.salvarDados()) {
+                System.out.println("Dados salvos com sucesso!");
+            } else {
+                System.out.println("Erro ao salvar dados.");
+            }
+        }
     }
 
     // Métodos utilitários

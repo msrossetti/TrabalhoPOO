@@ -1,6 +1,5 @@
 package trabalho;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,159 +25,61 @@ public class Loja {
 
 	private Pedido carrinho;
 
-	public void iniciarValores() {
-		Endereco endereco1 = new Endereco("Rua 1", "111", "Complemento", "Bairro 1", "11111-111", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco2 = new Endereco("Rua 2", "222", "Complemento", "Bairro 2", "22222-222", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco3 = new Endereco("Rua 3", "333", "Complemento", "Bairro 3", "33333-333", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Usuario usuario1 = new Usuario("joao", "senha", 0, true);
-		Usuario usuario2 = new Usuario("paulo", "senha", 1, true);
-		Usuario usuario3 = new Usuario("roberto", "senha", 2, true);
-		Fornecedor fornecedor1 = new Fornecedor("João", "54123456789", "joão@gmail.com", "012-345-678.99", endereco1,
-				"Vendedor de Queijo", usuario1);
-		Fornecedor fornecedor2 = new Fornecedor("Paulo", "54123456789", "paulo@gmail.com", "012-345-678.99", endereco2,
-				"Vendedor de Queijo", usuario2);
-		Fornecedor fornecedor3 = new Fornecedor("Roberto", "54123456789", "roberto@gmail.com", "012-345-678.99",
-				endereco3, "Vendedor de Salame", usuario3);
-		fornecedores.add(0, fornecedor1);
-		fornecedores.add(1, fornecedor2);
-		fornecedores.add(2, fornecedor3);
-		// fornecedores[1] = fornecedor2;
-		// fornecedores[2] = fornecedor3;
+	// Getters e setters para persistência
+	public ArrayList<Fornecedor> getFornecedores() {
+		return fornecedores;
+	}
 
-		Endereco endereco4 = new Endereco("Rua 4", "444", "Complemento", "Bairro 4", "44444-444", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco5 = new Endereco("Rua 5", "555", "Complemento", "Bairro 5", "55555-555", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco6 = new Endereco("Rua 6", "666", "Complemento", "Bairro 6", "66666-666", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Usuario usuario4 = new Usuario("marcelo", "senha", 3, true);
-		Usuario usuario5 = new Usuario("rogerio", "senha", 4, true);
-		Usuario usuario6 = new Usuario("marcos", "senha", 5, true);
-		Cliente cliente1 = new Cliente("Marcelo", "54123456789", "marcelo@gmail.com", "012-345-678.99", endereco4,
-				"Cartão1", usuario4);
-		Cliente cliente2 = new Cliente("Rogério", "54123456789", "rogerio@gmail.com", "012-345-678.99", endereco5,
-				"Cartão2", usuario5);
-		Cliente cliente3 = new Cliente("Marcos", "54123456789", "marcos@gmail.com", "012-345-678.99", endereco6,
-				"Cartão1", usuario6);
-		// clientes[0] = cliente1;
-		// clientes[1] = cliente2;
-		// clientes[2] = cliente3;
-		clientes.add(0, cliente1);
-		clientes.add(1, cliente2);
-		clientes.add(2, cliente3);
+	public void setFornecedores(ArrayList<Fornecedor> fornecedores) {
+		this.fornecedores = fornecedores;
+	}
 
-		byte[] foto = null;
-		Estoque estoque1 = new Estoque(10, 20);
-		Estoque estoque2 = new Estoque(15, 25);
-		Estoque estoque3 = new Estoque(20, 30);
-		Estoque estoque4 = new Estoque(25, 35);
-		Estoque estoque5 = new Estoque(10, 10);
-		Estoque estoque6 = new Estoque(5, 50);
-		Produto produto1 = new Produto(0, "Queijo", "Queijo Prato", foto, fornecedores.get(0), estoque1, true);
-		Produto produto2 = new Produto(1, "Queijo", "Queijo Minas", foto, fornecedores.get(0), estoque2, true);
-		Produto produto3 = new Produto(2, "Queijo Gorgonzola", "Queijo Gorgonzola", foto, fornecedores.get(1), estoque3,
-				true);
-		Produto produto4 = new Produto(3, "Queijo", "Queijo da Montanha", foto, fornecedores.get(1), estoque4, true);
-		Produto produto5 = new Produto(4, "Salame", "Salame Apimentado", foto, fornecedores.get(2), estoque5, true);
-		Produto produto6 = new Produto(5, "Salame e Queijo", "Salame com Queijo Prato", foto, fornecedores.get(2),
-				estoque6,
-				true);
-		// produtos[0] = produto1;
-		// produtos[1] = produto2;
-		// produtos[2] = produto3;
-		// produtos[3] = produto4;
-		// produtos[4] = produto5;
-		// produtos[5] = produto6;
-		produtos.add(0, produto1);
-		produtos.add(1, produto2);
-		produtos.add(2, produto3);
-		produtos.add(3, produto4);
-		produtos.add(4, produto5);
-		produtos.add(5, produto6);
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
 
-		// Pedido pedido1 = new Pedido(0, clientes[0]);
-		// Pedido pedido2 = new Pedido(1, clientes[0]);
-		// Pedido pedido3 = new Pedido(2, clientes[1]);
-		// Pedido pedido4 = new Pedido(3, clientes[1]);
-		// Pedido pedido5 = new Pedido(4, clientes[2]);
-		// Pedido pedido6 = new Pedido(5, clientes[2]);
-		Pedido pedido1 = new Pedido(0, clientes.get(0));
-		Pedido pedido2 = new Pedido(1, clientes.get(0));
-		Pedido pedido3 = new Pedido(2, clientes.get(1));
-		Pedido pedido4 = new Pedido(3, clientes.get(1));
-		Pedido pedido5 = new Pedido(4, clientes.get(2));
-		Pedido pedido6 = new Pedido(5, clientes.get(2));
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
 
-		Date atual = new Date();
-		Calendar calendario = Calendar.getInstance();
-		calendario.setTime(atual);
-		calendario.add(Calendar.DAY_OF_MONTH, 20);
-		Date entrega = calendario.getTime();
-		pedido1.setDataPedido(atual);
-		pedido1.setDataEntrega(entrega);
-		pedido1.setTotalItens(2);
-		pedido1.setSituacao("PENDENTE");
-		pedido2.setDataPedido(atual);
-		pedido2.setDataEntrega(entrega);
-		pedido2.setTotalItens(2);
-		pedido2.setSituacao("PENDENTE");
-		pedido3.setDataPedido(atual);
-		pedido3.setDataEntrega(entrega);
-		pedido3.setTotalItens(2);
-		pedido3.setSituacao("PENDENTE");
-		pedido4.setDataPedido(atual);
-		pedido4.setDataEntrega(entrega);
-		pedido4.setTotalItens(2);
-		pedido4.setSituacao("PENDENTE");
-		pedido5.setDataPedido(atual);
-		pedido5.setDataEntrega(entrega);
-		pedido5.setTotalItens(2);
-		pedido5.setSituacao("PENDENTE");
-		pedido6.setDataPedido(atual);
-		pedido6.setDataEntrega(entrega);
-		pedido6.setTotalItens(2);
-		pedido6.setSituacao("PENDENTE");
-		// ItemPedido[] itens1 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens2 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens3 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens4 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens5 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens6 = new ItemPedido[maxIPP];
-		ItemPedido[] itens1 = new ItemPedido[pedido1.getMaxIPP()];
-		ItemPedido[] itens2 = new ItemPedido[pedido2.getMaxIPP()];
-		ItemPedido[] itens3 = new ItemPedido[pedido3.getMaxIPP()];
-		ItemPedido[] itens4 = new ItemPedido[pedido4.getMaxIPP()];
-		ItemPedido[] itens5 = new ItemPedido[pedido5.getMaxIPP()];
-		ItemPedido[] itens6 = new ItemPedido[pedido6.getMaxIPP()];
+	public ArrayList<Produto> getProdutos() {
+		return produtos;
+	}
 
-		itens1[0] = new ItemPedido(produtos.get(0), 2);
-		itens1[1] = new ItemPedido(produtos.get(1), 4);
-		itens2[0] = new ItemPedido(produtos.get(1), 6);
-		itens2[1] = new ItemPedido(produtos.get(2), 8);
-		itens3[0] = new ItemPedido(produtos.get(2), 10);
-		itens3[1] = new ItemPedido(produtos.get(3), 8);
-		itens4[0] = new ItemPedido(produtos.get(3), 6);
-		itens4[1] = new ItemPedido(produtos.get(4), 4);
-		itens5[0] = new ItemPedido(produtos.get(4), 2);
-		itens5[1] = new ItemPedido(produtos.get(5), 4);
-		itens6[0] = new ItemPedido(produtos.get(5), 6);
-		itens6[1] = new ItemPedido(produtos.get(0), 8);
-		pedido1.setItens(itens1);
-		pedido2.setItens(itens2);
-		pedido3.setItens(itens3);
-		pedido4.setItens(itens4);
-		pedido5.setItens(itens5);
-		pedido6.setItens(itens6);
-		pedidos.add(0, pedido1);
-		pedidos.add(1, pedido2);
-		pedidos.add(2, pedido3);
-		pedidos.add(3, pedido4);
-		pedidos.add(4, pedido5);
-		pedidos.add(5, pedido6);
+	public void setProdutos(ArrayList<Produto> produtos) {
+		this.produtos = produtos;
+	}
 
+	public ArrayList<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(ArrayList<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	public int getCodUser() {
+		return codUser;
+	}
+
+	public void setCodUser(int codUser) {
+		this.codUser = codUser;
+	}
+
+	public int getCodProd() {
+		return codProd;
+	}
+
+	public void setCodProd(int codProd) {
+		this.codProd = codProd;
+	}
+
+	public int getNumPed() {
+		return numPed;
+	}
+
+	public void setNumPed(int numPed) {
+		this.numPed = numPed;
 	}
 
 	// Método refatorado - retorna resultado em vez de interagir com usuário
@@ -1153,5 +1054,29 @@ public class Loja {
 				}
 			}
 		}
+	}
+
+	// Métodos para persistência de dados
+	private PersistenciaLoja persistencia = new PersistenciaLoja();
+
+	/**
+	 * Carrega dados salvos do arquivo JSON
+	 */
+	public boolean carregarDadosSalvos() {
+		return persistencia.carregarDados(this);
+	}
+
+	/**
+	 * Salva os dados atuais em arquivo JSON
+	 */
+	public boolean salvarDados() {
+		return persistencia.salvarDados(this);
+	}
+
+	/**
+	 * Verifica se existem dados salvos
+	 */
+	public boolean existeDadosSalvos() {
+		return persistencia.existeArquivoDados();
 	}
 }

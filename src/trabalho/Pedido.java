@@ -12,6 +12,11 @@ public class Pedido {
 	private int totalItens;
 	private static final int maxIPP = 10;
 
+	// Construtor padrão para Jackson
+	public Pedido() {
+		this.itens = new ItemPedido[maxIPP];
+	}
+
 	public Pedido(int numero, Cliente cliente) {
 		super();
 		this.numero = numero;

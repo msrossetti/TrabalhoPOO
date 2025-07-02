@@ -3,7 +3,11 @@ package trabalho;
 public class Estoque {
 	private int quantidade;
 	private double preco;
-	
+
+	// Construtor padrão para Jackson
+	public Estoque() {
+	}
+
 	public Estoque(int quantidade, double preco) {
 		super();
 		this.quantidade = quantidade;

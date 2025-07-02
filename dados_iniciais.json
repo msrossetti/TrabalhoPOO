@@ -1,0 +1,210 @@
+{
+  "fornecedores": [
+    {
+      "nome": "João",
+      "telefone": "54123456789",
+      "email": "joão@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 1",
+        "numero": "111",
+        "complemento": "Complemento",
+        "bairro": "Bairro 1",
+        "cep": "11111-111",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "descricao": "Vendedor de Queijo",
+      "usuario": {
+        "login": "joao",
+        "senha": "senha",
+        "cod": 0,
+        "active": true
+      }
+    },
+    {
+      "nome": "Paulo",
+      "telefone": "54123456789",
+      "email": "paulo@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 2",
+        "numero": "222",
+        "complemento": "Complemento",
+        "bairro": "Bairro 2",
+        "cep": "22222-222",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "descricao": "Vendedor de Queijo",
+      "usuario": {
+        "login": "paulo",
+        "senha": "senha",
+        "cod": 1,
+        "active": true
+      }
+    },
+    {
+      "nome": "Roberto",
+      "telefone": "54123456789",
+      "email": "roberto@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 3",
+        "numero": "333",
+        "complemento": "Complemento",
+        "bairro": "Bairro 3",
+        "cep": "33333-333",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "descricao": "Vendedor de Salame",
+      "usuario": {
+        "login": "roberto",
+        "senha": "senha",
+        "cod": 2,
+        "active": true
+      }
+    }
+  ],
+  "clientes": [
+    {
+      "nome": "Marcelo",
+      "telefone": "54123456789",
+      "email": "marcelo@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 4",
+        "numero": "444",
+        "complemento": "Complemento",
+        "bairro": "Bairro 4",
+        "cep": "44444-444",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão1",
+      "usuario": {
+        "login": "marcelo",
+        "senha": "senha",
+        "cod": 3,
+        "active": true
+      }
+    },
+    {
+      "nome": "Rogério",
+      "telefone": "54123456789",
+      "email": "rogerio@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 5",
+        "numero": "555",
+        "complemento": "Complemento",
+        "bairro": "Bairro 5",
+        "cep": "55555-555",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão2",
+      "usuario": {
+        "login": "rogerio",
+        "senha": "senha",
+        "cod": 4,
+        "active": true
+      }
+    },
+    {
+      "nome": "Marcos",
+      "telefone": "54123456789",
+      "email": "marcos@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 6",
+        "numero": "666",
+        "complemento": "Complemento",
+        "bairro": "Bairro 6",
+        "cep": "66666-666",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão1",
+      "usuario": {
+        "login": "marcos",
+        "senha": "senha",
+        "cod": 5,
+        "active": true
+      }
+    }
+  ],
+  "produtos": [
+    {
+      "cod": 0,
+      "nome": "Queijo",
+      "descricao": "Queijo Prato",
+      "foto": null,
+      "disponivel": true,
+      "estoque": {
+        "quantidade": 10,
+        "preco": 20.0
+      }
+    },
+    {
+      "cod": 1,
+      "nome": "Queijo",
+      "descricao": "Queijo Minas",
+      "foto": null,
+      "disponivel": true,
+      "estoque": {
+        "quantidade": 15,
+        "preco": 25.0
+      }
+    },
+    {
+      "cod": 2,
+      "nome": "Queijo Gorgonzola",
+      "descricao": "Queijo Gorgonzola",
+      "foto": null,
+      "disponivel": true,
+      "estoque": {
+        "quantidade": 20,
+        "preco": 30.0
+      }
+    },
+    {
+      "cod": 3,
+      "nome": "Queijo",
+      "descricao": "Queijo da Montanha",
+      "foto": null,
+      "disponivel": true,
+      "estoque": {
+        "quantidade": 25,
+        "preco": 35.0
+      }
+    },
+    {
+      "cod": 4,
+      "nome": "Salame",
+      "descricao": "Salame Apimentado",
+      "foto": null,
+      "disponivel": true,
+      "estoque": {
+        "quantidade": 10,
+        "preco": 10.0
+      }
+    },
+    {
+      "cod": 5,
+      "nome": "Salame e Queijo",
+      "descricao": "Salame com Queijo Prato",
+      "foto": null,
+      "disponivel": true,
+      "estoque": {
+        "quantidade": 5,
+        "preco": 50.0
+      }
+    }
+  ],
+  "pedidos": [],
+  "codUser": 6,
+  "codProd": 6,
+  "numPed": 0
+}
