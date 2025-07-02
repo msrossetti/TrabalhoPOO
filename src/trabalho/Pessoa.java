@@ -6,6 +6,10 @@ public class Pessoa {
 	protected Endereco endereco;
 	protected Usuario usuario;
 	
+	// Construtor padrão para Jackson
+	public Pessoa() {
+	}
+	
 	public Pessoa(String nome, String telefone, String email, String cpf, Endereco endereco, Usuario usuario) {
 		super();
 		this.cpf = cpf;

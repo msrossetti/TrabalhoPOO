@@ -5,6 +5,10 @@ public class Usuario {
 	private boolean isActive;
 	private int cod;
 	
+	// Construtor padrão para Jackson
+	public Usuario() {
+	}
+	
 	public Usuario(String login, String senha, int cod, boolean isActive) {
 		super();
 		this.login = login;

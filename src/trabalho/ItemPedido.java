@@ -4,6 +4,10 @@ public class ItemPedido {
 	protected Produto produto;
 	private int quantidade;
 	
+	// Construtor padrão para Jackson
+	public ItemPedido() {
+	}
+	
 	public ItemPedido(Produto produto, int quantidade) {
 		super();
 		this.produto = produto;

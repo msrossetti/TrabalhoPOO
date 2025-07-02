@@ -1,0 +1,284 @@
+[
+  {
+    "numero": 0,
+    "dataPedido": "2025-07-02T10:00:00",
+    "dataEntrega": "2025-07-22T10:00:00",
+    "situacao": "PENDENTE",
+    "cliente": {
+      "nome": "Marcelo",
+      "telefone": "54123456789",
+      "email": "marcelo@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 4",
+        "numero": "444",
+        "complemento": "Complemento",
+        "bairro": "Bairro 4",
+        "cep": "44444-444",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão1",
+      "usuario": {
+        "login": "marcelo",
+        "senha": "senha",
+        "cod": 3,
+        "active": true
+      }
+    },
+    "itens": [
+      {
+        "produto": {
+          "cod": 0,
+          "nome": "Queijo",
+          "descricao": "Queijo Prato"
+        },
+        "quantidade": 2
+      },
+      {
+        "produto": {
+          "cod": 1,
+          "nome": "Queijo",
+          "descricao": "Queijo Minas"
+        },
+        "quantidade": 4
+      }
+    ],
+    "totalItens": 2
+  },
+  {
+    "numero": 1,
+    "dataPedido": "2025-07-02T10:00:00",
+    "dataEntrega": "2025-07-22T10:00:00",
+    "situacao": "PENDENTE",
+    "cliente": {
+      "nome": "Marcelo",
+      "telefone": "54123456789",
+      "email": "marcelo@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 4",
+        "numero": "444",
+        "complemento": "Complemento",
+        "bairro": "Bairro 4",
+        "cep": "44444-444",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão1",
+      "usuario": {
+        "login": "marcelo",
+        "senha": "senha",
+        "cod": 3,
+        "active": true
+      }
+    },
+    "itens": [
+      {
+        "produto": {
+          "cod": 1,
+          "nome": "Queijo",
+          "descricao": "Queijo Minas"
+        },
+        "quantidade": 6
+      },
+      {
+        "produto": {
+          "cod": 2,
+          "nome": "Queijo Gorgonzola",
+          "descricao": "Queijo Gorgonzola"
+        },
+        "quantidade": 8
+      }
+    ],
+    "totalItens": 2
+  },
+  {
+    "numero": 2,
+    "dataPedido": "2025-07-02T10:00:00",
+    "dataEntrega": "2025-07-22T10:00:00",
+    "situacao": "PENDENTE",
+    "cliente": {
+      "nome": "Rogério",
+      "telefone": "54123456789",
+      "email": "rogerio@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 5",
+        "numero": "555",
+        "complemento": "Complemento",
+        "bairro": "Bairro 5",
+        "cep": "55555-555",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão2",
+      "usuario": {
+        "login": "rogerio",
+        "senha": "senha",
+        "cod": 4,
+        "active": true
+      }
+    },
+    "itens": [
+      {
+        "produto": {
+          "cod": 2,
+          "nome": "Queijo Gorgonzola",
+          "descricao": "Queijo Gorgonzola"
+        },
+        "quantidade": 10
+      },
+      {
+        "produto": {
+          "cod": 3,
+          "nome": "Queijo",
+          "descricao": "Queijo da Montanha"
+        },
+        "quantidade": 8
+      }
+    ],
+    "totalItens": 2
+  },
+  {
+    "numero": 3,
+    "dataPedido": "2025-07-02T10:00:00",
+    "dataEntrega": "2025-07-22T10:00:00",
+    "situacao": "PENDENTE",
+    "cliente": {
+      "nome": "Rogério",
+      "telefone": "54123456789",
+      "email": "rogerio@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 5",
+        "numero": "555",
+        "complemento": "Complemento",
+        "bairro": "Bairro 5",
+        "cep": "55555-555",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão2",
+      "usuario": {
+        "login": "rogerio",
+        "senha": "senha",
+        "cod": 4,
+        "active": true
+      }
+    },
+    "itens": [
+      {
+        "produto": {
+          "cod": 3,
+          "nome": "Queijo",
+          "descricao": "Queijo da Montanha"
+        },
+        "quantidade": 6
+      },
+      {
+        "produto": {
+          "cod": 4,
+          "nome": "Salame",
+          "descricao": "Salame Apimentado"
+        },
+        "quantidade": 4
+      }
+    ],
+    "totalItens": 2
+  },
+  {
+    "numero": 4,
+    "dataPedido": "2025-07-02T10:00:00",
+    "dataEntrega": "2025-07-22T10:00:00",
+    "situacao": "PENDENTE",
+    "cliente": {
+      "nome": "Marcos",
+      "telefone": "54123456789",
+      "email": "marcos@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 6",
+        "numero": "666",
+        "complemento": "Complemento",
+        "bairro": "Bairro 6",
+        "cep": "66666-666",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão1",
+      "usuario": {
+        "login": "marcos",
+        "senha": "senha",
+        "cod": 5,
+        "active": true
+      }
+    },
+    "itens": [
+      {
+        "produto": {
+          "cod": 4,
+          "nome": "Salame",
+          "descricao": "Salame Apimentado"
+        },
+        "quantidade": 2
+      },
+      {
+        "produto": {
+          "cod": 5,
+          "nome": "Salame e Queijo",
+          "descricao": "Salame com Queijo Prato"
+        },
+        "quantidade": 4
+      }
+    ],
+    "totalItens": 2
+  },
+  {
+    "numero": 5,
+    "dataPedido": "2025-07-02T10:00:00",
+    "dataEntrega": "2025-07-22T10:00:00",
+    "situacao": "PENDENTE",
+    "cliente": {
+      "nome": "Marcos",
+      "telefone": "54123456789",
+      "email": "marcos@gmail.com",
+      "cpf": "012-345-678.99",
+      "endereco": {
+        "rua": "Rua 6",
+        "numero": "666",
+        "complemento": "Complemento",
+        "bairro": "Bairro 6",
+        "cep": "66666-666",
+        "cidade": "Caxias do Sul",
+        "estado": "Rio Grande do Sul"
+      },
+      "cartaoCredito": "Cartão1",
+      "usuario": {
+        "login": "marcos",
+        "senha": "senha",
+        "cod": 5,
+        "active": true
+      }
+    },
+    "itens": [
+      {
+        "produto": {
+          "cod": 5,
+          "nome": "Salame e Queijo",
+          "descricao": "Salame com Queijo Prato"
+        },
+        "quantidade": 6
+      },
+      {
+        "produto": {
+          "cod": 0,
+          "nome": "Queijo",
+          "descricao": "Queijo Prato"
+        },
+        "quantidade": 8
+      }
+    ],
+    "totalItens": 2
+  }
+]

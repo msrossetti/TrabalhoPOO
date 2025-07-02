@@ -4,6 +4,7 @@ package trabalho;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.io.IOException;
 
 public class Loja {
 
@@ -12,9 +13,8 @@ public class Loja {
 	private ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 
-	private int codUser = 0;
-	private int codProd = 0;
-	private int numPed = 0;
+	private ContadoresData contadores;
+	private DataManager dataManager;
 
 	private int spPed = 0;
 	private int s = 0;
@@ -25,160 +25,72 @@ public class Loja {
 	boolean exc = false;
 
 	private Pedido carrinho;
+	
+	// Construtor que carrega os dados do JSON
+	public Loja() {
+		this.dataManager = new DataManager();
+		this.contadores = new ContadoresData();
+		carregarDados();
+	}
 
-	public void iniciarValores() {
-		Endereco endereco1 = new Endereco("Rua 1", "111", "Complemento", "Bairro 1", "11111-111", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco2 = new Endereco("Rua 2", "222", "Complemento", "Bairro 2", "22222-222", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco3 = new Endereco("Rua 3", "333", "Complemento", "Bairro 3", "33333-333", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Usuario usuario1 = new Usuario("joao", "senha", 0, true);
-		Usuario usuario2 = new Usuario("paulo", "senha", 1, true);
-		Usuario usuario3 = new Usuario("roberto", "senha", 2, true);
-		Fornecedor fornecedor1 = new Fornecedor("João", "54123456789", "joão@gmail.com", "012-345-678.99", endereco1,
-				"Vendedor de Queijo", usuario1);
-		Fornecedor fornecedor2 = new Fornecedor("Paulo", "54123456789", "paulo@gmail.com", "012-345-678.99", endereco2,
-				"Vendedor de Queijo", usuario2);
-		Fornecedor fornecedor3 = new Fornecedor("Roberto", "54123456789", "roberto@gmail.com", "012-345-678.99",
-				endereco3, "Vendedor de Salame", usuario3);
-		fornecedores.add(0, fornecedor1);
-		fornecedores.add(1, fornecedor2);
-		fornecedores.add(2, fornecedor3);
-		// fornecedores[1] = fornecedor2;
-		// fornecedores[2] = fornecedor3;
-
-		Endereco endereco4 = new Endereco("Rua 4", "444", "Complemento", "Bairro 4", "44444-444", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco5 = new Endereco("Rua 5", "555", "Complemento", "Bairro 5", "55555-555", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Endereco endereco6 = new Endereco("Rua 6", "666", "Complemento", "Bairro 6", "66666-666", "Caxias do Sul",
-				"Rio Grande do Sul");
-		Usuario usuario4 = new Usuario("marcelo", "senha", 3, true);
-		Usuario usuario5 = new Usuario("rogerio", "senha", 4, true);
-		Usuario usuario6 = new Usuario("marcos", "senha", 5, true);
-		Cliente cliente1 = new Cliente("Marcelo", "54123456789", "marcelo@gmail.com", "012-345-678.99", endereco4,
-				"Cartão1", usuario4);
-		Cliente cliente2 = new Cliente("Rogério", "54123456789", "rogerio@gmail.com", "012-345-678.99", endereco5,
-				"Cartão2", usuario5);
-		Cliente cliente3 = new Cliente("Marcos", "54123456789", "marcos@gmail.com", "012-345-678.99", endereco6,
-				"Cartão1", usuario6);
-		// clientes[0] = cliente1;
-		// clientes[1] = cliente2;
-		// clientes[2] = cliente3;
-		clientes.add(0, cliente1);
-		clientes.add(1, cliente2);
-		clientes.add(2, cliente3);
-
-		byte[] foto = null;
-		Estoque estoque1 = new Estoque(10, 20);
-		Estoque estoque2 = new Estoque(15, 25);
-		Estoque estoque3 = new Estoque(20, 30);
-		Estoque estoque4 = new Estoque(25, 35);
-		Estoque estoque5 = new Estoque(10, 10);
-		Estoque estoque6 = new Estoque(5, 50);
-		Produto produto1 = new Produto(0, "Queijo", "Queijo Prato", foto, fornecedores.get(0), estoque1, true);
-		Produto produto2 = new Produto(1, "Queijo", "Queijo Minas", foto, fornecedores.get(0), estoque2, true);
-		Produto produto3 = new Produto(2, "Queijo Gorgonzola", "Queijo Gorgonzola", foto, fornecedores.get(1), estoque3,
-				true);
-		Produto produto4 = new Produto(3, "Queijo", "Queijo da Montanha", foto, fornecedores.get(1), estoque4, true);
-		Produto produto5 = new Produto(4, "Salame", "Salame Apimentado", foto, fornecedores.get(2), estoque5, true);
-		Produto produto6 = new Produto(5, "Salame e Queijo", "Salame com Queijo Prato", foto, fornecedores.get(2),
-				estoque6,
-				true);
-		// produtos[0] = produto1;
-		// produtos[1] = produto2;
-		// produtos[2] = produto3;
-		// produtos[3] = produto4;
-		// produtos[4] = produto5;
-		// produtos[5] = produto6;
-		produtos.add(0, produto1);
-		produtos.add(1, produto2);
-		produtos.add(2, produto3);
-		produtos.add(3, produto4);
-		produtos.add(4, produto5);
-		produtos.add(5, produto6);
-
-		// Pedido pedido1 = new Pedido(0, clientes[0]);
-		// Pedido pedido2 = new Pedido(1, clientes[0]);
-		// Pedido pedido3 = new Pedido(2, clientes[1]);
-		// Pedido pedido4 = new Pedido(3, clientes[1]);
-		// Pedido pedido5 = new Pedido(4, clientes[2]);
-		// Pedido pedido6 = new Pedido(5, clientes[2]);
-		Pedido pedido1 = new Pedido(0, clientes.get(0));
-		Pedido pedido2 = new Pedido(1, clientes.get(0));
-		Pedido pedido3 = new Pedido(2, clientes.get(1));
-		Pedido pedido4 = new Pedido(3, clientes.get(1));
-		Pedido pedido5 = new Pedido(4, clientes.get(2));
-		Pedido pedido6 = new Pedido(5, clientes.get(2));
-
-		Date atual = new Date();
-		Calendar calendario = Calendar.getInstance();
-		calendario.setTime(atual);
-		calendario.add(Calendar.DAY_OF_MONTH, 20);
-		Date entrega = calendario.getTime();
-		pedido1.setDataPedido(atual);
-		pedido1.setDataEntrega(entrega);
-		pedido1.setTotalItens(2);
-		pedido1.setSituacao("PENDENTE");
-		pedido2.setDataPedido(atual);
-		pedido2.setDataEntrega(entrega);
-		pedido2.setTotalItens(2);
-		pedido2.setSituacao("PENDENTE");
-		pedido3.setDataPedido(atual);
-		pedido3.setDataEntrega(entrega);
-		pedido3.setTotalItens(2);
-		pedido3.setSituacao("PENDENTE");
-		pedido4.setDataPedido(atual);
-		pedido4.setDataEntrega(entrega);
-		pedido4.setTotalItens(2);
-		pedido4.setSituacao("PENDENTE");
-		pedido5.setDataPedido(atual);
-		pedido5.setDataEntrega(entrega);
-		pedido5.setTotalItens(2);
-		pedido5.setSituacao("PENDENTE");
-		pedido6.setDataPedido(atual);
-		pedido6.setDataEntrega(entrega);
-		pedido6.setTotalItens(2);
-		pedido6.setSituacao("PENDENTE");
-		// ItemPedido[] itens1 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens2 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens3 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens4 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens5 = new ItemPedido[maxIPP];
-		// ItemPedido[] itens6 = new ItemPedido[maxIPP];
-		ItemPedido[] itens1 = new ItemPedido[pedido1.getMaxIPP()];
-		ItemPedido[] itens2 = new ItemPedido[pedido2.getMaxIPP()];
-		ItemPedido[] itens3 = new ItemPedido[pedido3.getMaxIPP()];
-		ItemPedido[] itens4 = new ItemPedido[pedido4.getMaxIPP()];
-		ItemPedido[] itens5 = new ItemPedido[pedido5.getMaxIPP()];
-		ItemPedido[] itens6 = new ItemPedido[pedido6.getMaxIPP()];
-
-		itens1[0] = new ItemPedido(produtos.get(0), 2);
-		itens1[1] = new ItemPedido(produtos.get(1), 4);
-		itens2[0] = new ItemPedido(produtos.get(1), 6);
-		itens2[1] = new ItemPedido(produtos.get(2), 8);
-		itens3[0] = new ItemPedido(produtos.get(2), 10);
-		itens3[1] = new ItemPedido(produtos.get(3), 8);
-		itens4[0] = new ItemPedido(produtos.get(3), 6);
-		itens4[1] = new ItemPedido(produtos.get(4), 4);
-		itens5[0] = new ItemPedido(produtos.get(4), 2);
-		itens5[1] = new ItemPedido(produtos.get(5), 4);
-		itens6[0] = new ItemPedido(produtos.get(5), 6);
-		itens6[1] = new ItemPedido(produtos.get(0), 8);
-		pedido1.setItens(itens1);
-		pedido2.setItens(itens2);
-		pedido3.setItens(itens3);
-		pedido4.setItens(itens4);
-		pedido5.setItens(itens5);
-		pedido6.setItens(itens6);
-		pedidos.add(0, pedido1);
-		pedidos.add(1, pedido2);
-		pedidos.add(2, pedido3);
-		pedidos.add(3, pedido4);
-		pedidos.add(4, pedido5);
-		pedidos.add(5, pedido6);
-
+	// Método para carregar dados do JSON
+	public void carregarDados() {
+		try {
+			this.fornecedores = dataManager.carregarFornecedores();
+			this.clientes = dataManager.carregarClientes();
+			this.produtos = dataManager.carregarProdutos();
+			this.pedidos = dataManager.carregarPedidos();
+			this.contadores = dataManager.carregarContadores();
+			
+			// Se não há produtos, criar os iniciais
+			if (produtos.isEmpty() && !fornecedores.isEmpty()) {
+				criarProdutosIniciais();
+			}
+		} catch (IOException e) {
+			System.err.println("Erro ao carregar dados: " + e.getMessage());
+			// Se houver erro, inicializa com listas vazias
+			this.fornecedores = new ArrayList<>();
+			this.clientes = new ArrayList<>();
+			this.produtos = new ArrayList<>();
+			this.pedidos = new ArrayList<>();
+			this.contadores = new ContadoresData();
+		}
+	}
+	
+	// Método para criar produtos iniciais
+	private void criarProdutosIniciais() {
+		if (produtos.size() == 0 && fornecedores.size() > 0) {
+			byte[] foto = null;
+			Estoque estoque1 = new Estoque(10, 20.0);
+			Estoque estoque2 = new Estoque(15, 25.0);
+			Estoque estoque3 = new Estoque(20, 30.0);
+			Estoque estoque4 = new Estoque(25, 35.0);
+			Estoque estoque5 = new Estoque(10, 10.0);
+			Estoque estoque6 = new Estoque(5, 50.0);
+			
+			Produto produto1 = new Produto(0, "Queijo", "Queijo Prato", foto, fornecedores.get(0), estoque1, true);
+			Produto produto2 = new Produto(1, "Queijo", "Queijo Minas", foto, fornecedores.get(0), estoque2, true);
+			Produto produto3 = new Produto(2, "Queijo Gorgonzola", "Queijo Gorgonzola", foto, fornecedores.get(1), estoque3, true);
+			Produto produto4 = new Produto(3, "Queijo", "Queijo da Montanha", foto, fornecedores.get(1), estoque4, true);
+			Produto produto5 = new Produto(4, "Salame", "Salame Apimentado", foto, fornecedores.get(2), estoque5, true);
+			Produto produto6 = new Produto(5, "Salame e Queijo", "Salame com Queijo Prato", foto, fornecedores.get(2), estoque6, true);
+			
+			produtos.add(produto1);
+			produtos.add(produto2);
+			produtos.add(produto3);
+			produtos.add(produto4);
+			produtos.add(produto5);
+			produtos.add(produto6);
+		}
+	}
+	
+	// Método para salvar dados no JSON
+	public void salvarDados() {
+		try {
+			dataManager.salvarTodos(fornecedores, clientes, produtos, pedidos, contadores);
+		} catch (IOException e) {
+			System.err.println("Erro ao salvar dados: " + e.getMessage());
+		}
 	}
 
 	// Método refatorado - retorna resultado em vez de interagir com usuário
@@ -217,7 +129,7 @@ public class Loja {
 
 		if (tipo == 'c') {
 			checarCod();
-			Usuario usuarioc = new Usuario(login, senha, codUser, true);
+			Usuario usuarioc = new Usuario(login, senha, contadores.getCodUser(), true);
 			// Ensure the ArrayList is large enough
 			while (clientes.size() <= pos) {
 				clientes.add(null);
@@ -225,10 +137,11 @@ public class Loja {
 			clientes.set(pos, new Cliente(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuarioc));
 		} else {
 			checarCod();
-			Usuario usuariof = new Usuario(login, senha, codUser, true);
+			Usuario usuariof = new Usuario(login, senha, contadores.getCodUser(), true);
 			fornecedores.set(pos, new Fornecedor(nome, telefone, email, cpf, endereco, cartaoOuDescricao, usuariof));
 		}
-		codUser++;
+		contadores.incrementarCodUser();
+		salvarDados();
 		return "Usuário cadastrado com sucesso.";
 	}
 
@@ -330,30 +243,36 @@ public class Loja {
 			switch (n) {
 				case 1:
 					boolean autentica = autenticaExistente(novoValor, tipo);
-					if (autentica == false) {
-						cliente.usuario.setLogin(novoValor);
-						return "Usuário alterado com sucesso.";
+					if (autentica == false) {					cliente.usuario.setLogin(novoValor);
+					salvarDados();
+					return "Usuário alterado com sucesso.";
 					} else {
 						return "Usuário já existe. Tente outro.";
 					}
 				case 2:
 					cliente.usuario.setSenha(novoValor);
+					salvarDados();
 					return "Senha alterada com sucesso.";
 				case 3:
 					cliente.setNome(novoValor);
+					salvarDados();
 					return "Nome alterado com sucesso.";
 				case 4:
 					cliente.setTelefone(novoValor);
+					salvarDados();
 					return "Telefone alterado com sucesso.";
 				case 5:
 					cliente.setEmail(novoValor);
+					salvarDados();
 					return "Email alterado com sucesso.";
 				case 6:
 					cliente.setCartaoCredito(novoValor);
+					salvarDados();
 					return "Cartão de Crédito alterado com sucesso.";
 				case 7:
 					if (novoEndereco != null) {
 						cliente.endereco = novoEndereco;
+						salvarDados();
 						return "Endereço alterado com sucesso.";
 					}
 					break;
@@ -603,8 +522,8 @@ public class Loja {
 
 		for (int i = 0; i < produtos.size(); i++) {
 			if (produtos.get(i) != null) {
-				if (produtos.get(i).getCod() == codProd) {
-					codProd++;
+				if (produtos.get(i).getCod() == contadores.getCodProd()) {
+					contadores.incrementarCodProd();
 					i = -1; // reinicia o loop
 				}
 			}
@@ -614,8 +533,9 @@ public class Loja {
 		while (produtos.size() <= pos) {
 			produtos.add(null);
 		}
-		produtos.set(pos, new Produto(codProd, nome, descricao, foto, fornecedor, estoque, true));
-		codProd++;
+		produtos.set(pos, new Produto(contadores.getCodProd(), nome, descricao, foto, fornecedor, estoque, true));
+		contadores.incrementarCodProd();
+		salvarDados();
 
 		return "Produto cadastrado com sucesso!";
 	}
@@ -639,20 +559,23 @@ public class Loja {
 			case 1:
 				if (novoPreco <= 0) {
 					return "Não é possível colocar este preço.";
-				}
-				produtos.get(s).estoque.setPreco(novoPreco);
-				return "Preço alterado com sucesso.";
+				}					produtos.get(s).estoque.setPreco(novoPreco);
+					salvarDados();
+					return "Preço alterado com sucesso.";
 			case 2:
 				produtos.get(s).estoque.setQuantidade(novaQuantidade);
+				salvarDados();
 				return "Estoque alterado com sucesso.";
 			case 3:
 				produtos.get(s).setNome(novoValor);
+				salvarDados();
 				return "Nome alterado com sucesso.";
 			case 4:
 				// Implementar alteração de foto se necessário
 				return "Foto alterada com sucesso.";
 			case 5:
 				produtos.get(s).setDescricao(novoValor);
+				salvarDados();
 				return "Descrição alterada com sucesso.";
 		}
 		return "Erro na alteração.";
@@ -661,6 +584,7 @@ public class Loja {
 	public String removerProduto() {
 		produtos.get(s).setDisponivel(false);
 		produtos.get(s).estoque.setQuantidade(0);
+		salvarDados();
 		return "Produto removido com sucesso, referência mantida para pedidos antigos.";
 	}
 
@@ -685,8 +609,8 @@ public class Loja {
 	public boolean autenticaNumPedidos(Cliente cliente) {
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				if (pedidos.get(i).getNumero() == numPed) {
-					numPed++;
+				if (pedidos.get(i).getNumero() == contadores.getNumPed()) {
+					contadores.incrementarNumPed();
 					i = -1; // reinicia o loop
 				}
 			}
@@ -695,7 +619,7 @@ public class Loja {
 			if (i >= pedidos.size() || pedidos.get(i) == null) {
 				itCarr = 0;
 				spPed = i;
-				carrinho = new Pedido(numPed, cliente);
+				carrinho = new Pedido(contadores.getNumPed(), cliente);
 				return true;
 			}
 		}
@@ -839,7 +763,8 @@ public class Loja {
 		pedidos.get(spPed).setDataPedido(atual);
 		pedidos.get(spPed).setDataEntrega(entrega);
 		pedidos.get(spPed).setTotalItens(itCarr);
-		numPed++;
+		contadores.incrementarNumPed();
+		salvarDados();
 
 		return "Pedido finalizado com sucesso.";
 	}
@@ -1138,8 +1063,8 @@ public class Loja {
 	private void checarCod() {
 		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null) {
-				if (fornecedores.get(i).usuario.getCod() == codUser) {
-					codUser++;
+				if (fornecedores.get(i).usuario.getCod() == contadores.getCodUser()) {
+					contadores.incrementarCodUser();
 					i = -1; // reinicia o loop
 				}
 			}
@@ -1147,11 +1072,28 @@ public class Loja {
 
 		for (int i = 0; i < clientes.size(); i++) {
 			if (clientes.get(i) != null) {
-				if (clientes.get(i).usuario.getCod() == codUser) {
-					codUser++;
+				if (clientes.get(i).usuario.getCod() == contadores.getCodUser()) {
+					contadores.incrementarCodUser();
 					i = -1; // reinicia o loop
 				}
 			}
 		}
+	}
+
+	// Getters para acessar as listas (para debug e inicialização)
+	public ArrayList<Fornecedor> getFornecedores() {
+		return fornecedores;
+	}
+	
+	public ArrayList<Cliente> getClientes() {
+		return clientes;
+	}
+	
+	public ArrayList<Produto> getProdutos() {
+		return produtos;
+	}
+	
+	public ArrayList<Pedido> getPedidos() {
+		return pedidos;
 	}
 }

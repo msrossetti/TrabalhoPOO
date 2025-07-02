@@ -7,7 +7,6 @@ public class Menu {
     private Loja loja = new Loja();
 
     public void iniciar() {
-        loja.iniciarValores();
         menuPrincipal();
     }
 

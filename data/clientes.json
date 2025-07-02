@@ -1,0 +1,68 @@
+[
+  {
+    "nome": "Marcelo",
+    "telefone": "54123456789",
+    "email": "marcelo@gmail.com",
+    "cpf": "012-345-678.99",
+    "endereco": {
+      "rua": "Rua 4",
+      "numero": "444",
+      "complemento": "Complemento",
+      "bairro": "Bairro 4",
+      "cep": "44444-444",
+      "cidade": "Caxias do Sul",
+      "estado": "Rio Grande do Sul"
+    },
+    "cartaoCredito": "Cartão1",
+    "usuario": {
+      "login": "marcelo",
+      "senha": "senha",
+      "cod": 3,
+      "active": true
+    }
+  },
+  {
+    "nome": "Rogério",
+    "telefone": "54123456789",
+    "email": "rogerio@gmail.com",
+    "cpf": "012-345-678.99",
+    "endereco": {
+      "rua": "Rua 5",
+      "numero": "555",
+      "complemento": "Complemento",
+      "bairro": "Bairro 5",
+      "cep": "55555-555",
+      "cidade": "Caxias do Sul",
+      "estado": "Rio Grande do Sul"
+    },
+    "cartaoCredito": "Cartão2",
+    "usuario": {
+      "login": "rogerio",
+      "senha": "senha",
+      "cod": 4,
+      "active": true
+    }
+  },
+  {
+    "nome": "Marcos",
+    "telefone": "54123456789",
+    "email": "marcos@gmail.com",
+    "cpf": "012-345-678.99",
+    "endereco": {
+      "rua": "Rua 6",
+      "numero": "666",
+      "complemento": "Complemento",
+      "bairro": "Bairro 6",
+      "cep": "66666-666",
+      "cidade": "Caxias do Sul",
+      "estado": "Rio Grande do Sul"
+    },
+    "cartaoCredito": "Cartão1",
+    "usuario": {
+      "login": "marcos",
+      "senha": "senha",
+      "cod": 5,
+      "active": true
+    }
+  }
+]

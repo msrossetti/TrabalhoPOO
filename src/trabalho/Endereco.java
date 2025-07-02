@@ -3,6 +3,10 @@ package trabalho;
 public class Endereco {
 	private String rua, numero, complemento, bairro, cep, cidade, estado;
 
+	// Construtor padrão para Jackson
+	public Endereco() {
+	}
+
 	public Endereco(String rua, String numero, String complemento, String bairro, String cep, String cidade,
 			String estado) {
 		super();
