@@ -16,11 +16,9 @@ public class DadosLoja {
     private int codProd = 0;
     private int numPed = 0;
 
-    // Construtor padrão necessário para Jackson
     public DadosLoja() {
     }
 
-    // Getters e setters
     public ArrayList<Fornecedor> getFornecedores() {
         return fornecedores;
     }

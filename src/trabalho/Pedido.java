@@ -14,7 +14,6 @@ public class Pedido {
 	protected ItemPedido[] itens;
 	private int totalItens;
 
-	// Construtor padrão para Jackson
 	public Pedido() {
 		this.itens = new ItemPedido[10];
 	}

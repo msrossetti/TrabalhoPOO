@@ -25,7 +25,6 @@ public class Loja {
 
 	private Pedido carrinho;
 
-	// Getters e setters para persistência
 	public ArrayList<Fornecedor> getFornecedores() {
 		return fornecedores;
 	}
@@ -82,14 +81,12 @@ public class Loja {
 		this.numPed = numPed;
 	}
 
-	// Método refatorado - retorna resultado em vez de interagir com usuário
 	public String cadastrarUsuario(char tipo, String login, String senha, String nome,
 			String telefone, String email, String cpf,
 			Endereco endereco, String cartaoOuDescricao) {
 		int pos = -1;
 
 		if (tipo == 'c') {
-			// Verifica se login já existe
 			for (int i = 0; i < clientes.size(); i++) {
 				if (clientes.get(i) != null) {
 					if (clientes.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
@@ -100,12 +97,10 @@ public class Loja {
 						pos = i;
 				}
 			}
-			// Se não encontrou posição vazia, adiciona no final
 			if (pos == -1) {
 				pos = clientes.size();
 			}
 		} else {
-			// Verifica se login já existe para fornecedores
 			for (int i = 0; i < fornecedores.size(); i++) {
 				if (fornecedores.get(i) != null) {
 					if (fornecedores.get(i).usuario.getLogin().equalsIgnoreCase(login)) {
@@ -116,7 +111,6 @@ public class Loja {
 						pos = i;
 				}
 			}
-			// Se não encontrou posição vazia, adiciona no final
 			if (pos == -1) {
 				pos = fornecedores.size();
 			}
@@ -125,7 +119,6 @@ public class Loja {
 		if (tipo == 'c') {
 			checarCod();
 			Usuario usuarioc = new Usuario(login, senha, codUser, true);
-			// Ensure the ArrayList is large enough
 			while (clientes.size() <= pos) {
 				clientes.add(null);
 			}
@@ -133,7 +126,6 @@ public class Loja {
 		} else {
 			checarCod();
 			Usuario usuariof = new Usuario(login, senha, codUser, true);
-			// Ensure the ArrayList is large enough
 			while (fornecedores.size() <= pos) {
 				fornecedores.add(null);
 			}
@@ -143,7 +135,6 @@ public class Loja {
 		return "Usuário cadastrado com sucesso.";
 	}
 
-	// Método refatorado - retorna objeto encontrado ou null
 	public Object fazerLogin(char tipo, String login, String senha) {
 		exc = false;
 		return autenticarUsuario(login, senha, tipo);
@@ -195,7 +186,6 @@ public class Loja {
 		return false;
 	}
 
-	// Método refatorado - retorna string com informações
 	public String visualizarConta(char tipo, Cliente cliente, Fornecedor fornecedor) {
 		StringBuilder info = new StringBuilder();
 
@@ -234,7 +224,6 @@ public class Loja {
 		return info.toString();
 	}
 
-	// Método refatorado - recebe os parâmetros necessários
 	public String alterarConta(char tipo, Cliente cliente, Fornecedor fornecedor, int n, String novoValor,
 			Endereco novoEndereco) {
 		if (tipo == 'c') {
@@ -305,7 +294,6 @@ public class Loja {
 		return "Erro na alteração.";
 	}
 
-	// Método refatorado - retorna string com resultado
 	public String excluirConta(char tipo, Cliente cliente, Fornecedor fornecedor) {
 		StringBuilder resultado = new StringBuilder();
 
@@ -314,24 +302,22 @@ public class Loja {
 			cliente.usuario.setActive(false);
 			for (int i = 0; i < pedidos.size(); i++) {
 				if (pedidos.get(i) != null) {
-					// Compara pelo código do usuário (mais seguro que comparar objetos)
-					if (pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod() && 
-					    pedidos.get(i).getSituacao().equals("PENDENTE")) {
-						
-						// Restaura estoque antes de cancelar
+					if (pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod() &&
+							pedidos.get(i).getSituacao().equals("PENDENTE")) {
+
 						for (int j = 0; j < pedidos.get(i).getMaxIPP(); j++) {
 							if (pedidos.get(i).itens[j] != null) {
-								// Busca o produto na lista principal pelo código
 								int codigoProduto = pedidos.get(i).itens[j].produto.getCod();
 								Produto produtoNaLista = buscarProdutoPorCodigo(codigoProduto);
-								
+
 								if (produtoNaLista != null) {
 									produtoNaLista.estoque.setQuantidade(
-										produtoNaLista.estoque.getQuantidade() + pedidos.get(i).itens[j].getQuantidade());
+											produtoNaLista.estoque.getQuantidade()
+													+ pedidos.get(i).itens[j].getQuantidade());
 								}
 							}
 						}
-						
+
 						pedidos.get(i).setSituacao("CANCELADO");
 						reembolso += pedidos.get(i).calcularTotalPedido();
 					}
@@ -355,7 +341,6 @@ public class Loja {
 		return resultado.toString();
 	}
 
-	// Método para obter informações de alteração
 	public String getAlteracaoInfo(char tipo, Cliente cliente, Fornecedor fornecedor) {
 		StringBuilder info = new StringBuilder();
 
@@ -408,9 +393,6 @@ public class Loja {
 		return info.toString();
 	}
 
-	// ------------------ Fornecedor ------------------
-
-	// Método refatorado - retorna lista de produtos
 	public String visualizarMeusProdutos(Fornecedor fornecedor) {
 		StringBuilder produtos = new StringBuilder();
 		boolean encontrou = false;
@@ -438,7 +420,6 @@ public class Loja {
 		return produtos.toString();
 	}
 
-	// Método refatorado - recebe termo de busca e retorna resultados
 	public String consultarProdutos(String termoBusca, boolean admin) {
 		StringBuilder resultado = new StringBuilder();
 		boolean achou = false;
@@ -470,7 +451,6 @@ public class Loja {
 		return resultado.toString();
 	}
 
-	// Método refatorado - retorna informações do produto ou null
 	public String visualizarProduto(int codigo, boolean admin) {
 		for (int i = 0; i < produtos.size(); i++) {
 			if (produtos.get(i) != null) {
@@ -490,7 +470,6 @@ public class Loja {
 		return null;
 	}
 
-	// Método refatorado - recebe login e retorna informações do fornecedor
 	public String consultarFornecedor(String loginFornecedor, boolean admin) {
 		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null) {
@@ -508,7 +487,6 @@ public class Loja {
 		return null;
 	}
 
-	// Método refatorado - recebe parâmetros do produto
 	public String cadastrarProduto(Fornecedor fornecedor, String nome, String descricao,
 			int quantidade, double preco) {
 		if (preco <= 0) {
@@ -533,12 +511,11 @@ public class Loja {
 			if (produtos.get(i) != null) {
 				if (produtos.get(i).getCod() == codProd) {
 					codProd++;
-					i = -1; // reinicia o loop
+					i = -1;
 				}
 			}
 		}
 
-		// Ensure the ArrayList is large enough
 		while (produtos.size() <= pos) {
 			produtos.add(null);
 		}
@@ -548,7 +525,6 @@ public class Loja {
 		return "Produto cadastrado com sucesso!";
 	}
 
-	// Método refatorado - busca produto por código
 	public Produto buscarProdutoFornecedor(int codigo, Fornecedor fornecedor) {
 		for (int i = 0; i < produtos.size(); i++) {
 			if (produtos.get(i) != null) {
@@ -561,7 +537,6 @@ public class Loja {
 		return null;
 	}
 
-	// Método refatorado - altera produto
 	public String alterarProduto(int n, String novoValor, double novoPreco, int novaQuantidade) {
 		switch (n) {
 			case 1:
@@ -577,7 +552,6 @@ public class Loja {
 				produtos.get(s).setNome(novoValor);
 				return "Nome alterado com sucesso.";
 			case 4:
-				// Implementar alteração de foto se necessário
 				return "Foto alterada com sucesso.";
 			case 5:
 				produtos.get(s).setDescricao(novoValor);
@@ -592,7 +566,6 @@ public class Loja {
 		return "Produto removido com sucesso, referência mantida para pedidos antigos.";
 	}
 
-	// Método para obter informações de alteração de produto
 	public String getAlteracaoProdutoInfo() {
 		StringBuilder info = new StringBuilder();
 		info.append("1 - Alterar Preço\n");
@@ -608,25 +581,20 @@ public class Loja {
 		return info.toString();
 	}
 
-	// ------------------ Cliente ------------------
-
 	public boolean autenticaNumPedidos(Cliente cliente) {
-		// Se já existe um carrinho ativo, reutiliza
 		if (carrinho != null && carrinho.getCliente() == cliente) {
 			return true;
 		}
 
-		// Garante que o numero do pedido seja único
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
 				if (pedidos.get(i).getNumero() == numPed) {
 					numPed++;
-					i = -1; // reinicia o loop
+					i = -1;
 				}
 			}
 		}
 
-		// Encontra uma posição vazia ou adiciona no final
 		spPed = -1;
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) == null) {
@@ -635,18 +603,15 @@ public class Loja {
 			}
 		}
 
-		// Se não encontrou posição vazia, adiciona no final
 		if (spPed == -1) {
 			spPed = pedidos.size();
 		}
 
-		// Cria novo carrinho
 		itCarr = 0;
 		carrinho = new Pedido(numPed, cliente);
 		return true;
 	}
 
-	// Método público para inicializar carrinho
 	public String inicializarCarrinho(Cliente cliente) {
 		if (autenticaNumPedidos(cliente)) {
 			return "Carrinho inicializado com sucesso.";
@@ -655,7 +620,6 @@ public class Loja {
 		}
 	}
 
-	// Método para limpar carrinho
 	public String limparCarrinho() {
 		if (carrinho != null) {
 			carrinho = null;
@@ -666,14 +630,11 @@ public class Loja {
 		return "Carrinho já estava vazio.";
 	}
 
-	// Método para verificar se carrinho está ativo
 	public boolean temCarrinhoAtivo() {
 		return carrinho != null;
 	}
 
-	// Método refatorado - adiciona item ao carrinho
 	public String adicionarItemAoCarrinho(int codigo, int quantidade) {
-		// Verifica se o carrinho existe, se não existir, não pode adicionar itens
 		if (carrinho == null) {
 			return "Erro: Carrinho não inicializado. Tente novamente.";
 		}
@@ -688,7 +649,6 @@ public class Loja {
 						return "Quantidade insuficiente em estoque.";
 					}
 
-					// Verifica se já existe no carrinho
 					for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 						if (carrinho.itens[j] != null && carrinho.itens[j].produto.getCod() == codigo) {
 							carrinho.itens[j].setQuantidade(carrinho.itens[j].getQuantidade() + quantidade);
@@ -696,7 +656,6 @@ public class Loja {
 						}
 					}
 
-					// Adiciona novo item
 					for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 						if (carrinho.itens[j] == null) {
 							carrinho.itens[j] = new ItemPedido(produtos.get(i), quantidade);
@@ -711,7 +670,6 @@ public class Loja {
 		return "Código não encontrado.";
 	}
 
-	// Método refatorado - remove item do carrinho
 	public String removerItemDoCarrinho(int codigo) {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de tentar remover.";
@@ -729,7 +687,6 @@ public class Loja {
 		return "Código não encontrado no carrinho.";
 	}
 
-	// Método refatorado - altera quantidade do item
 	public String alterarItemDoCarrinho(int codigo, int novaQuantidade) {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de tentar alterar.";
@@ -753,7 +710,6 @@ public class Loja {
 		return "Código não encontrado no carrinho.";
 	}
 
-	// Método refatorado - retorna informações do carrinho
 	public String consultarCarrinho() {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de consultar.";
@@ -777,7 +733,6 @@ public class Loja {
 		return info.toString();
 	}
 
-	// Método refatorado - finaliza pedido
 	public String finalizarPedido(Cliente cliente, String cartaoCredito) {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de finalizar o pedido.";
@@ -794,25 +749,14 @@ public class Loja {
 			return "Você não possui nenhum item no carrinho.";
 		}
 
-		// Debug: mostra informações do cartão
-		System.out.println("DEBUG - Nome do cliente: '" + cliente.getNome() + "'");
-		System.out.println("DEBUG - Login do cliente: '" + cliente.usuario.getLogin() + "'");
-		System.out.println("DEBUG - Cartão do cliente: '" + cliente.getCartaoCredito() + "'");
-		System.out.println("DEBUG - Cartão informado: '" + cartaoCredito + "'");
-
-		// Verificação de nulos
 		if (cliente.getCartaoCredito() == null) {
 			return "Erro: Cliente não possui cartão de crédito cadastrado.";
 		}
-
-		System.out.println(
-				"DEBUG - São iguais (ignoreCase): " + cliente.getCartaoCredito().equalsIgnoreCase(cartaoCredito));
 
 		if (!cliente.getCartaoCredito().equalsIgnoreCase(cartaoCredito)) {
 			return "Cartão incorreto informado.";
 		}
 
-		// Verifica estoque
 		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				if (carrinho.itens[i].produto.estoque.getQuantidade() < carrinho.itens[i].getQuantidade()) {
@@ -821,7 +765,6 @@ public class Loja {
 			}
 		}
 
-		// Atualiza estoque
 		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				carrinho.itens[i].produto.estoque.setQuantidade(
@@ -829,7 +772,6 @@ public class Loja {
 			}
 		}
 
-		// Ensure the ArrayList is large enough
 		while (pedidos.size() <= spPed) {
 			pedidos.add(null);
 		}
@@ -845,7 +787,6 @@ public class Loja {
 		pedidos.get(spPed).setTotalItens(itCarr);
 		numPed++;
 
-		// Limpa o carrinho após finalizar o pedido
 		carrinho = null;
 		itCarr = 0;
 		spPed = 0;
@@ -853,14 +794,12 @@ public class Loja {
 		return "Pedido finalizado com sucesso.";
 	}
 
-	// Método refatorado - consulta pedidos do cliente
 	public String consultarMeusPedidos(Cliente cliente) {
 		StringBuilder pedidosInfo = new StringBuilder();
 		boolean encontrou = false;
 
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				// Compara pelo código do usuário (mais seguro que comparar objetos)
 				if (pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
 					pedidosInfo.append("Número: ").append(pedidos.get(i).getNumero()).append("\n");
 					pedidosInfo.append("Data do Pedido: ").append(pedidos.get(i).getDataPedido()).append("\n");
@@ -879,13 +818,11 @@ public class Loja {
 		return pedidosInfo.toString();
 	}
 
-	// Método refatorado - consulta pedido específico
 	public String consultarPedido(Cliente cliente, int numeroPedido) {
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				// Compara pelo número do pedido E pelo código do usuário (mais seguro que comparar objetos)
-				if (pedidos.get(i).getNumero() == numeroPedido && 
-				    pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
+				if (pedidos.get(i).getNumero() == numeroPedido &&
+						pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
 					StringBuilder info = new StringBuilder();
 					info.append("Número: ").append(pedidos.get(i).getNumero()).append("\n");
 					info.append("Data do Pedido: ").append(pedidos.get(i).getDataPedido()).append("\n");
@@ -910,43 +847,25 @@ public class Loja {
 		return null;
 	}
 
-	// Método refatorado - cancela pedido
 	public String cancelarPedido(Cliente cliente, int numeroPedido) {
-		System.out.println("DEBUG - Cancelar Pedido:");
-		System.out.println("DEBUG - Numero do pedido procurado: " + numeroPedido);
-		System.out.println("DEBUG - Cliente: " + cliente.getNome() + " (código: " + cliente.usuario.getCod() + ")");
-		System.out.println("DEBUG - Total de pedidos na lista: " + pedidos.size());
-		
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				System.out.println("DEBUG - Pedido " + i + ": numero=" + pedidos.get(i).getNumero() + 
-				                  ", cliente=" + pedidos.get(i).getCliente().getNome() + 
-				                  " (código: " + pedidos.get(i).getCliente().usuario.getCod() + ")" +
-				                  ", situacao=" + pedidos.get(i).getSituacao());
-				
-				// Compara pelo número do pedido E pelo código do usuário (mais seguro que comparar objetos)
-				if (pedidos.get(i).getNumero() == numeroPedido && 
-				    pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
-					System.out.println("DEBUG - Pedido encontrado! Verificando situação...");
-					
+				if (pedidos.get(i).getNumero() == numeroPedido &&
+						pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
 					if (!pedidos.get(i).getSituacao().equals("PENDENTE")) {
-						return "Pedido não pode ser cancelado pois não está pendente. Situação atual: " + pedidos.get(i).getSituacao();
+						return "Pedido não pode ser cancelado pois não está pendente. Situação atual: "
+								+ pedidos.get(i).getSituacao();
 					}
 
-					// Restaura estoque - busca o produto na lista principal para garantir que atualize corretamente
 					for (int j = 0; j < pedidos.get(i).getMaxIPP(); j++) {
 						if (pedidos.get(i).itens[j] != null) {
-							// Busca o produto na lista principal pelo código
 							int codigoProduto = pedidos.get(i).itens[j].produto.getCod();
 							Produto produtoNaLista = buscarProdutoPorCodigo(codigoProduto);
-							
+
 							if (produtoNaLista != null) {
 								produtoNaLista.estoque.setQuantidade(
-									produtoNaLista.estoque.getQuantidade() + pedidos.get(i).itens[j].getQuantidade());
-								System.out.println("DEBUG - Estoque restaurado para produto " + codigoProduto + 
-								                  ": " + pedidos.get(i).itens[j].getQuantidade() + " unidades");
-							} else {
-								System.out.println("DEBUG - ERRO: Produto " + codigoProduto + " não encontrado na lista principal");
+										produtoNaLista.estoque.getQuantidade()
+												+ pedidos.get(i).itens[j].getQuantidade());
 							}
 						}
 					}
@@ -958,8 +877,6 @@ public class Loja {
 		}
 		return "Número de pedido não encontrado.";
 	}
-
-	// ------------------ Admin ------------------
 
 	public Fornecedor getF(boolean isLogin, int codigo, String login) {
 		for (int i = 0; i < fornecedores.size(); i++) {
@@ -1059,9 +976,6 @@ public class Loja {
 		return info.toString();
 	}
 
-	// ------------------ Transferência de Produtos ------------------
-
-	// Método para buscar produto por código (para admin)
 	public Produto buscarProdutoPorCodigo(int codigo) {
 		for (int i = 0; i < produtos.size(); i++) {
 			if (produtos.get(i) != null && produtos.get(i).getCod() == codigo) {
@@ -1071,7 +985,6 @@ public class Loja {
 		return null;
 	}
 
-	// Método para buscar fornecedor por login
 	public Fornecedor buscarFornecedorPorLogin(String login) {
 		for (int i = 0; i < fornecedores.size(); i++) {
 			if (fornecedores.get(i) != null &&
@@ -1083,29 +996,23 @@ public class Loja {
 		return null;
 	}
 
-	// Método para transferir produto entre fornecedores
 	public String transferirProduto(int codigoProduto, String loginFornecedorDestino) {
-		// Busca o produto
 		Produto produto = buscarProdutoPorCodigo(codigoProduto);
 		if (produto == null) {
 			return "Produto não encontrado.";
 		}
 
-		// Busca o fornecedor de destino
 		Fornecedor fornecedorDestino = buscarFornecedorPorLogin(loginFornecedorDestino);
 		if (fornecedorDestino == null) {
 			return "Fornecedor de destino não encontrado ou inativo.";
 		}
 
-		// Verifica se o produto já não pertence ao fornecedor de destino
 		if (produto.getFornecedor() == fornecedorDestino) {
 			return "O produto já pertence a este fornecedor.";
 		}
 
-		// Guarda informações do fornecedor original
 		Fornecedor fornecedorOriginal = produto.getFornecedor();
 
-		// Realiza a transferência
 		produto.setFornecedor(fornecedorDestino);
 
 		return String.format("Produto '%s' (Código: %d) transferido com sucesso de '%s' para '%s'.",
@@ -1115,7 +1022,6 @@ public class Loja {
 				fornecedorDestino.getNome());
 	}
 
-	// Método para listar produtos de um fornecedor específico (para admin)
 	public String listarProdutosFornecedor(String loginFornecedor) {
 		Fornecedor fornecedor = buscarFornecedorPorLogin(loginFornecedor);
 		if (fornecedor == null) {
@@ -1146,8 +1052,6 @@ public class Loja {
 		return produtos.toString();
 	}
 
-	// Método para listar todos os fornecedores ativos (para facilitar a
-	// transferência)
 	public String listarFornecedoresAtivos() {
 		StringBuilder fornecedores = new StringBuilder();
 		fornecedores.append("Fornecedores ativos:\n\n");
@@ -1174,7 +1078,7 @@ public class Loja {
 			if (fornecedores.get(i) != null) {
 				if (fornecedores.get(i).usuario.getCod() == codUser) {
 					codUser++;
-					i = -1; // reinicia o loop
+					i = -1;
 				}
 			}
 		}
@@ -1183,32 +1087,22 @@ public class Loja {
 			if (clientes.get(i) != null) {
 				if (clientes.get(i).usuario.getCod() == codUser) {
 					codUser++;
-					i = -1; // reinicia o loop
+					i = -1;
 				}
 			}
 		}
 	}
 
-	// Métodos para persistência de dados
 	private PersistenciaLoja persistencia = new PersistenciaLoja();
 
-	/**
-	 * Carrega dados salvos do arquivo JSON
-	 */
 	public boolean carregarDadosSalvos() {
 		return persistencia.carregarDados(this);
 	}
 
-	/**
-	 * Salva os dados atuais em arquivo JSON
-	 */
 	public boolean salvarDados() {
 		return persistencia.salvarDados(this);
 	}
 
-	/**
-	 * Verifica se existem dados salvos
-	 */
 	public boolean existeDadosSalvos() {
 		return persistencia.existeArquivoDados();
 	}

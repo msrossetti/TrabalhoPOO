@@ -6,7 +6,6 @@ public class Pessoa {
 	protected Endereco endereco;
 	protected Usuario usuario;
 
-	// Construtor padrão para Jackson
 	public Pessoa() {
 	}
 

@@ -11,7 +11,6 @@ public class Produto {
 	private boolean disponivel;
 	protected Estoque estoque;
 
-	// Construtor padrão para Jackson
 	public Produto() {
 	}
 

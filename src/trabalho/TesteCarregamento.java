@@ -4,10 +4,10 @@ public class TesteCarregamento {
     public static void main(String[] args) {
         Loja loja = new Loja();
         PersistenciaLoja persistencia = new PersistenciaLoja();
-        
+
         System.out.println("=== Teste de Carregamento de Dados ===");
         boolean sucesso = persistencia.carregarDados(loja);
-        
+
         if (sucesso) {
             System.out.println("Carregamento realizado com sucesso!");
             System.out.println("Fornecedores carregados: " + loja.getFornecedores().size());

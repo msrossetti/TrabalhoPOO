@@ -3,7 +3,6 @@ package trabalho;
 public class Fornecedor extends Pessoa {
 	private String descricao;
 
-	// Construtor padrão para Jackson
 	public Fornecedor() {
 		super();
 	}

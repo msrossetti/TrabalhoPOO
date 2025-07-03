@@ -4,7 +4,6 @@ public class Estoque {
 	private int quantidade;
 	private double preco;
 
-	// Construtor padrão para Jackson
 	public Estoque() {
 	}
 

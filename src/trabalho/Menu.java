@@ -8,7 +8,6 @@ public class Menu {
     private Loja loja = new Loja();
 
     public void iniciar() {
-        // Sempre tenta carregar dados do JSON primeiro
         System.out.println("Carregando dados da loja...");
         if (!loja.carregarDadosSalvos()) {
             System.out.println("Erro ao carregar dados. Verifique os arquivos JSON.");
@@ -234,7 +233,7 @@ public class Menu {
                     break;
                 case 3:
                     if (excluirConta('c', cliente, null)) {
-                        opcao = 0; // Logout após exclusão
+                        opcao = 0;
                     }
                     break;
                 case 4:
@@ -308,7 +307,7 @@ public class Menu {
                     break;
                 case 3:
                     if (excluirConta('f', null, fornecedor)) {
-                        opcao = 0; // Logout após exclusão
+                        opcao = 0;
                     }
                     break;
                 case 4:
@@ -354,8 +353,8 @@ public class Menu {
             System.out.println("6 - Consultar Produtos");
             System.out.println("7 - Visualizar Produto");
             System.out.println("8 - Consultar Fornecedor");
-            System.out.println("9 - Transferir Produto entre Fornecedores"); // Nova opção
-            System.out.println("10 - Listar Produtos por Fornecedor"); // Nova opção
+            System.out.println("9 - Transferir Produto entre Fornecedores"); 
+            System.out.println("10 - Listar Produtos por Fornecedor"); 
             System.out.println("0 - Logout");
             System.out.print("Escolha uma opção: ");
 
@@ -412,7 +411,6 @@ public class Menu {
         } while (opcao != 0);
     }
 
-    // Métodos auxiliares para Cliente
     private void visualizarConta(char tipo, Cliente cliente, Fornecedor fornecedor) {
         String info = loja.visualizarConta(tipo, cliente, fornecedor);
         System.out.println("===== INFORMAÇÕES DA CONTA =====");
@@ -546,7 +544,6 @@ public class Menu {
         System.out.println(resultado);
     }
 
-    // Métodos auxiliares para Fornecedor
     private void visualizarMeusProdutos(Fornecedor fornecedor) {
         String produtos = loja.visualizarMeusProdutos(fornecedor);
         System.out.println("===== MEUS PRODUTOS =====");
@@ -640,7 +637,6 @@ public class Menu {
         }
     }
 
-    // Métodos auxiliares para Admin
     private void consultarPedidosAdmin() {
         String pedidos = loja.consultarPedidosAdm();
         System.out.println("===== TODOS OS PEDIDOS =====");
@@ -766,7 +762,6 @@ public class Menu {
         System.out.println("\n" + produtos);
     }
 
-    // Métodos para persistência
     private void salvarDados() {
         System.out.println("===== SALVAR DADOS =====");
         if (loja.salvarDados()) {
@@ -788,7 +783,6 @@ public class Menu {
         }
     }
 
-    // Métodos utilitários
     private int lerInt() {
         try {
             int valor = Integer.parseInt(sc.nextLine());

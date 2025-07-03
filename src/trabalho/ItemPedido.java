@@ -8,7 +8,6 @@ public class ItemPedido {
 	protected Produto produto;
 	private int quantidade;
 
-	// Construtor padrão para Jackson
 	public ItemPedido() {
 	}
 

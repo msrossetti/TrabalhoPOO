@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 /**
  * Classe utilitária para gerenciar a persistência de dados usando Jackson
  */
+
 public class PersistenciaLoja {
     private static final String ARQUIVO_DADOS = "dados_unificados.json";
     private ObjectMapper objectMapper;
@@ -24,8 +25,6 @@ public class PersistenciaLoja {
     public boolean salvarDados(Loja loja) {
         try {
             DadosLoja dados = new DadosLoja();
-
-            // Transferir dados da loja para o objeto de dados
             dados.setFornecedores(loja.getFornecedores());
             dados.setClientes(loja.getClientes());
             dados.setProdutos(loja.getProdutos());
@@ -34,12 +33,9 @@ public class PersistenciaLoja {
             dados.setCodProd(loja.getCodProd());
             dados.setNumPed(loja.getNumPed());
 
-            // Determinar o local correto para salvar (mesmo local onde encontramos o arquivo)
             File arquivo = obterLocalizacaoArquivo();
 
-            // Salvar no arquivo JSON
             objectMapper.writeValue(arquivo, dados);
-            System.out.println("Dados salvos com sucesso em " + arquivo.getAbsolutePath());
             return true;
 
         } catch (IOException e) {
@@ -54,23 +50,14 @@ public class PersistenciaLoja {
      */
     public boolean carregarDados(Loja loja) {
         try {
-            // Usar o método para obter a localização correta do arquivo
             File arquivo = obterLocalizacaoArquivo();
 
-            // Debug: mostrar caminho absoluto e diretório atual
-            System.out.println("Procurando arquivo: " + arquivo.getAbsolutePath());
-            System.out.println("Diretorio atual: " + System.getProperty("user.dir"));
-            System.out.println("Arquivo existe: " + arquivo.exists());
-
             if (!arquivo.exists()) {
-                System.out.println("Arquivo " + ARQUIVO_DADOS + " nao encontrado em nenhum local.");
-                System.out.println("Criando dados iniciais...");
                 return criarDadosIniciais(loja);
             }
 
             DadosLoja dados = objectMapper.readValue(arquivo, DadosLoja.class);
 
-            // Transferir dados carregados para a loja
             loja.setFornecedores(dados.getFornecedores());
             loja.setClientes(dados.getClientes());
             loja.setProdutos(dados.getProdutos());
@@ -79,15 +66,10 @@ public class PersistenciaLoja {
             loja.setCodProd(dados.getCodProd());
             loja.setNumPed(dados.getNumPed());
 
-            // Reconectar relacionamentos (produtos com fornecedores)
-            reconectarRelacionamentos(loja);
-
-            System.out.println("Dados carregados com sucesso de " + ARQUIVO_DADOS);
             return true;
 
         } catch (IOException e) {
             System.err.println("Erro ao carregar dados: " + e.getMessage());
-            System.out.println("Criando dados iniciais...");
             return criarDadosIniciais(loja);
         }
     }
@@ -97,13 +79,11 @@ public class PersistenciaLoja {
      */
     private boolean criarDadosIniciais(Loja loja) {
         try {
-            // Criar dados iniciais programaticamente
             loja.getFornecedores().clear();
             loja.getClientes().clear();
             loja.getProdutos().clear();
             loja.getPedidos().clear();
 
-            // Criar fornecedores
             Endereco endereco1 = new Endereco("Rua 1", "111", "Complemento", "Bairro 1", "11111-111", "Caxias do Sul",
                     "Rio Grande do Sul");
             Endereco endereco2 = new Endereco("Rua 2", "222", "Complemento", "Bairro 2", "22222-222", "Caxias do Sul",
@@ -126,7 +106,6 @@ public class PersistenciaLoja {
             loja.getFornecedores().add(fornecedor2);
             loja.getFornecedores().add(fornecedor3);
 
-            // Criar clientes
             Endereco endereco4 = new Endereco("Rua 4", "444", "Complemento", "Bairro 4", "44444-444", "Caxias do Sul",
                     "Rio Grande do Sul");
             Endereco endereco5 = new Endereco("Rua 5", "555", "Complemento", "Bairro 5", "55555-555", "Caxias do Sul",
@@ -149,7 +128,6 @@ public class PersistenciaLoja {
             loja.getClientes().add(cliente2);
             loja.getClientes().add(cliente3);
 
-            // Criar produtos
             Estoque estoque1 = new Estoque(10, 20.0);
             Estoque estoque2 = new Estoque(15, 25.0);
             Estoque estoque3 = new Estoque(20, 30.0);
@@ -173,14 +151,10 @@ public class PersistenciaLoja {
             loja.getProdutos().add(produto5);
             loja.getProdutos().add(produto6);
 
-            // Definir códigos
             loja.setCodUser(6);
             loja.setCodProd(6);
             loja.setNumPed(0);
 
-            System.out.println("Dados iniciais criados com sucesso!");
-
-            // Salvar dados iniciais
             salvarDados(loja);
 
             return true;
@@ -190,14 +164,6 @@ public class PersistenciaLoja {
             e.printStackTrace();
             return false;
         }
-    }
-
-    /**
-     * Reconecta os relacionamentos entre objetos após deserializaçao
-     */
-    private void reconectarRelacionamentos(Loja loja) {
-        // Os relacionamentos já sao mantidos automaticamente pelo Jackson
-        // quando salvamos as referências completas dos objetos
     }
 
     /**
@@ -211,51 +177,42 @@ public class PersistenciaLoja {
      * Obtém a localização correta do arquivo de dados
      */
     private File obterLocalizacaoArquivo() {
-        // Primeiro, tenta encontrar a raiz do projeto
         String diretorioAtual = System.getProperty("user.dir");
         File arquivo;
-        
-        // Se estamos executando do diretório raiz do projeto
+
         arquivo = new File(ARQUIVO_DADOS);
         if (arquivo.exists()) {
             return arquivo;
         }
-        
-        // Se estamos executando de src/trabalho, vai para a raiz (../../)
+
         arquivo = new File("../../" + ARQUIVO_DADOS);
         if (arquivo.exists()) {
             return arquivo;
         }
-        
-        // Se estamos executando de src, vai para a raiz (../)
+
         arquivo = new File("../" + ARQUIVO_DADOS);
         if (arquivo.exists()) {
             return arquivo;
         }
-        
-        // Se estamos executando de bin, vai para a raiz (../)
+
         arquivo = new File("../" + ARQUIVO_DADOS);
         if (arquivo.exists()) {
             return arquivo;
         }
-        
-        // Tenta caminho absoluto baseado no diretório do projeto
-        // Assumindo que estamos em algum subdiretório do projeto
+
         String caminhoRaiz = diretorioAtual;
-        
-        // Se o diretório atual contém "src" ou "bin", remove essas partes para chegar na raiz
+
         if (caminhoRaiz.contains("\\src") || caminhoRaiz.contains("/src")) {
             caminhoRaiz = caminhoRaiz.substring(0, caminhoRaiz.lastIndexOf("src") - 1);
         } else if (caminhoRaiz.contains("\\bin") || caminhoRaiz.contains("/bin")) {
             caminhoRaiz = caminhoRaiz.substring(0, caminhoRaiz.lastIndexOf("bin") - 1);
         }
-        
+
         arquivo = new File(caminhoRaiz, ARQUIVO_DADOS);
         if (arquivo.exists()) {
             return arquivo;
         }
-        
-        // Se não encontrar em nenhum lugar, retorna o caminho padrão (pasta atual)
+
         return new File(ARQUIVO_DADOS);
     }
 }

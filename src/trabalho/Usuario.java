@@ -5,7 +5,6 @@ public class Usuario {
 	private boolean isActive;
 	private int cod;
 
-	// Construtor padrão para Jackson
 	public Usuario() {
 	}
 
