@@ -1,7 +1,10 @@
-
+package trabalho;
 
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pedido {
 	private int numero;
 	private Date dataPedido;
@@ -26,6 +29,7 @@ public class Pedido {
 		this.situacao = "Pendente";
 	}
 
+	@JsonIgnore
 	public double calcularTotalPedido() {
 		double total = 0;
 		for (int i = 0; i < itens.length; i++) {
@@ -92,6 +96,7 @@ public class Pedido {
 		this.totalItens = totalItens;
 	}
 
+	@JsonIgnore
 	public int getMaxIPP() {
 		return itens.length;
 	}

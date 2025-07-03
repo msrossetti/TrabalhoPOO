@@ -1,8 +1,8 @@
 {
   "fornecedores" : [ {
-    "nome" : "João",
+    "nome" : "Joao",
     "telefone" : "54123456789",
-    "email" : "joão@gmail.com",
+    "email" : "joao@gmail.com",
     "cpf" : "012-345-678.99",
     "endereco" : {
       "rua" : "Rua 1",
@@ -81,11 +81,11 @@
       "login" : "marcelo",
       "senha" : "senha",
       "cod" : 3,
-      "active" : true
+      "active" : false
     },
-    "cartaoCredito" : "Cartão1"
+    "cartaoCredito" : "Cartao1"
   }, {
-    "nome" : "Rogério",
+    "nome" : "Rogerio",
     "telefone" : "54123456789",
     "email" : "rogerio@gmail.com",
     "cpf" : "012-345-678.99",
@@ -104,7 +104,7 @@
       "cod" : 4,
       "active" : true
     },
-    "cartaoCredito" : "Cartão2"
+    "cartaoCredito" : "Cartao2"
   }, {
     "nome" : "Marcos",
     "telefone" : "54123456789",
@@ -125,20 +125,20 @@
       "cod" : 5,
       "active" : true
     },
-    "cartaoCredito" : "Cartão1"
+    "cartaoCredito" : "Cartao1"
   }, {
-    "nome" : "2",
-    "telefone" : "2",
-    "email" : "2",
-    "cpf" : "2",
+    "nome" : "Guilherme tedescazo",
+    "telefone" : "54999802081",
+    "email" : "guifacul@gmail.com",
+    "cpf" : "578.232.500-20",
     "endereco" : null,
     "usuario" : {
-      "login" : "mauricio",
-      "senha" : "mauricio",
+      "login" : "Guilherme",
+      "senha" : "hexa26",
       "cod" : 6,
       "active" : true
     },
-    "cartaoCredito" : "2"
+    "cartaoCredito" : "888832323"
   } ],
   "produtos" : [ {
     "cod" : 0,
@@ -146,9 +146,9 @@
     "descricao" : "Queijo Prato",
     "foto" : null,
     "fornecedor" : {
-      "nome" : "João",
+      "nome" : "Joao",
       "telefone" : "54123456789",
-      "email" : "joão@gmail.com",
+      "email" : "joao@gmail.com",
       "cpf" : "012-345-678.99",
       "endereco" : {
         "rua" : "Rua 1",
@@ -169,7 +169,7 @@
     },
     "disponivel" : true,
     "estoque" : {
-      "quantidade" : 10,
+      "quantidade" : 2,
       "preco" : 20.0
     }
   }, {
@@ -178,9 +178,9 @@
     "descricao" : "Queijo Minas",
     "foto" : null,
     "fornecedor" : {
-      "nome" : "João",
+      "nome" : "Joao",
       "telefone" : "54123456789",
-      "email" : "joão@gmail.com",
+      "email" : "joao@gmail.com",
       "cpf" : "012-345-678.99",
       "endereco" : {
         "rua" : "Rua 1",
@@ -201,7 +201,7 @@
     },
     "disponivel" : true,
     "estoque" : {
-      "quantidade" : 15,
+      "quantidade" : 8,
       "preco" : 25.0
     }
   }, {
@@ -333,8 +333,433 @@
       "preco" : 50.0
     }
   } ],
-  "pedidos" : [ ],
+  "pedidos" : [ {
+    "numero" : 0,
+    "dataPedido" : 1751500857837,
+    "dataEntrega" : 1753228857837,
+    "situacao" : "CANCELADO",
+    "cliente" : {
+      "nome" : "Marcos",
+      "telefone" : "54123456789",
+      "email" : "marcos@gmail.com",
+      "cpf" : "012-345-678.99",
+      "endereco" : {
+        "rua" : "Rua 6",
+        "numero" : "666",
+        "complemento" : "Complemento",
+        "bairro" : "Bairro 6",
+        "cep" : "66666-666",
+        "cidade" : "Caxias do Sul",
+        "estado" : "Rio Grande do Sul"
+      },
+      "usuario" : {
+        "login" : "marcos",
+        "senha" : "senha",
+        "cod" : 5,
+        "active" : true
+      },
+      "cartaoCredito" : "Cartao1"
+    },
+    "itens" : [ {
+      "produto" : {
+        "cod" : 0,
+        "nome" : "Queijo",
+        "descricao" : "Queijo Prato",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Joao",
+          "telefone" : "54123456789",
+          "email" : "joao@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 1",
+            "numero" : "111",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 1",
+            "cep" : "11111-111",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "joao",
+            "senha" : "senha",
+            "cod" : 0,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Queijo"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 10,
+          "preco" : 20.0
+        }
+      },
+      "quantidade" : 8
+    }, null, null, null, null, null, null, null, null, null ],
+    "totalItens" : 1
+  }, {
+    "numero" : 1,
+    "dataPedido" : 1751501411699,
+    "dataEntrega" : 1753229411699,
+    "situacao" : "CANCELADO",
+    "cliente" : {
+      "nome" : "Marcos",
+      "telefone" : "54123456789",
+      "email" : "marcos@gmail.com",
+      "cpf" : "012-345-678.99",
+      "endereco" : {
+        "rua" : "Rua 6",
+        "numero" : "666",
+        "complemento" : "Complemento",
+        "bairro" : "Bairro 6",
+        "cep" : "66666-666",
+        "cidade" : "Caxias do Sul",
+        "estado" : "Rio Grande do Sul"
+      },
+      "usuario" : {
+        "login" : "marcos",
+        "senha" : "senha",
+        "cod" : 5,
+        "active" : true
+      },
+      "cartaoCredito" : "Cartao1"
+    },
+    "itens" : [ {
+      "produto" : {
+        "cod" : 0,
+        "nome" : "Queijo",
+        "descricao" : "Queijo Prato",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Joao",
+          "telefone" : "54123456789",
+          "email" : "joao@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 1",
+            "numero" : "111",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 1",
+            "cep" : "11111-111",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "joao",
+            "senha" : "senha",
+            "cod" : 0,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Queijo"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 2,
+          "preco" : 20.0
+        }
+      },
+      "quantidade" : 1
+    }, null, null, null, null, null, null, null, null, null ],
+    "totalItens" : 1
+  }, {
+    "numero" : 2,
+    "dataPedido" : 1751501715019,
+    "dataEntrega" : 1753229715019,
+    "situacao" : "PENDENTE",
+    "cliente" : {
+      "nome" : "Marcos",
+      "telefone" : "54123456789",
+      "email" : "marcos@gmail.com",
+      "cpf" : "012-345-678.99",
+      "endereco" : {
+        "rua" : "Rua 6",
+        "numero" : "666",
+        "complemento" : "Complemento",
+        "bairro" : "Bairro 6",
+        "cep" : "66666-666",
+        "cidade" : "Caxias do Sul",
+        "estado" : "Rio Grande do Sul"
+      },
+      "usuario" : {
+        "login" : "marcos",
+        "senha" : "senha",
+        "cod" : 5,
+        "active" : true
+      },
+      "cartaoCredito" : "Cartao1"
+    },
+    "itens" : [ {
+      "produto" : {
+        "cod" : 1,
+        "nome" : "Queijo",
+        "descricao" : "Queijo Minas",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Joao",
+          "telefone" : "54123456789",
+          "email" : "joao@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 1",
+            "numero" : "111",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 1",
+            "cep" : "11111-111",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "joao",
+            "senha" : "senha",
+            "cod" : 0,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Queijo"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 8,
+          "preco" : 25.0
+        }
+      },
+      "quantidade" : 7
+    }, null, null, null, null, null, null, null, null, null ],
+    "totalItens" : 1
+  }, {
+    "numero" : 3,
+    "dataPedido" : 1751501748746,
+    "dataEntrega" : 1753229748746,
+    "situacao" : "CANCELADO",
+    "cliente" : {
+      "nome" : "Marcos",
+      "telefone" : "54123456789",
+      "email" : "marcos@gmail.com",
+      "cpf" : "012-345-678.99",
+      "endereco" : {
+        "rua" : "Rua 6",
+        "numero" : "666",
+        "complemento" : "Complemento",
+        "bairro" : "Bairro 6",
+        "cep" : "66666-666",
+        "cidade" : "Caxias do Sul",
+        "estado" : "Rio Grande do Sul"
+      },
+      "usuario" : {
+        "login" : "marcos",
+        "senha" : "senha",
+        "cod" : 5,
+        "active" : true
+      },
+      "cartaoCredito" : "Cartao1"
+    },
+    "itens" : [ {
+      "produto" : {
+        "cod" : 3,
+        "nome" : "Queijo",
+        "descricao" : "Queijo da Montanha",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Paulo",
+          "telefone" : "54123456789",
+          "email" : "paulo@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 2",
+            "numero" : "222",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 2",
+            "cep" : "22222-222",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "paulo",
+            "senha" : "senha",
+            "cod" : 1,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Queijo"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 25,
+          "preco" : 35.0
+        }
+      },
+      "quantidade" : 6
+    }, {
+      "produto" : {
+        "cod" : 4,
+        "nome" : "Salame",
+        "descricao" : "Salame Apimentado",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Roberto",
+          "telefone" : "54123456789",
+          "email" : "roberto@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 3",
+            "numero" : "333",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 3",
+            "cep" : "33333-333",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "roberto",
+            "senha" : "senha",
+            "cod" : 2,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Salame"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 10,
+          "preco" : 10.0
+        }
+      },
+      "quantidade" : 4
+    }, {
+      "produto" : {
+        "cod" : 5,
+        "nome" : "Salame e Queijo",
+        "descricao" : "Salame com Queijo Prato",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Roberto",
+          "telefone" : "54123456789",
+          "email" : "roberto@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 3",
+            "numero" : "333",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 3",
+            "cep" : "33333-333",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "roberto",
+            "senha" : "senha",
+            "cod" : 2,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Salame"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 5,
+          "preco" : 50.0
+        }
+      },
+      "quantidade" : 5
+    }, null, null, null, null, null, null, null ],
+    "totalItens" : 3
+  }, {
+    "numero" : 4,
+    "dataPedido" : 1751501912278,
+    "dataEntrega" : 1753229912278,
+    "situacao" : "CANCELADO",
+    "cliente" : {
+      "nome" : "Marcelo",
+      "telefone" : "54123456789",
+      "email" : "marcelo@gmail.com",
+      "cpf" : "012-345-678.99",
+      "endereco" : {
+        "rua" : "Rua 4",
+        "numero" : "444",
+        "complemento" : "Complemento",
+        "bairro" : "Bairro 4",
+        "cep" : "44444-444",
+        "cidade" : "Caxias do Sul",
+        "estado" : "Rio Grande do Sul"
+      },
+      "usuario" : {
+        "login" : "marcelo",
+        "senha" : "senha",
+        "cod" : 3,
+        "active" : false
+      },
+      "cartaoCredito" : "Cartao1"
+    },
+    "itens" : [ {
+      "produto" : {
+        "cod" : 5,
+        "nome" : "Salame e Queijo",
+        "descricao" : "Salame com Queijo Prato",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Roberto",
+          "telefone" : "54123456789",
+          "email" : "roberto@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 3",
+            "numero" : "333",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 3",
+            "cep" : "33333-333",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "roberto",
+            "senha" : "senha",
+            "cod" : 2,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Salame"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 5,
+          "preco" : 50.0
+        }
+      },
+      "quantidade" : 5
+    }, {
+      "produto" : {
+        "cod" : 4,
+        "nome" : "Salame",
+        "descricao" : "Salame Apimentado",
+        "foto" : null,
+        "fornecedor" : {
+          "nome" : "Roberto",
+          "telefone" : "54123456789",
+          "email" : "roberto@gmail.com",
+          "cpf" : "012-345-678.99",
+          "endereco" : {
+            "rua" : "Rua 3",
+            "numero" : "333",
+            "complemento" : "Complemento",
+            "bairro" : "Bairro 3",
+            "cep" : "33333-333",
+            "cidade" : "Caxias do Sul",
+            "estado" : "Rio Grande do Sul"
+          },
+          "usuario" : {
+            "login" : "roberto",
+            "senha" : "senha",
+            "cod" : 2,
+            "active" : true
+          },
+          "descricao" : "Vendedor de Salame"
+        },
+        "disponivel" : true,
+        "estoque" : {
+          "quantidade" : 10,
+          "preco" : 10.0
+        }
+      },
+      "quantidade" : 4
+    }, null, null, null, null, null, null, null, null ],
+    "totalItens" : 2
+  } ],
   "codUser" : 7,
   "codProd" : 6,
-  "numPed" : 0
+  "numPed" : 5
 }

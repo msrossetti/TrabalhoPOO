@@ -1,4 +1,4 @@
-
+package trabalho;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -314,7 +314,24 @@ public class Loja {
 			cliente.usuario.setActive(false);
 			for (int i = 0; i < pedidos.size(); i++) {
 				if (pedidos.get(i) != null) {
-					if (pedidos.get(i).getCliente() == cliente && pedidos.get(i).getSituacao().equals("PENDENTE")) {
+					// Compara pelo código do usuário (mais seguro que comparar objetos)
+					if (pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod() && 
+					    pedidos.get(i).getSituacao().equals("PENDENTE")) {
+						
+						// Restaura estoque antes de cancelar
+						for (int j = 0; j < pedidos.get(i).getMaxIPP(); j++) {
+							if (pedidos.get(i).itens[j] != null) {
+								// Busca o produto na lista principal pelo código
+								int codigoProduto = pedidos.get(i).itens[j].produto.getCod();
+								Produto produtoNaLista = buscarProdutoPorCodigo(codigoProduto);
+								
+								if (produtoNaLista != null) {
+									produtoNaLista.estoque.setQuantidade(
+										produtoNaLista.estoque.getQuantidade() + pedidos.get(i).itens[j].getQuantidade());
+								}
+							}
+						}
+						
 						pedidos.get(i).setSituacao("CANCELADO");
 						reembolso += pedidos.get(i).calcularTotalPedido();
 					}
@@ -594,6 +611,12 @@ public class Loja {
 	// ------------------ Cliente ------------------
 
 	public boolean autenticaNumPedidos(Cliente cliente) {
+		// Se já existe um carrinho ativo, reutiliza
+		if (carrinho != null && carrinho.getCliente() == cliente) {
+			return true;
+		}
+
+		// Garante que o numero do pedido seja único
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
 				if (pedidos.get(i).getNumero() == numPed) {
@@ -602,19 +625,59 @@ public class Loja {
 				}
 			}
 		}
+
+		// Encontra uma posição vazia ou adiciona no final
+		spPed = -1;
 		for (int i = 0; i < pedidos.size(); i++) {
-			if (i >= pedidos.size() || pedidos.get(i) == null) {
-				itCarr = 0;
+			if (pedidos.get(i) == null) {
 				spPed = i;
-				carrinho = new Pedido(numPed, cliente);
-				return true;
+				break;
 			}
 		}
-		return false;
+
+		// Se não encontrou posição vazia, adiciona no final
+		if (spPed == -1) {
+			spPed = pedidos.size();
+		}
+
+		// Cria novo carrinho
+		itCarr = 0;
+		carrinho = new Pedido(numPed, cliente);
+		return true;
+	}
+
+	// Método público para inicializar carrinho
+	public String inicializarCarrinho(Cliente cliente) {
+		if (autenticaNumPedidos(cliente)) {
+			return "Carrinho inicializado com sucesso.";
+		} else {
+			return "Erro ao inicializar carrinho.";
+		}
+	}
+
+	// Método para limpar carrinho
+	public String limparCarrinho() {
+		if (carrinho != null) {
+			carrinho = null;
+			itCarr = 0;
+			spPed = 0;
+			return "Carrinho limpo com sucesso.";
+		}
+		return "Carrinho já estava vazio.";
+	}
+
+	// Método para verificar se carrinho está ativo
+	public boolean temCarrinhoAtivo() {
+		return carrinho != null;
 	}
 
 	// Método refatorado - adiciona item ao carrinho
 	public String adicionarItemAoCarrinho(int codigo, int quantidade) {
+		// Verifica se o carrinho existe, se não existir, não pode adicionar itens
+		if (carrinho == null) {
+			return "Erro: Carrinho não inicializado. Tente novamente.";
+		}
+
 		for (int i = 0; i < produtos.size(); i++) {
 			if (produtos.get(i) != null) {
 				if (produtos.get(i).getCod() == codigo) {
@@ -653,7 +716,7 @@ public class Loja {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de tentar remover.";
 		}
-		
+
 		for (int i = 0; i < carrinho.getMaxIPP(); i++) {
 			if (carrinho.itens[i] != null) {
 				if (carrinho.itens[i].produto.getCod() == codigo) {
@@ -671,7 +734,7 @@ public class Loja {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de tentar alterar.";
 		}
-		
+
 		if (novaQuantidade <= 0) {
 			return "Quantidade deve ser maior que zero.";
 		}
@@ -695,7 +758,7 @@ public class Loja {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de consultar.";
 		}
-		
+
 		StringBuilder info = new StringBuilder();
 		info.append(" - Itens no Carrinho: \n");
 
@@ -719,7 +782,7 @@ public class Loja {
 		if (carrinho == null) {
 			return "Carrinho vazio. Adicione itens antes de finalizar o pedido.";
 		}
-		
+
 		boolean zerado = true;
 		for (int j = 0; j < carrinho.getMaxIPP(); j++) {
 			if (carrinho.itens[j] != null) {
@@ -730,6 +793,20 @@ public class Loja {
 		if (zerado) {
 			return "Você não possui nenhum item no carrinho.";
 		}
+
+		// Debug: mostra informações do cartão
+		System.out.println("DEBUG - Nome do cliente: '" + cliente.getNome() + "'");
+		System.out.println("DEBUG - Login do cliente: '" + cliente.usuario.getLogin() + "'");
+		System.out.println("DEBUG - Cartão do cliente: '" + cliente.getCartaoCredito() + "'");
+		System.out.println("DEBUG - Cartão informado: '" + cartaoCredito + "'");
+
+		// Verificação de nulos
+		if (cliente.getCartaoCredito() == null) {
+			return "Erro: Cliente não possui cartão de crédito cadastrado.";
+		}
+
+		System.out.println(
+				"DEBUG - São iguais (ignoreCase): " + cliente.getCartaoCredito().equalsIgnoreCase(cartaoCredito));
 
 		if (!cliente.getCartaoCredito().equalsIgnoreCase(cartaoCredito)) {
 			return "Cartão incorreto informado.";
@@ -768,6 +845,11 @@ public class Loja {
 		pedidos.get(spPed).setTotalItens(itCarr);
 		numPed++;
 
+		// Limpa o carrinho após finalizar o pedido
+		carrinho = null;
+		itCarr = 0;
+		spPed = 0;
+
 		return "Pedido finalizado com sucesso.";
 	}
 
@@ -778,8 +860,8 @@ public class Loja {
 
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				Cliente c = pedidos.get(i).getCliente();
-				if (c == cliente) {
+				// Compara pelo código do usuário (mais seguro que comparar objetos)
+				if (pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
 					pedidosInfo.append("Número: ").append(pedidos.get(i).getNumero()).append("\n");
 					pedidosInfo.append("Data do Pedido: ").append(pedidos.get(i).getDataPedido()).append("\n");
 					pedidosInfo.append("Data de Entrega: ").append(pedidos.get(i).getDataEntrega()).append("\n");
@@ -801,7 +883,9 @@ public class Loja {
 	public String consultarPedido(Cliente cliente, int numeroPedido) {
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				if (pedidos.get(i).getNumero() == numeroPedido && pedidos.get(i).getCliente() == cliente) {
+				// Compara pelo número do pedido E pelo código do usuário (mais seguro que comparar objetos)
+				if (pedidos.get(i).getNumero() == numeroPedido && 
+				    pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
 					StringBuilder info = new StringBuilder();
 					info.append("Número: ").append(pedidos.get(i).getNumero()).append("\n");
 					info.append("Data do Pedido: ").append(pedidos.get(i).getDataPedido()).append("\n");
@@ -828,19 +912,42 @@ public class Loja {
 
 	// Método refatorado - cancela pedido
 	public String cancelarPedido(Cliente cliente, int numeroPedido) {
+		System.out.println("DEBUG - Cancelar Pedido:");
+		System.out.println("DEBUG - Numero do pedido procurado: " + numeroPedido);
+		System.out.println("DEBUG - Cliente: " + cliente.getNome() + " (código: " + cliente.usuario.getCod() + ")");
+		System.out.println("DEBUG - Total de pedidos na lista: " + pedidos.size());
+		
 		for (int i = 0; i < pedidos.size(); i++) {
 			if (pedidos.get(i) != null) {
-				if (pedidos.get(i).getNumero() == numeroPedido && pedidos.get(i).getCliente() == cliente) {
+				System.out.println("DEBUG - Pedido " + i + ": numero=" + pedidos.get(i).getNumero() + 
+				                  ", cliente=" + pedidos.get(i).getCliente().getNome() + 
+				                  " (código: " + pedidos.get(i).getCliente().usuario.getCod() + ")" +
+				                  ", situacao=" + pedidos.get(i).getSituacao());
+				
+				// Compara pelo número do pedido E pelo código do usuário (mais seguro que comparar objetos)
+				if (pedidos.get(i).getNumero() == numeroPedido && 
+				    pedidos.get(i).getCliente().usuario.getCod() == cliente.usuario.getCod()) {
+					System.out.println("DEBUG - Pedido encontrado! Verificando situação...");
+					
 					if (!pedidos.get(i).getSituacao().equals("PENDENTE")) {
-						return "Pedido não pode ser cancelado pois não está pendente.";
+						return "Pedido não pode ser cancelado pois não está pendente. Situação atual: " + pedidos.get(i).getSituacao();
 					}
 
-					// Restaura estoque
+					// Restaura estoque - busca o produto na lista principal para garantir que atualize corretamente
 					for (int j = 0; j < pedidos.get(i).getMaxIPP(); j++) {
 						if (pedidos.get(i).itens[j] != null) {
-							pedidos.get(i).itens[j].produto.estoque.setQuantidade(
-									pedidos.get(i).itens[j].produto.estoque.getQuantidade()
-											+ pedidos.get(i).itens[j].getQuantidade());
+							// Busca o produto na lista principal pelo código
+							int codigoProduto = pedidos.get(i).itens[j].produto.getCod();
+							Produto produtoNaLista = buscarProdutoPorCodigo(codigoProduto);
+							
+							if (produtoNaLista != null) {
+								produtoNaLista.estoque.setQuantidade(
+									produtoNaLista.estoque.getQuantidade() + pedidos.get(i).itens[j].getQuantidade());
+								System.out.println("DEBUG - Estoque restaurado para produto " + codigoProduto + 
+								                  ": " + pedidos.get(i).itens[j].getQuantidade() + " unidades");
+							} else {
+								System.out.println("DEBUG - ERRO: Produto " + codigoProduto + " não encontrado na lista principal");
+							}
 						}
 					}
 

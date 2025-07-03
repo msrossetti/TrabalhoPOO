@@ -1,5 +1,9 @@
+package trabalho;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemPedido {
 	protected Produto produto;
 	private int quantidade;
@@ -14,6 +18,7 @@ public class ItemPedido {
 		this.quantidade = quantidade;
 	}
 
+	@JsonIgnore
 	public double getTotalItem() {
 		return quantidade * produto.estoque.getPreco();
 	}

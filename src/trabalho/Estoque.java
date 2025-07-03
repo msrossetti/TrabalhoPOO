@@ -1,3 +1,4 @@
+package trabalho;
 
 public class Estoque {
 	private int quantidade;

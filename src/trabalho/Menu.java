@@ -1,4 +1,5 @@
 
+package trabalho;
 
 import java.util.Scanner;
 

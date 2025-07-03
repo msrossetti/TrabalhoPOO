@@ -1,3 +1,5 @@
+package trabalho;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -32,9 +34,12 @@ public class PersistenciaLoja {
             dados.setCodProd(loja.getCodProd());
             dados.setNumPed(loja.getNumPed());
 
+            // Determinar o local correto para salvar (mesmo local onde encontramos o arquivo)
+            File arquivo = obterLocalizacaoArquivo();
+
             // Salvar no arquivo JSON
-            objectMapper.writeValue(new File(ARQUIVO_DADOS), dados);
-            System.out.println("Dados salvos com sucesso em " + ARQUIVO_DADOS);
+            objectMapper.writeValue(arquivo, dados);
+            System.out.println("Dados salvos com sucesso em " + arquivo.getAbsolutePath());
             return true;
 
         } catch (IOException e) {
@@ -49,25 +54,18 @@ public class PersistenciaLoja {
      */
     public boolean carregarDados(Loja loja) {
         try {
-            File arquivo = new File(ARQUIVO_DADOS);
+            // Usar o método para obter a localização correta do arquivo
+            File arquivo = obterLocalizacaoArquivo();
+
+            // Debug: mostrar caminho absoluto e diretório atual
+            System.out.println("Procurando arquivo: " + arquivo.getAbsolutePath());
+            System.out.println("Diretorio atual: " + System.getProperty("user.dir"));
+            System.out.println("Arquivo existe: " + arquivo.exists());
 
             if (!arquivo.exists()) {
-                System.out.println("Arquivo " + ARQUIVO_DADOS + " não encontrado.");
-                
-                // Verifica se existe algum dos arquivos antigos para migrar
-                File arquivoAntigo1 = new File("dados_loja.json");
-                File arquivoAntigo2 = new File("dados_iniciais.json");
-                
-                if (arquivoAntigo1.exists()) {
-                    System.out.println("Migrando dados de dados_loja.json...");
-                    return migrarDados(loja, arquivoAntigo1);
-                } else if (arquivoAntigo2.exists()) {
-                    System.out.println("Migrando dados de dados_iniciais.json...");
-                    return migrarDados(loja, arquivoAntigo2);
-                } else {
-                    System.out.println("Criando dados iniciais...");
-                    return criarDadosIniciais(loja);
-                }
+                System.out.println("Arquivo " + ARQUIVO_DADOS + " nao encontrado em nenhum local.");
+                System.out.println("Criando dados iniciais...");
+                return criarDadosIniciais(loja);
             }
 
             DadosLoja dados = objectMapper.readValue(arquivo, DadosLoja.class);
@@ -117,7 +115,7 @@ public class PersistenciaLoja {
             Usuario usuario2 = new Usuario("paulo", "senha", 1, true);
             Usuario usuario3 = new Usuario("roberto", "senha", 2, true);
 
-            Fornecedor fornecedor1 = new Fornecedor("João", "54123456789", "joão@gmail.com", "012-345-678.99",
+            Fornecedor fornecedor1 = new Fornecedor("Joao", "54123456789", "joao@gmail.com", "012-345-678.99",
                     endereco1, "Vendedor de Queijo", usuario1);
             Fornecedor fornecedor2 = new Fornecedor("Paulo", "54123456789", "paulo@gmail.com", "012-345-678.99",
                     endereco2, "Vendedor de Queijo", usuario2);
@@ -141,11 +139,11 @@ public class PersistenciaLoja {
             Usuario usuario6 = new Usuario("marcos", "senha", 5, true);
 
             Cliente cliente1 = new Cliente("Marcelo", "54123456789", "marcelo@gmail.com", "012-345-678.99", endereco4,
-                    "Cartão1", usuario4);
-            Cliente cliente2 = new Cliente("Rogério", "54123456789", "rogerio@gmail.com", "012-345-678.99", endereco5,
-                    "Cartão2", usuario5);
+                    "Cartao1", usuario4);
+            Cliente cliente2 = new Cliente("Rogerio", "54123456789", "rogerio@gmail.com", "012-345-678.99", endereco5,
+                    "Cartao2", usuario5);
             Cliente cliente3 = new Cliente("Marcos", "54123456789", "marcos@gmail.com", "012-345-678.99", endereco6,
-                    "Cartão1", usuario6);
+                    "Cartao1", usuario6);
 
             loja.getClientes().add(cliente1);
             loja.getClientes().add(cliente2);
@@ -195,10 +193,10 @@ public class PersistenciaLoja {
     }
 
     /**
-     * Reconecta os relacionamentos entre objetos após deserialização
+     * Reconecta os relacionamentos entre objetos após deserializaçao
      */
     private void reconectarRelacionamentos(Loja loja) {
-        // Os relacionamentos já são mantidos automaticamente pelo Jackson
+        // Os relacionamentos já sao mantidos automaticamente pelo Jackson
         // quando salvamos as referências completas dos objetos
     }
 
@@ -210,34 +208,54 @@ public class PersistenciaLoja {
     }
 
     /**
-     * Migra dados de um arquivo antigo para o novo formato
+     * Obtém a localização correta do arquivo de dados
      */
-    private boolean migrarDados(Loja loja, File arquivoAntigo) {
-        try {
-            DadosLoja dados = objectMapper.readValue(arquivoAntigo, DadosLoja.class);
-
-            // Transferir dados carregados para a loja
-            loja.setFornecedores(dados.getFornecedores());
-            loja.setClientes(dados.getClientes());
-            loja.setProdutos(dados.getProdutos());
-            loja.setPedidos(dados.getPedidos());
-            loja.setCodUser(dados.getCodUser());
-            loja.setCodProd(dados.getCodProd());
-            loja.setNumPed(dados.getNumPed());
-
-            // Reconectar relacionamentos
-            reconectarRelacionamentos(loja);
-
-            // Salvar no novo arquivo
-            salvarDados(loja);
-
-            System.out.println("Dados migrados com sucesso de " + arquivoAntigo.getName() + " para " + ARQUIVO_DADOS);
-            return true;
-
-        } catch (IOException e) {
-            System.err.println("Erro ao migrar dados de " + arquivoAntigo.getName() + ": " + e.getMessage());
-            System.out.println("Criando dados iniciais...");
-            return criarDadosIniciais(loja);
+    private File obterLocalizacaoArquivo() {
+        // Primeiro, tenta encontrar a raiz do projeto
+        String diretorioAtual = System.getProperty("user.dir");
+        File arquivo;
+        
+        // Se estamos executando do diretório raiz do projeto
+        arquivo = new File(ARQUIVO_DADOS);
+        if (arquivo.exists()) {
+            return arquivo;
         }
+        
+        // Se estamos executando de src/trabalho, vai para a raiz (../../)
+        arquivo = new File("../../" + ARQUIVO_DADOS);
+        if (arquivo.exists()) {
+            return arquivo;
+        }
+        
+        // Se estamos executando de src, vai para a raiz (../)
+        arquivo = new File("../" + ARQUIVO_DADOS);
+        if (arquivo.exists()) {
+            return arquivo;
+        }
+        
+        // Se estamos executando de bin, vai para a raiz (../)
+        arquivo = new File("../" + ARQUIVO_DADOS);
+        if (arquivo.exists()) {
+            return arquivo;
+        }
+        
+        // Tenta caminho absoluto baseado no diretório do projeto
+        // Assumindo que estamos em algum subdiretório do projeto
+        String caminhoRaiz = diretorioAtual;
+        
+        // Se o diretório atual contém "src" ou "bin", remove essas partes para chegar na raiz
+        if (caminhoRaiz.contains("\\src") || caminhoRaiz.contains("/src")) {
+            caminhoRaiz = caminhoRaiz.substring(0, caminhoRaiz.lastIndexOf("src") - 1);
+        } else if (caminhoRaiz.contains("\\bin") || caminhoRaiz.contains("/bin")) {
+            caminhoRaiz = caminhoRaiz.substring(0, caminhoRaiz.lastIndexOf("bin") - 1);
+        }
+        
+        arquivo = new File(caminhoRaiz, ARQUIVO_DADOS);
+        if (arquivo.exists()) {
+            return arquivo;
+        }
+        
+        // Se não encontrar em nenhum lugar, retorna o caminho padrão (pasta atual)
+        return new File(ARQUIVO_DADOS);
     }
 }

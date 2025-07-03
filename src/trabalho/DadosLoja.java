@@ -1,10 +1,12 @@
-
+package trabalho;
 
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Classe que encapsula todos os dados da loja para serialização JSON
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DadosLoja {
     private ArrayList<Fornecedor> fornecedores = new ArrayList<>();
     private ArrayList<Cliente> clientes = new ArrayList<>();

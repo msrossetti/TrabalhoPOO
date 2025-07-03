@@ -1,5 +1,8 @@
+package trabalho;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Produto {
 	private int cod;
 	private String nome, descricao;
